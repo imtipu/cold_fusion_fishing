@@ -1,0 +1,12 @@
+from django.urls import path, include
+
+from .views import *
+
+app_name = 'projects'
+
+urlpatterns = [
+    path('all/', ProjectListView.as_view(), name='project_list'),
+    path('htmx/', include('projects.dashboard.htmx.urls')),
+    path('detail/<int:pk>/', ProjectDetailView.as_view(), name='project_detail'),
+    path('detail/<int:pk>/add-activity/', DailyActivityAddView.as_view(), name='add_project_activity'),
+]

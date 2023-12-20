@@ -1,0 +1,23 @@
+{% load static %}
+<div id="top-nav" class="navbar bg-base-100 rounded-xl flex flex-row py-1 px-1 min-h-0">
+    <div class="nav-logo md:hidden">
+        <a href="{% url 'dashboard:home' %}">
+            <img src="{% static 'svg/LogoWhite.svg' %}" alt="logo" class="h-8">
+        </a>
+    </div>
+    <div class="dropdown dropdown-hover dropdown-end dropdown-bottom end ml-auto">
+        <div tabindex="0" role="button" class="btn">
+            <span class="material-symbols-outlined">account_circle</span>
+            {{ request.user.username }}
+        </div>
+        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full" style="max-width:
+        150px">
+            <li>
+                <a href="{% url 'account_profile' %}">Profile</a>
+            </li>
+            <li>
+                <a href="{% url 'account_logout' %}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</div>

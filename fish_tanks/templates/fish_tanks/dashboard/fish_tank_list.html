@@ -1,0 +1,129 @@
+{% extends 'dashboard/base.html' %}
+{% block head_title %}
+    Fish Tanks
+{% endblock %}
+{% block content %}
+    <div class="card bg-gray-50 mt-4">
+        <div class="card-body">
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <!-- head -->
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Capacity</th>
+                        <th>Volume</th>
+                        <th>Active Status</th>
+                        <th>Current Project</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- row 1 -->
+                    {% for item in fish_tanks %}
+                        <tr>
+
+                            <td>
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <div class="font-bold">{{ item.title }}</div>
+{#                                        <div class="text-sm opacity-50">United States</div>#}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {{ item.capacity }}
+                            </td>
+                            <td>
+                                {{ item.volume }}
+                            </td>
+                            <td>
+                                {% if item.is_active %}
+                                    <span class="badge bg-green-200">Active</span>
+                                {% else %}
+                                    <span class="badge badge-outline">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item.current_project %}
+                                    {{ item.current_project }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <th>
+                                <div class="flex items-center">
+                                    <button class="btn btn-dark btn-sm"
+                                            onclick="showModal({{ item.id }})">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm ml-2">
+                                        <span class="material-symbols-outlined">open_in_new</span>
+                                    </button>
+
+                                </div>
+
+                            </th>
+                        </tr>
+                        <!-- row 2 -->
+                    {% endfor %}
+                    </tbody>
+                    <!-- foot -->
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Open the modal using ID.showModal() method -->
+    <dialog id="modal_tank_quick_view" class="modal">
+        <div class="modal-box">
+            <div class="skeleton-box">
+                <div class="skeleton h-32 w-full"></div>
+                <div class="skeleton h-4 w-28"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+            </div>
+            <div class="modal-content"></div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+{% endblock %}
+{% block body_scripts %}
+    <script>
+        function showModal(tank_id) {
+            let modal = document.getElementById('modal_tank_quick_view');
+            modal.showModal();
+            let url = '/dashboard/fish-tanks/htmx/detail/' + tank_id + '/quick-view/';
+
+            setTimeout(() => {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        modal.getElementsByClassName('modal-content')[0].innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+                modal.getElementsByClassName('skeleton-box')[0].classList.add('hidden');
+
+            }, 1000);
+
+            {#fetch(url)#}
+            {#    .then(response => response.text())#}
+            {#    .then(data => {#}
+            {#        modal.getElementsByClassName('modal-content')[0].innerHTML = data;#}
+            {#    })#}
+            {#    .catch(error => {#}
+            {#        console.log(error);#}
+            {#    });#}
+        }
+
+        function closeModal() {
+            let modal = document.getElementById('modal_tank_quick_view');
+            modal.close();
+
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% load static %}
+
+<div id="nav-left-sidebar" class="flex-col bg-gray-200 fixed min-h-screen hidden md:flex w-full max-w-[280px]">
+    <div class="logo flex flex-col justify-center items-center py-3">
+        <img src="{% static 'svg/LogoWhite.svg' %}" alt="Cold Fusion"
+             style="max-height: 40px">
+    </div>
+    <div class="flex flex-col menu-content w-full mt-4">
+        <ul class="menu-list w-full list-none p-0 m-0">
+            <li class="menu-item w-full p-0 m-0 list-none flex flex-row items-center justify-center">
+                <a href="/dashboard/" class="menu-link text-sm text-gray-700 hover:text-gray-50 px-3 py-2 w-full
+                 bg-gray-200
+                hover:bg-gray-400
+                 flex flex-row items-center
+                rounded-md">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="ml-2">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item w-full p-0 m-0 list-none">
+                <a href="{% url 'dashboard:fish_tanks:fish_tank_list' %}" class="menu-link text-sm text-gray-700
+                hover:text-gray-50 px-3 py-2 w-full
+                 bg-gray-200
+                hover:bg-gray-400
+                flex flex-row items-center
+                rounded-md">
+                    <span class="material-symbols-outlined">propane_tank</span>
+                    <span class="ml-2">Tanks</span>
+                </a>
+            </li>
+
+            <li class="menu-item w-full p-0 m-0 list-none">
+                <a href="{% url 'dashboard:projects:project_list' %}"
+                   class="menu-link text-sm text-gray-700 hover:text-gray-50 px-3 py-2 w-full
+                 bg-gray-200
+                hover:bg-gray-400
+                flex flex-row items-center
+                rounded-md">
+                    <span class="material-symbols-outlined">dns</span>
+                    <span class="ml-2">Projects</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+{% extends 'dashboard/base.html' %}
+
+{% block head_title %}{{ project.title }}{% endblock %}
+
+{% block content %}
+    <div class="card w-full bg-white rounded-md mt-4 pb-4">
+        <div class="flex flex-row justify-between pt-3 pr-4">
+            <button type="button" class="btn btn-error btn-sm ml-auto text-red-600 hover:text-gray-50">Delete</button>
+        </div>
+        <div class="card-header px-4 py-3 flex flex-row justify-between">
+            <div>
+                <h2 class="font-bold text-2xl">{{ project.title }}</h2>
+                <div>Tank Number: {{ project.tank.tank_number }}</div>
+            </div>
+            <div class="">
+                <h4>Initial Quantiy: {{ project.initial_quantity }}</h4>
+            </div>
+        </div>
+        <div class="card-body px-2 py-2">
+            {#            <button type="button" class="btn btn-primary btn-sm"#}
+            {#                    hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' %}"#}
+            {#                    hx-target="#activity-add-form" hx-swap="innerHTML">Add New#}
+            {#            </button>#}
+            <div id="activity-add-form"
+            class="overflow-x-auto px-3 mb-3 flex flex-col w-full"
+                 hx-trigger="load"
+                 hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' project.id %}"
+                 hx-target="#activity-add-form" hx-swap="innerHTML">
+
+            </div>
+            <div id="daily_activity_table" class="overflow-x-auto px-2"
+                 hx-trigger="load"
+                 hx-get="{% url 'dashboard:projects:htmx:htmx_daily_activity_table_list' project.id %}"
+                 hx-target="#daily_activity_table"
+                 hx-swap="InnerHTML">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block body_scripts %}
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+
+{% endblock %}

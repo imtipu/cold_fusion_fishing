@@ -1,0 +1,39 @@
+<table id="project-activity-list-table" class="table table-xs">
+    <thead>
+    <tr>
+        <th>Day</th>
+        <th>Date</th>
+        <th>Dead Fish</th>
+        <th>Live Fish</th>
+        <th>Weight (gm)</th>
+        <th>Feed</th>
+        <th>Molas to Add(gm)</th>
+        <th>Undigested (%)</th>
+        <th>Feed Protein (%)</th>
+        <th>Expected C.N</th>
+        <th>Feed N</th>
+        <th>Feed C</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for activity in daily_activities %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ activity.activity_date }}</td>
+            <td>{{ activity.dead_fish }}</td>
+            <td>{{ activity.total_live_fish }}</td>
+            <td>
+                <div>Single: {{ activity.single_fish_weight }}</div>
+                <div>Total: {{ activity.total_weight }}</div>
+            </td>
+            <td>{{ activity.todays_feed }} ({{ activity.feed_percentage }}%)</td>
+            <td>{{ activity.molas_to_add }}</td>
+            <td>{{ activity.undigested_percentage }}</td>
+            <td>{{ activity.feed_protein_percentage }}</td>
+            <td>{{ activity.expected_cn }}</td>
+            <td>{{ activity.feed_n }}</td>
+            <td>{{ activity.feed_c }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block head_title %}
+        {% if head_title %}{{ head_title }}
+        {% else %}
+            Cold Fusion
+        {% endif %}
+    {% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {#    {% tailwind_preload_css %}#}
+    {##}
+    {#    {% tailwind_css %}#}
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="{% static 'htmx/htmx.min.js' %}"></script>
+    {% block head_scripts %}{% endblock %}
+
+</head>
+
+<body class="min-h-screen w-full">
+<div id="site-content" class="min-h-screen w-full flex flex-row justify-between">
+    {% include 'dashboard/includes/nav_left_sidebar.html' %}
+    <div class="main-content bg-gray-100 min-h-screen w-full md:w-3/4 p-2 flex flex-col md:ml-auto">
+
+        {% block content %}{% endblock %}
+        {% block body_scripts %}{% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

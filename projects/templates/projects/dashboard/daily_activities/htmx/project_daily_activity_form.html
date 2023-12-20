@@ -1,0 +1,23 @@
+<form method="post" enctype="multipart/form-data"
+hx-post="{% url 'dashboard:projects:add_project_activity' project.id %}"
+hx-target="#project-activity-list-table tbody"
+hx-swap="afterbegin"
+>
+    {% csrf_token %}
+    <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 xl:grid-cols-5">
+        {% for field in form %}
+            <div class="flex flex-col justify-start items-start mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <input type="submit" value="Submit">
+</form>

@@ -1,0 +1,53 @@
+{% extends 'dashboard/base.html' %}
+
+{% block head_title %}Projects{% endblock %}
+
+{% block content %}
+    <div class="card w-full bg-gray-50 rounded-md mt-4">
+        <div class="card-body px-2 py-2">
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="font-bold text-gray-950">Title</th>
+                        <th class="hidden lg:flex font-bold text-gray-950">Tank</th>
+                        <th class="font-bold text-gray-950">Initial Quantity</th>
+                        <th class="font-bold text-gray-950">Start Date</th>
+                        <th class="font-bold text-gray-950">End Date</th>
+                        <th class="hidden lg:flex font-bold text-gray-950">Created at</th>
+                        <th class="font-bold text-gray-950">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for project in projects %}
+                        <tr>
+                            <td>
+                                <h3 class="font-bold">{{ project.title }}</h3>
+                                <div class="lg:hidden">
+                                    <div class="bg-green-100 rounded-md py-1 px-2 text-xs font-medium">
+                                        Tank Number: {{ project.tank.tank_number }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="hidden lg:flex">{{ project.tank.title }}</td>
+                            <td>{{ project.initial_quantity }}</td>
+                            <td>{{ project.start_date }}</td>
+                            <td>{{ project.end_date }}</td>
+                            <td class="hidden lg:flex">{{ project.created_at }}</td>
+                            <td>
+                                <div class="flex items-center">
+                                    <a
+                                            class="btn btn-outline-primary btn-sm"
+                                            href="{% url 'dashboard:projects:project_detail' project.id %}">
+                                        View
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
