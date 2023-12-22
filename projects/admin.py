@@ -12,7 +12,8 @@ class ProejctAdmin(admin.ModelAdmin):
 
 @admin.register(DailyActivity)
 class DailyActivityAdmin(admin.ModelAdmin):
-    list_display = ['project', 'activity_date', 'dead_fish', 'single_fish_weight', 'feed_percentage', 'created_at',
+    list_display = ['project', 'activity_date', 'dead_fish', 'live_fish',
+                    'single_fish_weight', 'feed_percentage', 'created_at',
                     'updated_at']
     autocomplete_fields = ['project']
     search_fields = ['project__title']

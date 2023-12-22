@@ -1,5 +1,6 @@
 from typing import Any
 from django import forms
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from projects.models import Project, DailyActivity
 
@@ -10,6 +11,7 @@ class DailyActivityForm(forms.ModelForm):
         required=True, widget=forms.DateInput(attrs={
             'class': 'input input-sm rounded-md input-bordered w-full',
             'type': 'date',
+            'value': timezone.now().date(),
         }))
 
     dead_fish = forms.IntegerField(
@@ -80,14 +82,9 @@ class DailyActivityForm(forms.ModelForm):
             'feed_protein_percentage',
         ]
 
-    def clean(self):
-        cleaned_data = super().clean()
-        acitivity_date = cleaned_data.get('activity_date')
-        print(cleaned_data)
-
-        # if acitivity_date and project:
-        #     if DailyActivity.objects.filter(activity_date=acitivity_date, project=project).exists():
-        #         raise forms.ValidationError(
-        #             _('Activity already exists for this date')
-        #         )
+    def clean_activity_date(self):
+        activity_date = self.cleaned_data.get('activity_date')
+        if activity_date > timezone.now().date():
+            raise forms.ValidationError('Activity date cannot be greater than today.')
+        return activity_date
 

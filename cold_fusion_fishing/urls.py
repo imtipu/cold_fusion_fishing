@@ -18,9 +18,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from .utils.admin import html_image_logo
 
 urlpatterns = [
-                #   path("__reload__/", include("django_browser_reload.urls")),
+                  path("__reload__/", include("django_browser_reload.urls")),
                   path('', include('home.urls', namespace='home')),
                   path('admin/', admin.site.urls),
                   path('dashboard/', include('dashboard.urls', namespace='dashboard')),
@@ -28,6 +29,6 @@ urlpatterns = [
                   path('accounts/', include('users.accounts.urls')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-admin.site.site_header = "Cold Fusion Fishing"
-admin.site.site_title = "Cold Fusion Fishing"
-admin.site.index_title = "Cold Fusion Fishing"
+admin.site.site_header = html_image_logo()
+admin.site.site_title = "Cold Fusion Admin"
+admin.site.index_title = "Cold Fusion Admin Panel"

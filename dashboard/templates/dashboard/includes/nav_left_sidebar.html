@@ -1,9 +1,18 @@
 {% load static %}
 
-<div id="nav-left-sidebar" class="flex-col bg-gray-200 fixed min-h-screen hidden md:flex w-full max-w-[280px]">
+<div id="nav-left-sidebar" class="flex-col bg-gray-200 fixed min-h-screen md:flex w-full max-w-[280px]
+z-10 hidden">
     <div class="logo flex flex-col justify-center items-center py-3">
-        <img src="{% static 'svg/LogoWhite.svg' %}" alt="Cold Fusion"
-             style="max-height: 40px">
+        <div class="flex flex-row justify-between">
+            <img src="{% static 'svg/LogoWhite.svg' %}" alt="Cold Fusion"
+                 style="max-height: 40px">
+            <button type="button"
+                    class="md:hidden"
+                    onclick="btnSidebarToggle()">
+                Close
+            </button>
+        </div>
+
     </div>
     <div class="flex flex-col menu-content w-full mt-4">
         <ul class="menu-list w-full list-none p-0 m-0">

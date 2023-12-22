@@ -106,6 +106,8 @@ class DailyActivity(TimeStampModel):
         ]
     )
 
+    live_fish = models.PositiveIntegerField(_('Live Fish'), default=0)
+
     def __str__(self):
         return f'{self.project.title} - {self.activity_date}'
 
@@ -127,7 +129,11 @@ class DailyActivity(TimeStampModel):
 
     @property
     def total_weight(self):
-        return round(self.total_live_fish * self.single_fish_weight, 2)
+        return round(self.live_fish * self.single_fish_weight, 2)
+
+    @property
+    def total_weight_kg(self):
+        return round(self.total_weight / 1000, 2)
 
     @property
     def todays_feed(self):
@@ -149,11 +155,14 @@ class DailyActivity(TimeStampModel):
         value = float(self.todays_feed) * 0.90 * float(self.undigested_percentage / 100) * 0.5
         return round(value, 10)
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            activity_date = self.activity_date
-            project = self.project
-            print(activity_date, project)
-            if DailyActivity.objects.filter(activity_date=activity_date, project=project).exists():
-                raise ValueError(_('Daily activity for this date already exists.'))
-        super().save(*args, **kwargs)
+    # def clean(self):
+    #     data = super().clean()
+    #     print(data)
+
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:
+    #         activity_date = self.activity_date
+    #         project = self.project
+    #         if DailyActivity.objects.filter(activity_date=activity_date, project=project).exists():
+    #             raise ValueError(_('Daily activity for this date already exists.'))
+    #     super().save(*args, **kwargs)

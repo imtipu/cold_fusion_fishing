@@ -1,8 +1,9 @@
-<table id="project-activity-list-table" class="table table-xs">
+<table id="project-activity-list-table" class="table table-xs table-pin-rows table-pin-cols">
     <thead>
     <tr>
         <th>Day</th>
         <th>Date</th>
+{#        <th class="md:hidden" style="min-width: 100px">Dead/Live</th>#}
         <th>Dead Fish</th>
         <th>Live Fish</th>
         <th>Weight (gm)</th>
@@ -18,21 +19,32 @@
     <tbody>
     {% for activity in daily_activities %}
         <tr>
-            <td>{{ forloop.counter }}</td>
+            <td>{{ forloop.revcounter }}</td>
             <td>{{ activity.activity_date }}</td>
+{#            <td class="md:hidden">#}
+{#                <div class="badge badge-neutral text-xs text-white mb-1">Dead:#}
+{#                    <span class="font-medium">{{ activity.dead_fish }}</span></div>#}
+{#                <br>#}
+{#                <div class="badge badge-accent text-xs text-white">Live:#}
+{#                    <span class="font-medium">{{ activity.live_fish }}</span>#}
+{#                </div>#}
+{#            </td>#}
             <td>{{ activity.dead_fish }}</td>
-            <td>{{ activity.total_live_fish }}</td>
+            <td>{{ activity.live_fish }}</td>
             <td>
-                <div>Single: {{ activity.single_fish_weight }}</div>
-                <div>Total: {{ activity.total_weight }}</div>
+                <div>Single: {{ activity.single_fish_weight|floatformat:2 }}gm</div>
+                <div>Total: {{ activity.total_weight|floatformat:2 }}gm</div>
+                <div>Total: {{ activity.total_weight_kg|floatformat:2 }}kg</div>
             </td>
-            <td>{{ activity.todays_feed }} ({{ activity.feed_percentage }}%)</td>
-            <td>{{ activity.molas_to_add }}</td>
+            <td>
+                {{ activity.todays_feed|floatformat:2 }} ({{ activity.feed_percentage }}%)
+            </td>
+            <td>{{ activity.molas_to_add|floatformat:2 }}</td>
             <td>{{ activity.undigested_percentage }}</td>
             <td>{{ activity.feed_protein_percentage }}</td>
-            <td>{{ activity.expected_cn }}</td>
-            <td>{{ activity.feed_n }}</td>
-            <td>{{ activity.feed_c }}</td>
+            <td>{{ activity.expected_cn|floatformat:2 }}</td>
+            <td>{{ activity.feed_n|floatformat:2 }}</td>
+            <td>{{ activity.feed_c|floatformat:2 }}</td>
         </tr>
     {% endfor %}
     </tbody>

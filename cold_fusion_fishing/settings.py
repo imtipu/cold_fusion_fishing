@@ -54,11 +54,16 @@ LOCAL_APPS = [
 THIRD_PARTY_APPS = [
     'tailwind',
     'theme',
-    # 'django_browser_reload',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'django_htmx',
 ]
+
+if DEBUG:
+    THIRD_PARTY_APPS += [
+        'django_browser_reload',
+    ]
 
 INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS
 
@@ -73,10 +78,14 @@ MIDDLEWARE = [
 ]
 
 THIRD_PARTY_MIDDLEWARE = [
-    # 'django_browser_reload.middleware.BrowserReloadMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
 ]
+
+if DEBUG:
+    THIRD_PARTY_MIDDLEWARE += [
+        'django_browser_reload.middleware.BrowserReloadMiddleware',
+    ]
 
 MIDDLEWARE += THIRD_PARTY_MIDDLEWARE
 
@@ -153,7 +162,7 @@ AUTH_USER_MODEL = 'users.User'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 

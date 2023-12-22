@@ -1,7 +1,12 @@
-<form method="post" enctype="multipart/form-data"
-hx-post="{% url 'dashboard:projects:add_project_activity' project.id %}"
-hx-target="#project-activity-list-table tbody"
-hx-swap="afterbegin"
+<form
+        id="activity-add-form"
+        method="post" enctype="multipart/form-data"
+        hx-post="{% url 'dashboard:projects:add_project_activity' project.id %}"
+        hx-trigger="submit"
+        hx-target="#project-activity-list-table tbody"
+        hx-target-error="#activity-add-form-box"
+        hx-swap="beforebegin"
+        hx-on="htmx:afterRequest: this.reset();"
 >
     {% csrf_token %}
     <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 xl:grid-cols-5">
@@ -13,11 +18,27 @@ hx-swap="afterbegin"
                     <small class="form-text text-muted">{{ field.help_text }}</small>
                 {% endif %}
                 {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
+                    <div class="text-red-500 text-xs font-normal">{{ error }}</div>
                 {% endfor %}
             </div>
+
         {% endfor %}
+
+    </div>
+    <div class="flex flex-row justify-between items-center mb-3">
+
+        <button type="button"
+                onclick="this.closest('form').remove();"
+                class="btn btn-sm bg-gray-100 border-red-600 text-red-600 hover:bg-red-600 hover:text-gray-50">Cancel
+        </button>
+        <button type="submit"
+                class="btn btn-sm bg-gray-100 text-indigo-950 border-indigo-950 hover:bg-indigo-950
+                hover:text-gray-50">Add
+        </button>
     </div>
 
-    <input type="submit" value="Submit">
+
 </form>
+<script>
+
+</script>
