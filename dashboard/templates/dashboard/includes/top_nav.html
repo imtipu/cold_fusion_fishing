@@ -1,6 +1,12 @@
 {% load static %}
 <div id="top-nav" class="navbar bg-base-100 rounded-xl flex flex-row py-1 px-1 min-h-0">
-    <div class="nav-logo md:hidden">
+    <button id="btn-sidebar-toggle" type="button" class="mr-auto ml-2 bg-transparent rounded-none w-10 h-10 flex
+    justify-center dark:text-white text-black
+    items-center md:hidden"
+            onclick="btnSidebarToggle()">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+    <div class="nav-logo justify-center mx-auto md:hidden">
         <a href="{% url 'dashboard:home' %}">
             <img src="{% static 'svg/LogoWhite.svg' %}" alt="logo" class="h-8">
         </a>
@@ -8,10 +14,10 @@
     <div class="dropdown dropdown-hover dropdown-end dropdown-bottom end ml-auto">
         <div tabindex="0" role="button" class="btn">
             <span class="material-symbols-outlined">account_circle</span>
-            {{ request.user.username }}
+            <span class="hidden md:block">{{ request.user.username }}</span>
         </div>
         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full" style="max-width:
-        150px">
+        250px; min-width: 150px">
             <li>
                 <a href="{% url 'account_profile' %}">Profile</a>
             </li>

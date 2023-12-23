@@ -4,26 +4,66 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card w-full bg-gray-50 rounded-md mt-4">
-        <div class="card-header">
-            <h2>{{ project.title }} - Daily Acitvities</h2>
+    <div class="card w-full bg-white rounded-md mt-4 pb-4">
+        <div class="card-header px-4 py-3 flex flex-row justify-between">
+            <div>
+                <h2 class="font-bold text-2xl">{{ project.title }}</h2>
+                <div>Tank Number: {{ project.tank.tank_number }}</div>
+            </div>
+            <div class="">
+                <h4>Initial Quantiy: {{ project.initial_quantity }}</h4>
+            </div>
         </div>
         <div class="card-body">
             <div class="overflow-x-auto">
-                <table class="table">
+                <table id="project-activity-list-table" class="table table-xs">
                     <thead>
                     <tr>
+                        <th>Day</th>
                         <th>Date</th>
+                        <th class="md:hidden">Live/Dead</th>
+                        <th>Dead Fish</th>
+                        <th>Live Fish</th>
+                        <th>Weight (gm)</th>
+                        <th>Feed</th>
+                        <th>Molas to Add(gm)</th>
+                        <th>Undigested (%)</th>
+                        <th>Feed Protein (%)</th>
+                        <th>Expected C.N</th>
+                        <th>Feed N</th>
+                        <th>Feed C</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for activity in daily_activities %}
+                    {% if daily_activities.count > 0 %}
+                        {% for activity in daily_activities %}
+                            <tr>
+                                <td>{{ forloop.revcounter }}</td>
+                                <td>{{ activity.activity_date }}</td>
+                                <td>{{ activity.dead_fish }}</td>
+                                <td>{{ activity.live_fish }}</td>
+                                <td>
+                                    <div>Single: {{ activity.single_fish_weight|floatformat:2 }}gm</div>
+                                    <div>Total: {{ activity.total_weight|floatformat:2 }}gm</div>
+                                    <div>Total: {{ activity.total_weight_kg|floatformat:2 }}kg</div>
+                                </td>
+                                <td>{{ activity.todays_feed|floatformat:2 }} ({{ activity.feed_percentage }}%)</td>
+                                <td>{{ activity.molas_to_add|floatformat:2 }}</td>
+                                <td>{{ activity.undigested_percentage }}</td>
+                                <td>{{ activity.feed_protein_percentage }}</td>
+                                <td>{{ activity.expected_cn|floatformat:2 }}</td>
+                                <td>{{ activity.feed_n|floatformat:2 }}</td>
+                                <td>{{ activity.feed_c|floatformat:2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
                         <tr>
-                            <td>{{ activity.date }}</td>
+                            <td>No data found</td>
                         </tr>
-                    {% endfor %}
+                    {% endif %}
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

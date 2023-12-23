@@ -1,4 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import *
 
@@ -22,6 +24,12 @@ class ProjectDetailView(DetailView):
     model = Project
     context_object_name = 'project'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = context.get('project')
+        context['form'] = DailyActivityForm(initial={'project': project})
+        return context
+
 
 class ProjectDailyActivityListView(ListView):
     template_name = 'projects/dashboard/daily_activities/project_daily_activity_list.html'
@@ -29,10 +37,18 @@ class ProjectDailyActivityListView(ListView):
     model = DailyActivity
     context_object_name = 'daily_activities'
 
+    def get_project(self):
+        return Project.objects.get(pk=self.kwargs.get('pk'))
+
     def get_queryset(self):
         return self.model.objects.filter(
             project_id=self.kwargs.get('pk')
         ).select_related('project').order_by('-activity_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.get_project()
+        return context
 
 
 class DailyActivityAddView(CreateView):
@@ -60,15 +76,52 @@ class DailyActivityAddView(CreateView):
         project = Project.objects.get(pk=self.kwargs.get('pk'))
         form = DailyActivityForm(request.POST)
         if form.is_valid():
+            cleaned_data = form.cleaned_data
+            activity_date = cleaned_data.get('activity_date')
+            daily_activities = DailyActivity.objects.filter(activity_date=activity_date, project=project)
+            if daily_activities.exists():
+                form.add_error('activity_date', 'Daily activity for this date already exists.')
+                res = render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
+                    'form': form,
+                    'project': project
+                })
+                return HttpResponse(res, status=400)
+            first_activity = project.daily_activities.first()
+            if first_activity:
+                if activity_date < first_activity.activity_date:
+                    form.add_error('activity_date', 'Activity date cannot be less than the first activity date.')
+                    res = render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
+                        'form': form,
+                        'project': project
+                    })
+                    return HttpResponse(res, status=400)
+
+
+            initial_quantity = project.initial_quantity
+            total_dead_qs = DailyActivity.objects.filter(project=project).aggregate(
+                total_dead=models.Sum('dead_fish', output_field=models.IntegerField())
+            )
+            dead_fish = cleaned_data.get('dead_fish', 0)
+            total_dead = total_dead_qs.get('total_dead', 0)
+            if total_dead and dead_fish:
+                total_dead = total_dead + int(dead_fish)
+            else:
+                total_dead = int(dead_fish)
+            total_live_fish = initial_quantity - total_dead
             form.instance.project = project
+            form.instance.live_fish = total_live_fish
             instance = form.save()
-            return render(
+            total_days = project.daily_activities.count()
+
+            res = render(
                 request,
                 'projects/dashboard/daily_activities/includes/daily_activity_row.html',
-                {'activity': instance}
+                {'activity': instance, 'project': project, 'days': total_days},
             )
+            return HttpResponse(res)
         else:
-            return render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
+            res = render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
                 'form': form,
                 'project': project
             })
+            return HttpResponse(res, status=400)
