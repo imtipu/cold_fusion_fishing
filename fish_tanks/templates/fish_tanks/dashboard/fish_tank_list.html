@@ -27,7 +27,7 @@
                                 <div class="flex items-center gap-3">
                                     <div>
                                         <div class="font-bold">{{ item.title }}</div>
-{#                                        <div class="text-sm opacity-50">United States</div>#}
+                                        {#                                        <div class="text-sm opacity-50">United States</div>#}
                                     </div>
                                 </div>
                             </td>
@@ -54,7 +54,13 @@
                             <th>
                                 <div class="flex items-center">
                                     <button class="btn btn-dark btn-sm"
-                                            onclick="showModal({{ item.id }})">
+                                            hx-trigger="click"
+                                            hx-target="#modal_tank_quick_view .modal-content"
+                                            hx-swap="innerHTML"
+                                            hx-on:htmx:before-request="openModal(event)"
+                                            hx-on:htmx:after-request="afterReqeust(event)"
+                                            hx-get="{% url 'dashboard:fish_tanks:htmx:fish_tank_quick_view' item.id %}"
+                                    >
                                         <span class="material-symbols-outlined">visibility</span>
                                     </button>
                                     <button class="btn btn-primary btn-sm ml-2">
@@ -77,53 +83,46 @@
     <!-- Open the modal using ID.showModal() method -->
     <dialog id="modal_tank_quick_view" class="modal">
         <div class="modal-box">
-            <div class="skeleton-box">
-                <div class="skeleton h-32 w-full"></div>
-                <div class="skeleton h-4 w-28"></div>
-                <div class="skeleton h-4 w-full"></div>
+            <div class="skeleton-box hidden">
+                <div class="skeleton h-32 w-full mb-2"></div>
+                <div class="skeleton h-4 w-28 mb-1"></div>
+                <div class="skeleton h-4 w-full mb-1"></div>
                 <div class="skeleton h-4 w-full"></div>
             </div>
-            <div class="modal-content"></div>
+            <div class="modal-content">
+
+            </div>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-error btn-sm" type="submit">Close</button>
+                </form>
+            </div>
+            <div class="modal-backdrop" for="modal_tank_quick_view">Close</div>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
+
     </dialog>
 {% endblock %}
 {% block body_scripts %}
     <script>
-        function showModal(tank_id) {
+        function openModal(evt) {
             let modal = document.getElementById('modal_tank_quick_view');
+            let modal_content = modal.querySelectorAll('.modal-content');
+            modal_content.forEach((item) => {
+                item.innerHTML = '';
+            })
+            let skeleton_box = modal.querySelectorAll('.skeleton-box');
+            skeleton_box.forEach((item) => {
+                item.classList.remove('hidden');
+            })
             modal.showModal();
-            let url = '/dashboard/fish-tanks/htmx/detail/' + tank_id + '/quick-view/';
-
-            setTimeout(() => {
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        modal.getElementsByClassName('modal-content')[0].innerHTML = data;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-                modal.getElementsByClassName('skeleton-box')[0].classList.add('hidden');
-
-            }, 1000);
-
-            {#fetch(url)#}
-            {#    .then(response => response.text())#}
-            {#    .then(data => {#}
-            {#        modal.getElementsByClassName('modal-content')[0].innerHTML = data;#}
-            {#    })#}
-            {#    .catch(error => {#}
-            {#        console.log(error);#}
-            {#    });#}
         }
 
-        function closeModal() {
+        function afterReqeust(evt) {
             let modal = document.getElementById('modal_tank_quick_view');
-            modal.close();
-
+            let skeleton_box = modal.querySelectorAll('.skeleton-box');
+            skeleton_box.forEach((item) => {
+                item.classList.add('hidden');
+            })
         }
     </script>
 {% endblock %}

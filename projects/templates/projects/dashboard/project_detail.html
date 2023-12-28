@@ -25,17 +25,21 @@
         <div class="card-body px-2 py-2"
              hx-ext="response-targets"
         >
-            <div class="flex flex-row">
-
-            </div>
             <div id="activity-add-form-box"
-                 class="overflow-x-auto px-3 mb-3 flex flex-col w-full">
+                 class="overflow-x-auto px-3 mb-3 flex flex-col w-full"
+                 hx-trigger="load"
+                 hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' project.id %}"
+                 hx-target="#activity-add-form-box"
+            >
             </div>
             <div id="daily_activity_table" class="overflow-x-auto px-2"
                  hx-trigger="load"
                  hx-get="{% url 'dashboard:projects:htmx:htmx_daily_activity_table_list' project.id %}"
                  hx-target="#daily_activity_table"
                  hx-swap="InnerHTML">
+                <div class="flex flex-col justify-center items-center">
+                    <span class="loading loading-infinity loading-lg"></span>
+                </div>
             </div>
         </div>
     </div>
@@ -46,6 +50,20 @@
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         })
+
+        function handleResponse(evt) {
+            console.log(evt.detail)
+            const status = evt.detail.xhr.status;
+            console.log(status)
+            const target = evt.detail.target;
+            if (status >= 400) {
+                {#document.getElementById('activity-add-form').reset();#}
+                {#const target = document.getElementById('activity-add-form-box');#}
+                if (target.id === 'activity-add-form-box') {
+                    target.innerHTML = evt.detail.xhr.responseText;
+                }
+            }
+        }
     </script>
 
 {% endblock %}

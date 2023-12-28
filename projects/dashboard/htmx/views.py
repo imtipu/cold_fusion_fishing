@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 
@@ -14,6 +16,7 @@ class HtmxDailyActivityTableListView(LoginRequiredMixin, ListView):
     context_object_name = 'daily_activities'
 
     def get_queryset(self):
+        # time.sleep(10)
         return self.model.objects.filter(
             project_id=self.kwargs.get('pk')
         ).select_related('project').order_by('-activity_date')

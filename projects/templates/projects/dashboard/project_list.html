@@ -12,6 +12,7 @@
                         <th class="font-bold text-gray-950">Title</th>
                         <th class="hidden lg:flex font-bold text-gray-950">Tank</th>
                         <th class="font-bold text-gray-950">Initial Quantity</th>
+                        <th class="font-bold text-gray-950">Dead/Live</th>
                         <th class="font-bold text-gray-950">Start Date</th>
                         <th class="font-bold text-gray-950">End Date</th>
                         <th class="hidden lg:flex font-bold text-gray-950">Created at</th>
@@ -31,6 +32,18 @@
                             </td>
                             <td class="hidden lg:flex">{{ project.tank.title }}</td>
                             <td>{{ project.initial_quantity }}</td>
+                            <td>
+                                <table class="table table-xs">
+                                    <tr>
+                                        <td>Dead</td>
+                                        <td>{{ project.total_dead }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Live</td>
+                                        <td>{{ project.total_live }}</td>
+                                    </tr>
+                                </table>
+                            </td>
                             <td>{{ project.start_date }}</td>
                             <td>{{ project.end_date }}</td>
                             <td class="hidden lg:flex">{{ project.created_at }}</td>

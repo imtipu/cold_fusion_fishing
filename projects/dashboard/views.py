@@ -15,14 +15,23 @@ class ProjectListView(ListView):
     context_object_name = 'projects'
 
     def get_queryset(self):
-        return self.model.objects.select_related('tank').order_by('-start_date')
+        return self.model.objects.select_related('tank').annotate(
+            total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField()),
+            total_live=models.F('initial_quantity') - models.F('total_dead'),
+        ).order_by('-start_date')
 
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(DetailView, DeleteView):
     template_name = 'projects/dashboard/project_detail.html'
 
     model = Project
     context_object_name = 'project'
+
+    def get_queryset(self):
+        queryset = Project.objects.select_related('tank').annotate(
+            total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField()),
+        )
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,7 +105,6 @@ class DailyActivityAddView(CreateView):
                     })
                     return HttpResponse(res, status=400)
 
-
             initial_quantity = project.initial_quantity
             total_dead_qs = DailyActivity.objects.filter(project=project).aggregate(
                 total_dead=models.Sum('dead_fish', output_field=models.IntegerField())
@@ -125,3 +133,20 @@ class DailyActivityAddView(CreateView):
                 'project': project
             })
             return HttpResponse(res, status=400)
+
+
+class ProjectDailyActivityDetailView(DetailView, DeleteView):
+    model = DailyActivity
+    context_object_name = 'activity'
+    template_name = 'projects/dashboard/daily_activities/project_daily_activity_detail.html'
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.htmx:
+            instance.delete()
+            return HttpResponse('', status=200)
+        return super(self.__class__, self).delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        instance = self.get_object()
+        return reverse_lazy('dashboard:projects:project_detail', kwargs={'pk': instance.project.pk})

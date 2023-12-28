@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 ]
 
 LOCAL_APPS = [
+    'api_modules.apps.ApiModulesConfig',
     'users.apps.UsersConfig',
     'projects.apps.ProjectsConfig',
     'home.apps.HomeConfig',
@@ -58,6 +59,9 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django_htmx',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drf_yasg',
 ]
 
 if DEBUG:
@@ -209,3 +213,12 @@ INTERNAL_IPS = [
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# django rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+}

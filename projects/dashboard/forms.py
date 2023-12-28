@@ -20,7 +20,8 @@ class DailyActivityForm(forms.ModelForm):
             'class': 'input input-sm rounded-md input-bordered w-full',
             'type': 'number',
             'min': 0,
-            'placeholder': '100'
+            'placeholder': '100',
+            'value': '1'
         }))
 
     feed_percentage = forms.DecimalField(
@@ -30,7 +31,8 @@ class DailyActivityForm(forms.ModelForm):
             'type': 'number',
             'min': 0,
             'max': 100,
-            'placeholder': '4'
+            'placeholder': '4',
+            'value': '1'
         }))
 
     singe_fish_weight = forms.DecimalField(
@@ -39,7 +41,8 @@ class DailyActivityForm(forms.ModelForm):
             'class': 'input input-sm rounded-md input-bordered w-full',
             'type': 'number',
             'min': 0,
-            'placeholder': '50'
+            'placeholder': '50',
+            'value': '1'
         }))
 
     undigested_percentage = forms.DecimalField(
@@ -49,7 +52,8 @@ class DailyActivityForm(forms.ModelForm):
             'type': 'number',
             'min': 0,
             'max': 100,
-            'placeholder': '10'
+            'placeholder': '10',
+            'value': '1'
         }))
 
     feed_protein_percentage = forms.DecimalField(
@@ -59,7 +63,8 @@ class DailyActivityForm(forms.ModelForm):
             'type': 'number',
             'min': 0,
             'max': 100,
-            'placeholder': '45'
+            'placeholder': '45',
+            'value': '1'
         }))
 
     expected_cn = forms.DecimalField(
@@ -68,7 +73,8 @@ class DailyActivityForm(forms.ModelForm):
             'class': 'input input-sm rounded-md input-bordered w-full',
             'type': 'number',
             'min': 0,
-            'placeholder': '18'
+            'placeholder': '18',
+            'value': '1'
         }))
 
     class Meta:

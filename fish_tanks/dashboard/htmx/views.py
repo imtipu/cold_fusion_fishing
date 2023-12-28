@@ -1,3 +1,5 @@
+import time
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import *
@@ -12,7 +14,9 @@ class HtmxFistTankListView(LoginRequiredMixin, ListView):
     context_object_name = 'fish_tanks'
 
     def get_queryset(self):
-        return self.model.objects.all()
+        return self.model.objects.select_related(
+            'current_project'
+        ).all()
 
 
 class FishTankQuickView(LoginRequiredMixin, DetailView):
@@ -20,3 +24,7 @@ class FishTankQuickView(LoginRequiredMixin, DetailView):
 
     model = FishTank
     context_object_name = 'fish_tank'
+
+    def get(self, request, *args, **kwargs):
+        # time.sleep(2)
+        return super(self.__class__, self).get(request, *args, **kwargs)

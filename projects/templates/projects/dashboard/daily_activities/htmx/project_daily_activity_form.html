@@ -1,12 +1,15 @@
 <form
         id="activity-add-form"
         method="post" enctype="multipart/form-data"
-        hx-post="{% url 'dashboard:projects:add_project_activity' project.id %}"
-        hx-trigger="submit"
-        hx-target="#project-activity-list-table tbody"
-        hx-target-error="#activity-add-form-box"
-        hx-swap="beforebegin"
-        hx-on="htmx:afterRequest: this.reset();"
+{#        hx-post="{% url 'dashboard:projects:add_project_activity' project.id %}"#}
+        action="{% url 'dashboard:projects:add_project_activity' project.id %}"
+        onsubmit="addNewActivity(event)"
+{#        hx-trigger="submit"#}
+{#        hx-target="#project-activity-list-table tbody"#}
+{#        hx-target-error="#activity-add-form-box"#}
+{#        hx-swap="beforeend"#}
+{#        hx-on:htmx:after-request="handleResponse(event)"#}
+
 >
     {% csrf_token %}
     <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 xl:grid-cols-5">
@@ -41,5 +44,31 @@
 
 </form>
 <script>
+function addNewActivity(evt) {
+    evt.preventDefault();
+    const form = document.getElementById('activity-add-form');
+    const formData = new FormData(form);
+    const url = form.getAttribute('action');
+    const method = form.getAttribute('method');
+
+    $.ajax({
+        url: url,
+        method: method,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            console.log(data);
+            $('#project-activity-list-table tbody:first').prepend(data);
+            form.reset();
+        },
+        error: function (data) {
+            const errorBox = document.getElementById('activity-add-form-box');
+            errorBox.innerHTML = data.responseText;
+        }
+    })
+
+}
+
 
 </script>

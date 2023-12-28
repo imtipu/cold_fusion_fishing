@@ -1,17 +1,64 @@
 <tr>
-    <td>{{ days }}</td>
-    <td>{{ activity.activity_date }}</td>
-    <td>{{ activity.dead_fish }}</td>
-    <td>{{ activity.live_fish }}</td>
-    <td>
-        <div>Single: {{ activity.single_fish_weight }}</div>
-        <div>Total: {{ activity.total_weight }}</div>
+    <td class="py-1" style="min-width: 100px">
+        <table class="table table-xs w-full">
+            <tr>
+                <td align="center">{{ days }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ activity.activity_date }}</td>
+            </tr>
+        </table>
     </td>
-    <td>{{ activity.todays_feed }} ({{ activity.feed_percentage }}%)</td>
-    <td>{{ activity.molas_to_add }}</td>
-    <td>{{ activity.undigested_percentage }}</td>
-    <td>{{ activity.feed_protein_percentage }}</td>
-    <td>{{ activity.expected_cn }}</td>
-    <td>{{ activity.feed_n }}</td>
-    <td>{{ activity.feed_c }}</td>
+    <td class="text-center py-1">
+        <table class="table w-full">
+            <tr>
+                <td align="center">{{ activity.dead_fish }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ activity.live_fish }}</td>
+            </tr>
+        </table>
+    </td>
+    <td class="text-center py-1" style="min-width: 150px">
+        <table class="w-full">
+            <tr>
+                <td>Single</td>
+                <td>{{ activity.single_fish_weight|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>{{ activity.total_weight|floatformat:2 }} gm <br>{{ activity.total_weight_kg|floatformat:2 }} kg
+                </td>
+            </tr>
+        </table>
+    </td>
+    <td class="text-center py-1">
+        {{ activity.todays_feed|floatformat:2 }} ({{ activity.feed_percentage }}%)
+    </td>
+    <td class="text-center py-1">{{ activity.molas_to_add|floatformat:2 }}</td>
+    <td class="text-center py-1">{{ activity.undigested_percentage }}</td>
+    <td class="text-center py-1">{{ activity.feed_protein_percentage }}</td>
+    <td class="text-center py-1">{{ activity.expected_cn|floatformat:2 }}</td>
+    <td class="text-center py-1">
+        <table class="table-xs w-full">
+            <tr>
+                <td>N</td>
+                <td>{{ activity.feed_n|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>{{ activity.feed_c|floatformat:2 }}</td>
+            </tr>
+        </table>
+    </td>
+    <td class="text-center py-1">
+        <button type="button" class="font-normal bg-red-600 text-white w-8 h-8 flex flex-col justify-center
+                 items-center rounded-md"
+                hx-delete="{% url 'dashboard:projects:project_activity_detail' activity.id %}"
+                hx-confirm="Are you sure?"
+                hx-target="closest tr"
+                hx-swap="outerHTML swap:1s">
+            <span class="material-symbols-outlined text-[18px]">delete</span>
+        </button>
+    </td>
 </tr>
