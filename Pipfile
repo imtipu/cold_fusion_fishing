@@ -9,6 +9,9 @@ name = "pypi"
 python_version = "3.8"
 
 [packages]
+cryptography = "==37.0.4"
+cython = "==3.0.4"
+pyyaml = "~=5.2"
 django = "~=4.2.8"
 django-tailwind = {extras = ["reload"], version = "*"}
 firebase-admin = "*"
@@ -19,6 +22,3 @@ django-htmx = "~=1.17.2"
 cffi = "~=1.15.0"
 djangorestframework = "*"
 drf-yasg = "*"
-cryptography = "==37.0.4"
-cython = "==3.0.4"
-pyyaml = "==5.3.1"
