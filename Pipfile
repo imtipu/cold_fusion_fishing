@@ -11,7 +11,7 @@ python_version = "3.8"
 [packages]
 cryptography = "==37.0.4"
 cython = "==3.0.4"
-pyyaml = "~=5.2"
+pyyaml = "==5.2"
 django = "~=4.2.8"
 django-tailwind = {extras = ["reload"], version = "*"}
 firebase-admin = "*"
