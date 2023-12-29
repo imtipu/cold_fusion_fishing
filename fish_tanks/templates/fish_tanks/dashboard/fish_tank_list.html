@@ -4,18 +4,28 @@
 {% endblock %}
 {% block content %}
     <div class="card bg-gray-50 mt-4">
-        <div class="card-body">
+        <div class="card-header flex bg-white dark:bg-gray-700 px-5 py-3 items-center rounded-t-md">
+            <div>
+                <h3 class="font-bold dark:text-gray-50">Tanks</h3>
+            </div>
+            <div class="ml-auto">
+                <a class="btn btn-default btn-sm dark:text-white" href="{% url 'dashboard:fish_tanks:fish_tank_create' %}">
+                    Create
+                </a>
+            </div>
+        </div>
+        <div class="card-body p-0">
             <div class="overflow-x-auto">
-                <table class="table">
+                <table class="table table-sm table-condensed">
                     <!-- head -->
-                    <thead>
+                    <thead class="bg-white dark:bg-gray-900">
                     <tr>
-                        <th>Name</th>
-                        <th>Capacity</th>
-                        <th>Volume</th>
-                        <th>Active Status</th>
-                        <th>Current Project</th>
-                        <th>Actions</th>
+                        <th class="text-black dark:text-white">Name</th>
+                        <th class="text-black dark:text-white">Capacity</th>
+                        <th class="text-black dark:text-white">Volume</th>
+                        <th class="text-black dark:text-white">Active Status</th>
+                        <th class="text-black dark:text-white">Current Project</th>
+                        <th class="text-black dark:text-white">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,7 +63,7 @@
                             </td>
                             <th>
                                 <div class="flex items-center">
-                                    <button class="btn btn-dark btn-sm"
+                                    <button class="bg-gray-800 w-7 h-7 rounded-md text-white flex items-center justify-center"
                                             hx-trigger="click"
                                             hx-target="#modal_tank_quick_view .modal-content"
                                             hx-swap="innerHTML"
@@ -61,17 +71,29 @@
                                             hx-on:htmx:after-request="afterReqeust(event)"
                                             hx-get="{% url 'dashboard:fish_tanks:htmx:fish_tank_quick_view' item.id %}"
                                     >
-                                        <span class="material-symbols-outlined">visibility</span>
+                                        <span class="material-symbols-outlined text-[14px]">visibility</span>
                                     </button>
-                                    <button class="btn btn-primary btn-sm ml-2">
-                                        <span class="material-symbols-outlined">open_in_new</span>
-                                    </button>
+                                    <a class="bg-indigo-800 w-7 h-7 rounded-md text-white flex items-center justify-center ml-2"
+                                    href="{% url 'dashboard:fish_tanks:fish_tank_detail' item.pk %}">
+                                        <span class="material-symbols-outlined text-[14px]">edit</span>
+                                    </a>
 
                                 </div>
 
                             </th>
                         </tr>
-                        <!-- row 2 -->
+                    {% empty %}
+                        <tr>
+                        <td colspan="6" class="text-center bg-white dark:bg-white">
+                            <div class="py-4">
+                                <div class="text-4xl text-gray-400">
+                                    <span class="material-symbols-outlined">sentiment_very_dissatisfied</span>
+                                </div>
+                                <div class="text-xl text-gray-400">
+                                    No Data Found
+                                </div>
+                            </div>
+                        </tr>
                     {% endfor %}
                     </tbody>
                     <!-- foot -->

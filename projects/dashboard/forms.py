@@ -5,6 +5,29 @@ from django.utils.translation import gettext_lazy as _
 from projects.models import Project, DailyActivity
 
 
+class ProjectForm(forms.ModelForm):
+    start_date = forms.DateField(
+        label='Start Date',
+        required=True, widget=forms.DateInput(attrs={
+            'class': 'input input-sm rounded-md input-bordered w-full',
+            'type': 'date',
+            'value': timezone.now().date(),
+        }))
+
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+        extra_kwargs = {
+            'tank': {
+                'required': True,
+            },
+            'initial_quantity': {
+                'required': True,
+            },
+        }
+
+
 class DailyActivityForm(forms.ModelForm):
     activity_date = forms.DateField(
         label='Date',
@@ -93,4 +116,3 @@ class DailyActivityForm(forms.ModelForm):
         if activity_date > timezone.now().date():
             raise forms.ValidationError('Activity date cannot be greater than today.')
         return activity_date
-

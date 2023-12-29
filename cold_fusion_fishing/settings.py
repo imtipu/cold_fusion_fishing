@@ -62,6 +62,8 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
+    'crispy_forms',
+    'crispy_tailwind',
 ]
 
 if DEBUG:
@@ -130,9 +132,6 @@ DATABASES = {
         'PASSWORD': env.str('MYSQL_PASSWORD', ''),
         'HOST': env.str('MYSQL_HOST', 'localhost'),
         'PORT': env.str('MYSQL_PORT', 3306),
-        # 'OPTIONS': {
-        #     'init_command': 'SET default_storage_engine=INNODB',
-        # }
     }
 }
 
@@ -223,3 +222,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ],
 }
+
+
+# crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
+CRISPY_TEMPLATE_PACK = 'tailwind'

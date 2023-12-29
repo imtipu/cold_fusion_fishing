@@ -1,0 +1,70 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% block head_title %}{{ fish_tank.title }}{% endblock %}
+
+{% block content %}
+    <div class="card mt-4 rounded-md bg-gray-50">
+        <div class="card-header rounded-t-md bg-white px-5 py-4">
+            <h1 class="text-gray-800">{{ fish_tank.title }}</h1>
+        </div>
+        <div class="card-body">
+            {% if fish_tank.current_project %}
+                <table class="w-full table-xs table table-condensed max-w-[250px]">
+                    <tbody>
+                    <tr>
+                        <th>Project</th>
+                        <th>{{ fish_tank.current_project }}</th>
+                    </tr>
+                    <tr>
+                        <td>Start Date</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>End Date</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Initial</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Live</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Dead</td>
+                        <td>0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+            <div>
+                <form class="max-w-[550px]" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <div class="">
+                        {{ form.title|as_crispy_field }}
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {{ form.volume|as_crispy_field }}
+                        {{ form.width|as_crispy_field }}
+                        {{ form.height|as_crispy_field }}
+                        {{ form.capacity|as_crispy_field }}
+                        {{ form.tank_number|as_crispy_field }}
+                    </div>
+                    <div>
+                        {{ form.is_active|as_crispy_field }}
+                        {{ form.current_project|as_crispy_field }}
+                    </div>
+                    <div>
+                        {{ form.description|as_crispy_field }}
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

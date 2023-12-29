@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from modules.model_mixins import TimeStampModel
 
@@ -30,3 +31,6 @@ class FishTank(TimeStampModel):
         verbose_name = 'Fish Tank'
         verbose_name_plural = 'Fish Tanks'
         ordering = ['title']
+
+    def get_absolute_url(self):
+        return reverse('dashboard:fish_tanks:fish_tank_detail', kwargs={'pk': self.pk})

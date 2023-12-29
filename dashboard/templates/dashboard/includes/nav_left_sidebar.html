@@ -1,15 +1,17 @@
 {% load static %}
 
 <div id="nav-left-sidebar" class="flex-col bg-gray-200 fixed min-h-screen md:flex w-full max-w-[280px]
-z-10 hidden">
-    <div class="logo flex flex-col justify-center items-center py-3">
-        <div class="flex flex-row justify-between">
+z-10 -translate-x-[280px] md:translate-x-0 transition-all duration-200">
+    <div class="logo flex flex-col justify-center items-center justify-center py-3">
+        <div class="flex flex-row items-center justify-between w-full px-4">
             <img src="{% static 'svg/LogoWhite.svg' %}" alt="Cold Fusion"
-                 style="max-height: 40px">
+                 style="max-height: 40px"
+            class="mr-auto">
             <button type="button"
-                    class="md:hidden"
+                    class="md:hidden ml-auto w-10 h-10 rounded-full bg-gray-800 text-white flex flex-col
+                    items-center justify-center"
                     onclick="btnSidebarToggle()">
-                Close
+                <span class="material-symbols-outlined">close</span>
             </button>
         </div>
 

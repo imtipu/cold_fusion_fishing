@@ -17,6 +17,11 @@
     <tbody>
     {% for activity in daily_activities %}
         {% include 'projects/dashboard/daily_activities/includes/daily_activity_row.html' with days=forloop.revcounter %}
+    {% empty %}
+        <tr>
+            <td colspan="10" class="text-center">No data available</td>
+        </tr>
     {% endfor %}
+
     </tbody>
 </table>

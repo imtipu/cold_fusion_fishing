@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -39,6 +40,9 @@ class Project(TimeStampModel):
         ordering = ['-created_at']
         verbose_name = 'Project'
         verbose_name_plural = 'Projects'
+
+    def get_absolute_url(self):
+        return reverse('dashboard:projects:project_detail', kwargs={'pk': self.pk})
 
 
 class DailyActivity(TimeStampModel):

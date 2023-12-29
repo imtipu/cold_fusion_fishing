@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import *
 
-from projects.dashboard.forms import DailyActivityForm
+from projects.dashboard.forms import DailyActivityForm, ProjectForm
 from projects.models import *
 
 
@@ -37,6 +37,17 @@ class ProjectDetailView(DetailView, DeleteView):
         context = super().get_context_data(**kwargs)
         project = context.get('project')
         context['form'] = DailyActivityForm(initial={'project': project})
+        return context
+
+
+class ProjectCreateView(CreateView):
+    model = Project
+    template_name = 'projects/dashboard/create.html'
+    form_class = ProjectForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['head_title'] = 'Create New Project'
         return context
 
 

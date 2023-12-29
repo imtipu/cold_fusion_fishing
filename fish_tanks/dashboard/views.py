@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import *
 
 # from modules.view_mixins import *
-
+from .forms import *
 from fish_tanks.models import *
 
 
@@ -14,9 +14,20 @@ class FishTankListView(LoginRequiredMixin, ListView):
     context_object_name = 'fish_tanks'
 
 
-
-class FishTankDetailView(LoginRequiredMixin, DetailView):
-    template_name = 'fish_tanks/dashboard/htmx/fish_tank_quick_view.html'
+class FishTankDetailView(LoginRequiredMixin, DetailView, UpdateView):
+    template_name = 'fish_tanks/dashboard/detail.html'
 
     model = FishTank
     context_object_name = 'fish_tank'
+    form_class = FishTankForm
+
+
+class FishTankCreateView(CreateView):
+    model = FishTank
+    template_name = 'fish_tanks/dashboard/create.html'
+    form_class = FishTankForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['head_title'] = 'Create New Fish Tank'
+        return context
