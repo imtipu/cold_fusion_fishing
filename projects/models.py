@@ -23,14 +23,14 @@ class Project(TimeStampModel):
         related_name='projects',
     )
 
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
+    start_date = models.DateField(_('Start Date'), null=True, blank=True)
+    end_date = models.DateField(_('End Date'), null=True, blank=True)
 
     initial_quantity = models.PositiveIntegerField(
         default=1,
         validators=[
             MinValueValidator(1),
-        ]
+        ],
     )
 
     def __str__(self):

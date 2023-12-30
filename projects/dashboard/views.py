@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import *
 
-from projects.dashboard.forms import DailyActivityForm, ProjectForm
+from projects.dashboard.forms import DailyActivityForm, ProjectForm, ProjectUpdateForm
 from projects.models import *
 
 
@@ -37,6 +37,20 @@ class ProjectDetailView(DetailView, DeleteView):
         context = super().get_context_data(**kwargs)
         project = context.get('project')
         context['form'] = DailyActivityForm(initial={'project': project})
+        return context
+
+
+class ProjectUpdateView(UpdateView):
+    model = Project
+    template_name = 'projects/dashboard/update.html'
+    form_class = ProjectUpdateForm
+    context_object_name = 'project'
+
+    def get_success_url(self):
+        return reverse_lazy('dashboard:projects:project_update', kwargs={'pk': self.kwargs.get('pk')})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         return context
 
 

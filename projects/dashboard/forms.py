@@ -28,6 +28,12 @@ class ProjectForm(forms.ModelForm):
         }
 
 
+class ProjectUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+
 class DailyActivityForm(forms.ModelForm):
     activity_date = forms.DateField(
         label='Date',

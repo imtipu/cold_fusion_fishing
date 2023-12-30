@@ -28,8 +28,8 @@ class FishTank(TimeStampModel):
         return self.title
 
     class Meta:
-        verbose_name = 'Fish Tank'
-        verbose_name_plural = 'Fish Tanks'
+        verbose_name = _('Fish Tank')
+        verbose_name_plural = _('Fish Tanks')
         ordering = ['title']
 
     def get_absolute_url(self):

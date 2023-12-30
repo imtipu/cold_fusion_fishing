@@ -61,9 +61,14 @@
                             <td>
                                 <div class="flex items-center">
                                     <a
-                                            class="btn btn-outline-primary btn-sm"
+                                            class="btn btn-neutral btn-sm"
                                             href="{% url 'dashboard:projects:project_detail' project.id %}">
                                         View
+                                    </a>
+                                    <a
+                                            class="btn btn-primary btn-sm ml-2"
+                                            href="{% url 'dashboard:projects:project_update' project.id %}">
+                                        Edit
                                     </a>
                                 </div>
                             </td>

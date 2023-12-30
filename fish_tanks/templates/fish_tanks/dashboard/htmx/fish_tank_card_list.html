@@ -1,44 +1,95 @@
+{% load i18n %}
+{% load l10n %}
+{% get_current_language as LANGUAGE_CODE %}
 <div class="card-list grid grid-cols-1 grid-row-col gap-1 sm:grid-cols-3 sm:gap-2 md:grid-cols-4 md:gap-3 rounded-md">
     {% for item in fish_tanks %}
         <div class="card bg-gray-50 rounded-md shadow-gray-700 shadow-sm">
             <div class="card-header py-3 px-3 flex flex-row justify-between items-start">
                 <h2 class="text-gray-800 md:text-2xl font-bold uppercase">{{ item.title }}</h2>
                 {% if item.is_active %}
-                <div class="text-xs rounded-md ml-auto text-green-50 bg-green-600 px-2 py-1
-font-medium">Active</div>
+                    <div class="text-xs rounded-md ml-auto text-green-50 bg-green-600 px-2 py-1
+font-medium">Active
+                    </div>
                 {% endif %}
             </div>
             <div class="divide-y divide-gray-400"></div>
             <div class="card-body py-2 px-3">
-                <table class="w-full table-xs table table-condensed">
-                    <tbody>
-                    <tr>
-                        <th>Project</th>
-                        <th>{{ item.current_project }}</th>
-                    </tr>
-                    <tr>
-                        <td>Start Date</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>End Date</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>Initial</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>Live</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>Dead</td>
-                        <td>0</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <p class="text-gray-700 text-sm">{{ item.description }}</p>
+{#                {% item.current_project as current_project %}#}
+                {% with item.current_project as current_project %}
+                    <table class="w-full table-xs table table-condensed">
+                        <tbody>
+                        <tr>
+                            <th>
+                                {% if LANGUAGE_CODE == 'bn' %}
+                                    চলতি প্রকল্প
+                                {% else %}
+                                    Project
+                                {% endif %}
+                            </th>
+                            <th>{{ current_project }}</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if LANGUAGE_CODE == 'bn' %}
+                                    শুরু
+                                {% else %}
+                                    Start Date
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ current_project.start_date|date:"d-m-Y" }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if LANGUAGE_CODE == 'bn' %}
+                                    সমাপ্তি
+                                {% else %}
+                                    End Date
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ current_project.end_date|date:"d-m-Y" }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if LANGUAGE_CODE == 'bn' %}
+                                    মোট সংখ্যা(শুরু)
+                                {% else %}
+                                    Initial Count
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ current_project.initial_quantity|localize }}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if LANGUAGE_CODE == 'bn' %}
+                                    জীবিত
+                                {% else %}
+                                    Love
+                                {% endif %}
+                            </td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if LANGUAGE_CODE == 'bn' %}
+                                    মৃত
+                                {% else %}
+                                    Dead
+                                {% endif %}
+                            </td>
+                            <td>0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-gray-700 text-sm">{{ item.description }}</p>
+                {% endwith %}
+
             </div>
         </div>
     {% endfor %}

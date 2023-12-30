@@ -81,6 +81,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 THIRD_PARTY_MIDDLEWARE = [
@@ -200,10 +201,26 @@ EMAIL_SUBJECT_PREFIX = env.str('EMAIL_SUBJECT_PREFIX', '')
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# locale settings
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale/'),
+]
+
+LANGUAGE_CODE = 'en'
+LANGUAGES = [
+    ('en', 'English'),
+    ('bn', 'Bangla'),
+]
+
+USE_I18N = True
+USE_L10N = True
+
+SHORT_DATE_FORMAT = 'd M Y'
+
 # tailwind settings
 TAILWIND_APP_NAME = 'theme'
 
-NPM_BIN_PATH = r'C:\Program Files\nodejs\npm.cmd'
+NPM_BIN_PATH = env.str('NPM_BIN_PATH', r'C:\Program Files\nodejs\npm.cmd')
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -222,7 +239,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ],
 }
-
 
 # crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
