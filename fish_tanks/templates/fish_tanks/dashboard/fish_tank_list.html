@@ -1,39 +1,90 @@
 {% extends 'dashboard/base.html' %}
+{% load i18n %}
 {% block head_title %}
     Fish Tanks
 {% endblock %}
 {% block content %}
+    {% get_current_language as LANGUAGE_CODE %}
+
     <div class="card bg-gray-50 mt-4">
-        <div class="card-header flex bg-white dark:bg-gray-700 px-5 py-3 items-center rounded-t-md">
+        <div class="card-header flex bg-white dark:bg-gray-900 px-5 py-3 items-center rounded-t-md">
             <div>
-                <h3 class="font-bold dark:text-gray-50">Tanks</h3>
+                <h3 class="font-bold dark:text-gray-300">
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        ফিশ ট্যাঙ্ক তালিকা
+                    {% else %}
+                        Fish Tanks
+                    {% endif %}
+                </h3>
+
             </div>
             <div class="ml-auto">
-                <a class="btn btn-default btn-sm dark:text-white" href="{% url 'dashboard:fish_tanks:fish_tank_create' %}">
-                    Create
+                <a class="btn btn-default btn-sm dark:text-white dark:bg-gray-600" href=
+                        "{% url 'dashboard:fish_tanks:fish_tank_create' %}">
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        অ্যাড করুন
+                    {% else %}
+                        Add New
+                    {% endif %}
                 </a>
             </div>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body py-0 px-3 dark:bg-gray-900">
             <div class="overflow-x-auto">
-                <table class="table table-sm table-condensed">
+                <table class="table table-sm">
                     <!-- head -->
                     <thead class="bg-white dark:bg-gray-900">
                     <tr>
-                        <th class="text-black dark:text-white">Name</th>
-                        <th class="text-black dark:text-white">Capacity</th>
-                        <th class="text-black dark:text-white">Volume</th>
-                        <th class="text-black dark:text-white">Active Status</th>
-                        <th class="text-black dark:text-white">Current Project</th>
-                        <th class="text-black dark:text-white">Actions</th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                নাম
+                            {% else %}
+                                Name
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                ক্যাপাসিটি
+                            {% else %}
+                                Capacity
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                আয়তন
+                            {% else %}
+                                Volume
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                স্ট্যাটাস
+                            {% else %}
+                                Status
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                বর্তমান প্রজেক্ট
+                            {% else %}
+                                Current Project
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                অ্যাকশন
+                            {% else %}
+                                Action
+                            {% endif %}
+                        </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="dark:bg-gray-900">
                     <!-- row 1 -->
                     {% for item in fish_tanks %}
-                        <tr>
+                        <tr class="">
 
-                            <td>
+                            <td class="">
                                 <div class="flex items-center gap-3">
                                     <div>
                                         <div class="font-bold">{{ item.title }}</div>
@@ -41,27 +92,40 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="">
                                 {{ item.capacity }}
                             </td>
-                            <td>
+                            <td class="">
                                 {{ item.volume }}
                             </td>
-                            <td>
+                            <td class="">
                                 {% if item.is_active %}
-                                    <span class="badge bg-green-200">Active</span>
+                                    <span class="badge bg-green-200 dark:bg-green-900 text-xs border-0
+                                    dark:text-gray-300">
+                                        {% if LANGUAGE_CODE == 'bn' %}
+                                            চালু
+                                        {% else %}
+                                            Active
+                                        {% endif %}
+                                    </span>
                                 {% else %}
-                                    <span class="badge badge-outline">Inactive</span>
+                                    <span class="badge badge-outline text-xs bg-red-700 border-0 dark:text-gray-300">
+                                        {% if LANGUAGE_CODE == 'bn' %}
+                                            বন্ধ
+                                        {% else %}
+                                            Inactive
+                                        {% endif %}
+                                    </span>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td class="">
                                 {% if item.current_project %}
                                     {{ item.current_project }}
                                 {% else %}
                                     -
                                 {% endif %}
                             </td>
-                            <th>
+                            <td class="">
                                 <div class="flex items-center">
                                     <button class="bg-gray-800 w-7 h-7 rounded-md text-white flex items-center justify-center"
                                             hx-trigger="click"
@@ -80,7 +144,7 @@
 
                                 </div>
 
-                            </th>
+                            </td>
                         </tr>
                     {% empty %}
                         <tr>

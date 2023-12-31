@@ -219,8 +219,11 @@ SHORT_DATE_FORMAT = 'd M Y'
 
 # tailwind settings
 TAILWIND_APP_NAME = 'theme'
+TAILWIND_DEV_MODE = DEBUG
+TAILWIND_CSS_PATH = 'tailwind/css/styles.css'
 
 NPM_BIN_PATH = env.str('NPM_BIN_PATH', r'C:\Program Files\nodejs\npm.cmd')
+
 
 INTERNAL_IPS = [
     "127.0.0.1",

@@ -4,17 +4,14 @@
 {% block head_title %}{{ project.title }}{% endblock %}
 
 {% block content %}
-    <div class="card w-full bg-white rounded-md mt-4 pb-4">
-        {#        <div class="flex flex-row justify-between pt-3 pr-4">#}
-        {#            <button type="button" class="btn btn-error btn-sm ml-auto text-red-600 hover:text-gray-50">Delete</button>#}
-        {#        </div>#}
+    <div class="card w-full bg-white dark:bg-gray-950 rounded-md mt-4 pb-4">
         <div class="card-header px-4 py-3 flex flex-row justify-between">
             <div>
                 <h2 class="font-bold text-2xl">{{ project.title }}</h2>
                 <div>Tank Number: {{ project.tank.tank_number }}</div>
+                <div>Initial Quantiy: {{ project.initial_quantity }}</div>
             </div>
             <div class="">
-                <h4>Initial Quantiy: {{ project.initial_quantity }}</h4>
                 <button type="button"
                         class="btn btn-primary btn-sm text-primary hover:text-white"
                         hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' project.id %}"

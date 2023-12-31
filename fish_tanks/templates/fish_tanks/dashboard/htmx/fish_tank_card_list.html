@@ -3,13 +3,13 @@
 {% get_current_language as LANGUAGE_CODE %}
 <div class="card-list grid grid-cols-1 grid-row-col gap-1 sm:grid-cols-3 sm:gap-2 md:grid-cols-4 md:gap-3 rounded-md">
     {% for item in fish_tanks %}
-        <div class="card bg-gray-50 rounded-md shadow-gray-700 shadow-sm">
-            <div class="card-header py-3 px-3 flex flex-row justify-between items-start">
-                <h2 class="text-gray-800 md:text-2xl font-bold uppercase">{{ item.title }}</h2>
+        <div class="card bg-gray-50 dark:bg-gray-900 rounded-md shadow-gray-700 shadow-sm mb-2">
+            <div class="card-header py-3 px-5 flex flex-row justify-between items-start">
+                <h2 class="text-gray-800 dark:text-gray-400 md:text-2xl font-bold uppercase">{{ item.title }}</h2>
                 {% if item.is_active %}
-                    <div class="text-xs rounded-md ml-auto text-green-50 bg-green-600 px-2 py-1
-font-medium">Active
-                    </div>
+                    <div class="text-xs badge bg-green-800 font-medium text-gray-300">Active</div>
+                {% else %}
+                    <div class="text-xs badge bg-red-800 font-medium text-gray-300">Off</div>
                 {% endif %}
             </div>
             <div class="divide-y divide-gray-400"></div>
@@ -19,7 +19,7 @@ font-medium">Active
                     <table class="w-full table-xs table table-condensed">
                         <tbody>
                         <tr>
-                            <th>
+                            <th class="text-gray-800 dark:text-gray-400">
                                 {% if LANGUAGE_CODE == 'bn' %}
                                     চলতি প্রকল্প
                                 {% else %}

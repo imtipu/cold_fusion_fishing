@@ -2,7 +2,7 @@
     <td class="py-1" style="min-width: 100px">
         <table class="table table-xs w-full">
             <tr>
-                <td align="center">{{ days }}</td>
+                <td align="center">Day {{ days }}</td>
             </tr>
             <tr>
                 <td align="center">{{ activity.activity_date }}</td>
@@ -36,10 +36,10 @@
         {{ activity.todays_feed|floatformat:2 }} ({{ activity.feed_percentage }}%)
     </td>
     <td class="text-center py-1">{{ activity.molas_to_add|floatformat:2 }}</td>
-    <td class="text-center py-1">{{ activity.undigested_percentage }}</td>
-    <td class="text-center py-1">{{ activity.feed_protein_percentage }}</td>
-    <td class="text-center py-1">{{ activity.expected_cn|floatformat:2 }}</td>
-    <td class="text-center py-1">
+    <td class="text-center py-1 hidden">{{ activity.undigested_percentage }}</td>
+    <td class="text-center py-1 hidden">{{ activity.feed_protein_percentage }}</td>
+    <td class="text-center py-1 hidden">{{ activity.expected_cn|floatformat:2 }}</td>
+    <td class="text-center py-1 hidden">
         <table class="table-xs w-full">
             <tr>
                 <td>N</td>
