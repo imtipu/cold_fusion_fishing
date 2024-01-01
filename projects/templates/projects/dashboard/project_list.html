@@ -57,18 +57,18 @@
                         <tr>
                             <td>
                                 <h3 class="font-bold">{{ project.title }}</h3>
-                                <div class="bg-gray-100 text-gray-800 dark:bg-gray-100 dark:text-gray-800 rounded-md py-1
-                                px-2
-                                text-xs
-                                font-medium">
+                                {% if project.tank.tank_number %}
+                                    <div class="bg-gray-100 text-gray-800 dark:bg-gray-100 dark:text-gray-800
+                                badge text-xs font-medium mt-1">
                                     <span>
                                         {% if LANGUGAGE_CODE == 'bn' %}
-                                            ট্যাঙ্ক নাম্বার
+                                            ট্যাঙ্ক
                                         {% else %}
-                                            Tank Number
+                                            Tank
                                         {% endif %}
                                     </span>: {{ project.tank.tank_number }}
-                                </div>
+                                    </div>
+                                {% endif %}
                             </td>
                             <td>
                                 <table class="table table-xs">
@@ -108,14 +108,14 @@
                                 {% if project.start_date %}
                                     {{ project.start_date }}
                                 {% else %}
-                                    <span class="text-red-500">Not Started</span>
+                                    <span class="text-gray-500">-</span>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if project.end_date %}
                                     {{ project.end_date }}
                                 {% else %}
-                                    <span class="text-red-500">Not Finished</span>
+                                    <span class="text-gray-500 font-bold">-</span>
                                 {% endif %}
                             </td>
                             <td>
