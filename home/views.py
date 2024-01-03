@@ -26,3 +26,14 @@ class ChangeLanguageView(LoginRequiredMixin, View):
         if language:
             request.session['language'] = language
         return HttpResponseRedirect(reverse('dashboard:home'))
+
+
+def set_color_mode_view(request):
+    if 'is_dark_theme' not in request.session:
+        request.session['is_dark_theme'] = True
+    else:
+        request.session['is_dark_theme'] = not request.session['is_dark_theme']
+    # request.session['is_dark_theme'] = True
+    print(request.session['is_dark_theme'])
+    redirect_url = request.META.get('HTTP_REFERER', '/')
+    return HttpResponseRedirect(redirect_url)

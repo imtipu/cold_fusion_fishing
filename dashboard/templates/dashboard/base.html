@@ -1,7 +1,10 @@
 {% load tailwind_source %}
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en"
+      data-theme="{% if request.session.is_dark_theme %}dark{% endif %}"
+        {% if request.session.is_dark_theme %} dark {% endif %}
+      class="{% if request.session.is_dark_theme %}dark{% endif %}">
 <head>
     <title>{% block head_title %}
         {% if head_title %}{{ head_title }}
@@ -13,10 +16,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-{#    {% tailwind_preload_css %}#}
-    {% load_tailwind_css %}
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    {% tailwind_preload_css %}
+
+    {% tailwind_css %}
+    {#    {% load_tailwind_css %}#}
+
 
     <script src="{% static 'htmx/htmx.min.js' %}"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
@@ -26,7 +32,8 @@
 
 </head>
 
-<body class="min-h-screen w-full">
+<body class="min-h-screen w-full {% if request.session.is_dark_theme %}dark{% else %}light{% endif %}"
+      data-theme="{% if request.session.is_dark_theme %}dark{% else %}light{% endif %}">
 <div id="site-content" class="min-h-screen w-full flex flex-row justify-between">
     {% if request.user.is_authenticated %}
         {% include 'dashboard/includes/nav_left_sidebar.html' %}
@@ -42,8 +49,8 @@
         {% block content %}{% endblock %}
         {% block body_scripts %}{% endblock %}
     </div>
-
 </div>
 {% include 'dashboard/includes/language_switcher.html' %}
+{% include 'home/includes/color_switcher.html' %}
 </body>
 </html>
