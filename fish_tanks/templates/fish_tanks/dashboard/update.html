@@ -1,0 +1,111 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% load form_filters %}
+{% load widget_tweaks %}
+
+{% block title %}Edit Fish Tank{% endblock %}
+
+{% block dashboard_active %}active{% endblock %}
+
+{% block page_header %}Edit Fish Tank{% endblock %}
+{% block head_title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+    <div class="card mt-4 rounded-md bg-gray-50 dark:bg-gray-900">
+        <div class="card-header rounded-t-md px-4 py-4">
+            <h1 class="text-gray-700 dark:text-gray-300 font-bold md:text-2xl text-xl">{{ object.title }}</h1>
+        </div>
+        <div class="card-body px-4 py-1">
+            {% if object.current_project %}
+                <table class="w-full table-xs table table-condensed max-w-[250px]">
+                    <tbody>
+                    <tr>
+                        <th>Project</th>
+                        <th>{{ object.current_project }}</th>
+                    </tr>
+                    <tr>
+                        <td>Start Date</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>End Date</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Initial</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Live</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Dead</td>
+                        <td>0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+            <div class="w-full">
+                <form class="max-w-[550px] w-full" enctype="multipart/form-data" method="post"
+                      action="{% url 'dashboard:fish_tanks:fish_tank_update' object.id %}">
+                    {% csrf_token %}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
+                    <div class="flex flex-col">
+                        {{ form.title|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                        {{ form.title|add_class:"rounded-md"|crispy_form_field }}
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex flex-col">
+                            {{ form.tank_number|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.tank_number|add_class:"rounded-md mb-2"|crispy_form_field }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.capacity|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.capacity|add_class:"rounded-md mb-2"|crispy_form_field }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.volume|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.volume|add_class:"rounded-md mb-2"|crispy_form_field }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.width|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.width|add_class:"rounded-md mb-2"|crispy_form_field }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.height|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.height|add_class:"rounded-md mb-2"|crispy_form_field }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.length|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.length|add_class:"rounded-md mb-2"|crispy_form_field }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.is_active|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.is_active|add_class:"rounded-md mb-2"|crispy_form_field }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+
+                        {{ form.current_project|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                        {{ form.current_project|add_class:"rounded-md mb-2"|crispy_form_field }}
+                    </div>
+                    <div class="flex flex-col">
+                        {{ form.description|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                        {{ form.description|add_class:"rounded-md mb-2"|crispy_form_field }}
+                    </div>
+                    <div class="w-full">
+                        <button type="submit"
+                                class="btn btn-md w-full md:max-w-[200px] bg-gray-800 text-gray-50 dark:bg-gray-50
+                                 dark:text-gray-800 text-[16px]">Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

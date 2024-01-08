@@ -14,12 +14,22 @@ class FishTankListView(LoginRequiredMixin, ListView):
     context_object_name = 'fish_tanks'
 
 
-class FishTankDetailView(LoginRequiredMixin, DetailView, UpdateView):
+class FishTankDetailView(LoginRequiredMixin, DetailView):
     template_name = 'fish_tanks/dashboard/detail.html'
 
     model = FishTank
     context_object_name = 'fish_tank'
+
+
+class FishTankUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'fish_tanks/dashboard/update.html'
+
+    model = FishTank
+    # context_object_name = 'fish_tank'
     form_class = FishTankForm
+
+    def get_success_url(self):
+        return reverse('dashboard:fish_tanks:fish_tank_update', kwargs={'pk': self.object.pk})
 
 
 class FishTankCreateView(CreateView):
