@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}
+{% load i18n %}
 {% load form_filters %}
 {% load crispy_forms_field %}
 {% load crispy_forms_tags %}
@@ -6,43 +7,75 @@
 {% load widget_tweaks %}
 
 {% block content %}
+    {% get_current_language as LANGUAGE_CODE %}
     <div class="card mt-4 bg-white dark:bg-gray-900 rounded-md">
         <div class="card-header flex px-4 py-3 items-center">
-            <h3 class="text-gray-800 dark:text-gray-100 ">Create New Project</h3>
+            <h3 class="text-gray-800 dark:text-gray-100 ">
+                {% if LANGUAGE_CODE == 'bn' %}
+                    নতুন প্রজেক্ট অ্যাড করুন
+                {% else %}
+                    Create New Project
+                {% endif %}
+            </h3>
         </div>
-        <div class="card-body px-4">
+        <div class="card-body px-4 pt-2">
             <div class="form-box max-w-[600px]">
+                {{ form.errors }}
                 <form method="post">
                     {% csrf_token %}
                     <div class="flex flex-col mb-3">
-{#                        {{ form.title|add_label_class:"text-gray-800 dark:text-gray-100" }}#}
-                        {{ form.title|as_crispy_field|as_crispy_field:"text-gray-100" }}
+                        {{ form.title|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                        {{ form.title|crispy_form_field }}
                         {{ form.title.help_text }}
                         {{ form.title.errors }}
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <div>
-                            {{ form.start_date|as_crispy_field }}
+                        <div class="flex flex-col">
+                            {{ form.start_date|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.start_date|crispy_form_field }}
                             {{ form.start_date.help_text }}
                             {{ form.start_date.errors }}
                         </div>
-                        <div>
-                            {{ form.end_date|as_crispy_field }}
+                        <div class="flex flex-col">
+                            {{ form.end_date|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.end_date|crispy_form_field }}
                             {{ form.end_date.help_text }}
                             {{ form.end_date.errors }}
                         </div>
-                        <div>
-                            {{ form.initial_quantity|as_crispy_field }}
+                        <div class="flex flex-col">
+                            {{ form.tank|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.tank|crispy_form_field }}
+                            {{ form.tank.help_text }}
+                            {{ form.tank.errors }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.initial_quantity|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.initial_quantity|crispy_form_field }}
+                            {{ form.initial_quantity.help_text }}
+                            {{ form.initial_quantity.errors }}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.undigested_percentage|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                            {{ form.undigested_percentage|crispy_form_field }}
+                            {{ form.undigested_percentage.help_text }}
+                            {% if form.undigested_percentage.errors %}
+                                <div class="text-red-500 text-sm mt-1">
+                                    {{ form.undigested_percentage.errors }}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
-                    <div>
-                        {{ form.description|as_crispy_field }}
+                    <div class="flex flex-col">
+                        {{ form.description|label_with_classes:"text-gray-700 dark:text-gray-300 mb-2" }}
+                        {{ form.description|crispy_form_field }}
                         {{ form.description.help_text }}
                         {{ form.description.errors }}
                     </div>
 
                     <div class="flex">
-                        <button type="submit" class="btn btn-sm btn-neutral text-gray-700 hover:text-gray-100">Submit</button>
+                        <button type="submit"
+                                class="btn btn-sm bg-gray-800 dark:bg-gray-100 text-gray-700 hover:text-gray-100">Submit
+                        </button>
                     </div>
                 </form>
             </div>

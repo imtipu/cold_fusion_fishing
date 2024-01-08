@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from django.views.generic import *
 
@@ -61,7 +62,7 @@ class ProjectCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['head_title'] = 'Create New Project'
+        context['head_title'] = _('Create New Project')
         return context
 
 

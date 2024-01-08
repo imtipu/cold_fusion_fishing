@@ -1,18 +1,49 @@
 {% load i18n %}
-<table id="project-activity-list-table" class="table table-xs table-zebra">
+{% get_current_language as LANGUAGE_CODE %}
+<table id="project-activity-list-table"
+       class="table table-xs text-gray-700 dark:text-gray-300">
     <thead>
-    <tr>
-        <th align="center">{% trans 'Date' %}</th>
+    <tr class="border-gray-300 dark:border-gray-800">
+        <th align="center" class="text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                তারিখ
+            {% else %}
+                Date
+            {% endif %}
+        </th>
         {#        <th class="md:hidden" style="min-width: 100px">Dead/Live</th>#}
-        <th class="text-center">{% trans 'Dead/Alive' %}</th>
-        <th class="text-center">Weight (gm)</th>
-        <th class="text-center">Feed</th>
-        <th class="text-center">Molas to Add(gm)</th>
-        <th class="text-center hidden">Undigested (%)</th>
-        <th class="text-center hidden">Feed Protein (%)</th>
-        <th class="text-center hidden">Expected C.N</th>
-        <th class="text-center hidden">Feed N/C</th>
-        <th class="text-center">Actions</th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                জীবিত/মৃত
+            {% else %}
+                Live/Dead
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                ওজন(গ্রাম)
+            {% else %}
+                Weight(gm)
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                খাদ্য পরিমাণ(গ্রাম)
+            {% else %}
+                Feed Amount(gm)
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                মোলাসের পরিমাণ(গ্রাম)
+            {% else %}
+                Molas to Add(gm)
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300 hidden">Feed Protein (%)</th>
+        <th class="text-center text-gray-700 dark:text-gray-300 hidden">Expected C.N</th>
+        <th class="text-center text-gray-700 dark:text-gray-300 hidden">Feed N/C</th>
+        <th class="text-center text-gray-700 dark:text-gray-300">Actions</th>
     </tr>
     </thead>
     <tbody>

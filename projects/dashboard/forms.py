@@ -30,34 +30,13 @@ class ProjectForm(forms.ModelForm):
         required=True, widget=forms.NumberInput(attrs={
             'type': 'number',
             'min': 1,
-            'max': 100,
-            'placeholder': '100',
+            'placeholder': '1000',
             'value': '1'
         }))
-
-    #
-    # description = forms.CharField(
-    #     label='Description',
-    #     required=False, widget=forms.Textarea(attrs={
-    #         'class': 'input input-sm rounded-sm input-bordered w-full'
-    #                  'outline-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent',
-    #         'rows': '7',
-    #         'cols': '40',
-    #         'placeholder': _('Description'),
-    #     }))
 
     class Meta:
         model = Project
         fields = '__all__'
-
-        extra_kwargs = {
-            'tank': {
-                'required': True,
-            },
-            'initial_quantity': {
-                'required': True,
-            },
-        }
 
 
 class ProjectUpdateForm(forms.ModelForm):
@@ -106,17 +85,6 @@ class DailyActivityForm(forms.ModelForm):
             'value': '1'
         }))
 
-    undigested_percentage = forms.DecimalField(
-        label='Undigested (%)',
-        required=True, widget=forms.NumberInput(attrs={
-            'class': 'input input-sm rounded-md input-bordered w-full',
-            'type': 'number',
-            'min': 0,
-            'max': 100,
-            'placeholder': '10',
-            'value': '1'
-        }))
-
     feed_protein_percentage = forms.DecimalField(
         label='Feed Protein (%)',
         required=True, widget=forms.NumberInput(attrs={
@@ -145,7 +113,6 @@ class DailyActivityForm(forms.ModelForm):
             'dead_fish',
             'feed_percentage',
             'singe_fish_weight',
-            'undigested_percentage',
             'feed_protein_percentage',
         ]
 

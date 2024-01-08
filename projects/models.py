@@ -19,8 +19,11 @@ class Project(TimeStampModel):
     description = models.TextField(blank=True)
     tank = models.ForeignKey(
         'fish_tanks.FishTank',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='projects',
+        default=None,
+        null=True,
+        blank=True,
     )
 
     start_date = models.DateField(_('Start Date'), null=True, blank=True)
@@ -90,16 +93,6 @@ class DailyActivity(TimeStampModel):
         ]
     )
 
-    undigested_percentage = models.DecimalField(
-        _('Undigested Percentage (%)'),
-        max_digits=10,
-        decimal_places=2,
-        default=0,
-        validators=[
-            MinValueValidator(0),
-        ]
-    )
-
     feed_protein_percentage = models.DecimalField(
         _('Feed Protein Percentage (%)'),
         max_digits=10,
@@ -160,23 +153,14 @@ class DailyActivity(TimeStampModel):
 
     @property
     def feed_n(self):
-        value = float(self.todays_feed) * 0.90 * float(self.undigested_percentage / 100) * float(
+        undigested_percentage = self.project.undigested_percentage
+        value = float(self.todays_feed) * 0.90 * float(undigested_percentage / 100) * float(
             self.feed_protein_percentage / 100) * 0.16
         return round(value, 10)
 
     @property
     def feed_c(self):
-        value = float(self.todays_feed) * 0.90 * float(self.undigested_percentage / 100) * 0.5
+        undigested_percentage = self.project.undigested_percentage
+
+        value = float(self.todays_feed) * 0.90 * float(undigested_percentage / 100) * 0.5
         return round(value, 10)
-
-    # def clean(self):
-    #     data = super().clean()
-    #     print(data)
-
-    # def save(self, *args, **kwargs):
-    #     if not self.pk:
-    #         activity_date = self.activity_date
-    #         project = self.project
-    #         if DailyActivity.objects.filter(activity_date=activity_date, project=project).exists():
-    #             raise ValueError(_('Daily activity for this date already exists.'))
-    #     super().save(*args, **kwargs)

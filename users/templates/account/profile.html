@@ -3,20 +3,19 @@
 {% block head_title %}Profile{% endblock %}
 
 {% block content %}
-    <div class="card mt-4 bg-gray-50 dark:bg-gray-900">
+    <div class="card mt-4 bg-gray-50 dark:bg-gray-900 rounded-md">
         <div class="card-header px-4 py-3">
             <h2 class="font-bold text-gray-700 dark:text-gray-300 text-3xl mb-2">Hello, {{ user.username }}</h2>
             <h3 class="font-bold text-gray-700 dark:text-gray-300 text-2xl">Welcome to your dashboard.</h3>
-
         </div>
         <div class="card-body px-0">
             <div class="flex flex-col px-5">
                 <h4 class="font-bold text-gray-700 dark:text-gray-400">Account Information</h4>
             </div>
-            <div class="overflow-x-auto px-5">
+            <div class="overflow-x-auto px-1">
                 <table class="table divide-gray-400 border-0 text-gray-700 dark:text-gray-300">
                     <tbody>
-                    <tr>
+                    <tr class="border-0">
                         <td class="max-w-[120px]">Name</td>
                         <td class="max-w-[10px] px-1 text-center">:</td>
                         <td>
@@ -27,7 +26,7 @@
                             {% endif %}
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="border-0">
                         <td class="max-w-[120px]">Email</td>
                         <td class="max-w-[10px] px-1 text-center">:</td>
 
@@ -35,7 +34,7 @@
                             <span class="font-medium space-x-0.5">{{ user.email }}</span>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="border-0">
                         <td class="max-w-[120px]">Active</td>
                         <td class="max-w-[10px] px-1 text-center">:</td>
 
@@ -52,7 +51,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="border-0">
                         <td class="max-w-[120px]">Staff</td>
                         <td class="max-w-[10px] px-1 text-center">:</td>
 

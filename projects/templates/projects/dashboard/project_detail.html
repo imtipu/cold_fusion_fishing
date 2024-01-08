@@ -6,10 +6,11 @@
 {% block content %}
     <div class="card w-full bg-white dark:bg-gray-950 rounded-md mt-4 pb-4">
         <div class="card-header px-4 py-3 flex flex-row justify-between">
-            <div>
+            <div class="text-gray-700 dark:text-gray-300">
                 <h2 class="font-bold text-2xl">{{ project.title }}</h2>
-                <div>Tank Number: {{ project.tank.tank_number }}</div>
+                <div>Tank: {{ project.tank.tank_number }}</div>
                 <div>Initial Quantiy: {{ project.initial_quantity }}</div>
+                <div>Undigested: {{ project.undigested_percentage }}%</div>
             </div>
             <div class="">
                 <button type="button"
@@ -25,9 +26,7 @@
         >
             <div id="activity-add-form-box"
                  class="overflow-x-auto px-3 mb-3 flex flex-col w-full"
-                 hx-trigger="load"
-                 hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' project.id %}"
-                 hx-target="#activity-add-form-box"
+
             >
             </div>
             <div id="daily_activity_table" class="overflow-x-auto px-2"
