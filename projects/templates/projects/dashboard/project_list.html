@@ -136,7 +136,13 @@
                     {% empty %}
                         <tr>
                             <td colspan="8" class="text-center">
-                                <h3 class="font-bold text-gray-950">No Projects Found</h3>
+                                <div class="font-bold text-[12px] text-gray-700 dark:text-gray-400">
+                                    {% if LANGUGAGE_CODE == 'bn' %}
+                                        কোন প্রজেক্ট পাওয়া যায়নি
+                                    {% else %}
+                                        No project found
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}

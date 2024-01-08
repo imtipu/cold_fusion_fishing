@@ -1,4 +1,6 @@
 from typing import Any
+
+from crispy_forms.layout import Layout, Field
 from django import forms
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -9,10 +11,40 @@ class ProjectForm(forms.ModelForm):
     start_date = forms.DateField(
         label='Start Date',
         required=True, widget=forms.DateInput(attrs={
-            'class': 'input input-sm rounded-md input-bordered w-full',
             'type': 'date',
             'value': timezone.now().date(),
         }))
+
+    end_date = forms.DateField(
+        label='End Date',
+        required=False, widget=forms.DateInput(attrs={
+            # 'class': 'input input-sm rounded-sm input-bordered w-full'
+            #          ' outline-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent',
+            'type': 'date',
+            'value': '',
+        }))
+    #
+    initial_quantity = forms.IntegerField(
+        label='Initial Quantity',
+        min_value=1,
+        required=True, widget=forms.NumberInput(attrs={
+            'type': 'number',
+            'min': 1,
+            'max': 100,
+            'placeholder': '100',
+            'value': '1'
+        }))
+
+    #
+    # description = forms.CharField(
+    #     label='Description',
+    #     required=False, widget=forms.Textarea(attrs={
+    #         'class': 'input input-sm rounded-sm input-bordered w-full'
+    #                  'outline-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent',
+    #         'rows': '7',
+    #         'cols': '40',
+    #         'placeholder': _('Description'),
+    #     }))
 
     class Meta:
         model = Project

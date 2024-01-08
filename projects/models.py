@@ -1,4 +1,4 @@
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -15,7 +15,7 @@ class ProjectStatusTypes(models.TextChoices):
 
 
 class Project(TimeStampModel):
-    title = models.CharField(max_length=255)
+    title = models.CharField(_('Title'), max_length=255)
     description = models.TextField(blank=True)
     tank = models.ForeignKey(
         'fish_tanks.FishTank',
@@ -31,6 +31,16 @@ class Project(TimeStampModel):
         validators=[
             MinValueValidator(1),
         ],
+    )
+    undigested_percentage = models.DecimalField(
+        _('Undigested Percentage (%)'),
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ]
     )
 
     def __str__(self):

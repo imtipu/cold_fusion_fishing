@@ -64,6 +64,7 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'crispy_forms',
     'crispy_tailwind',
+    'widget_tweaks',
 ]
 
 if DEBUG:
@@ -247,3 +248,7 @@ REST_FRAMEWORK = {
 # crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
 CRISPY_TEMPLATE_PACK = 'tailwind'
+
+CRISPY_CLASS_CONVERTERS = {
+    # 'textinput': 'input',
+}

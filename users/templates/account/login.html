@@ -10,16 +10,10 @@
     top-0 bottom-0 right-0 left-0 px-3">
         <div class="card login-box bg-gray-100 dark:bg-gray-900 rounded-md py-10 px-5
         max-w-[450px] w-full">
-            <h1 class="text-gray-700 dark:text-gray-400 uppercase font-bold text-center flex justify-center mb-5
+            <h1 class="text-gray-700 dark:text-gray-300 uppercase font-bold text-center flex justify-center mb-5
 text-2xl">
                 {% trans "Sign In" %}
             </h1>
-            {#            <div class="flex justify-center mb-3">#}
-            {#                <p class="text-center text-sm">#}
-            {#                    {% blocktrans %}If you have not created an account yet, then please#}
-            {#                        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}#}
-            {#                </p>#}
-            {#            </div>#}
 
             <div class="form-box w-full">
                 {% url 'account_login' as login_url %}
@@ -39,13 +33,14 @@ text-2xl">
                         <div class="flex flex-col mb-3">
 
                             {% if field.name == 'login' %}
-                                <div class="form-control">
-                                    <label class="mb-2"
+                                <div class="form-control text-center">
+                                    <label class="mb-2 text-gray-700 dark:text-gray-300 font-bold"
                                            for="{{ field.id_for_label }}">
                                         Username/Email
                                     </label>
-                                    <input class="input rounded-md border-gray-300 py-2 px-3"
+                                    <input class="input font-bold rounded-md border-gray-300 text-center bg-gray-50 py-2 px-3 focus:outline-none focus:ring-2 focus:bg-gray-50 focus:ring-gray-300 focus:border-transparent autofill:bg-gray-50"
                                            type="text" id="{{ field.id_for_label }}" name="{{ field.name }}" value=""
+                                           required
                                     />
                                     <div class="w-full text-red-500 text-sm">
                                         {{ field.errors }}
@@ -55,32 +50,30 @@ text-2xl">
                             {% endif %}
                             {% if field.name == 'password' %}
                                 <div class="form-control mb-2">
-                                    <label class="mb-2"
+                                    <label class="mb-2 text-gray-700 dark:text-gray-300 font-bold text-center"
                                            for="{{ field.id_for_label }}">Password</label>
-                                    <input class="input rounded-md border-gray-300 py-2 px-3"
-                                           type="password" id="{{ field.id_for_label }}" name="{{ field.name }}">
-                                    <div class="w-full text-red-500 text-sm">
-                                        {{ field.errors }}
-                                    </div>
+                                    <input class="input font-bold rounded-md border-gray-300 text-center py-2 px-3 bg-gray-50 font-bold"
+                                           type="password" id="{{ field.id_for_label }}" name="{{ field.name }}"
+                                    required>
+
                                 </div>
                             {% endif %}
 
                             {% if field.name == 'remember' %}
                                 <div class="form-control">
-                                    <label class="label cursor-pointer">
-                                        <span class="label-text">Remember me</span>
+                                    <label class="label cursor-pointer text-gray-700 dark:text-gray-400">
+                                        <span class="label-text text-gray-700 dark:text-gray-300">Remember me</span>
                                         <input type="checkbox" class="toggle"
                                                name="{{ field.name }}" id="{{ field.id_for_label }}"/>
                                     </label>
                                 </div>
                             {% endif %}
-                            {% if field.help_text %}
-                                <small class="form-text text-muted">{{ field.help_text|safe }}</small>
-                            {% endif %}
                             {% for error in field.errors %}
                                 <div class="text-red-500 text-sm">{{ error }}</div>
                             {% endfor %}
-
+                            {% if field.help_text %}
+                                <small class="form-text text-gray-700 dark:text-gray-400">{{ field.help_text|safe }}</small>
+                            {% endif %}
                         </div>
                     {% endfor %}
                     {% if redirect_field_value %}
@@ -89,10 +82,11 @@ text-2xl">
                                value="{{ redirect_field_value }}"/>
                     {% endif %}
                     <div class="flex flex-col w-full">
-                        <button type="submit" class="rounded-md bg-gray-800 dark:bg-gray-300 text-gray-200
+                        <button type="submit" class="rounded-md bg-gray-800 dark:bg-gray-200 text-gray-200
                         dark:text-gray-800 font-bold uppercase
                         py-2 px-3">Sign
-                            in</button>
+                            in
+                        </button>
                     </div>
                 </form>
 

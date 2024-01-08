@@ -1,29 +1,48 @@
 {% extends 'dashboard/base.html' %}
+{% load form_filters %}
+{% load crispy_forms_field %}
 {% load crispy_forms_tags %}
 {% load tailwind_filters %}
+{% load widget_tweaks %}
 
 {% block content %}
-    <div class="card mt-4 bg-white dark:bg-gray-900">
-        <div class="card-header flex  px-5 py-3 items-center rounded-t-md">
-            <h3 class="text-gray-800 dark:text-gray-400 ">Create New Project</h3>
+    <div class="card mt-4 bg-white dark:bg-gray-900 rounded-md">
+        <div class="card-header flex px-4 py-3 items-center">
+            <h3 class="text-gray-800 dark:text-gray-100 ">Create New Project</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body px-4">
             <div class="form-box max-w-[600px]">
                 <form method="post">
                     {% csrf_token %}
-                    {% for field in form %}
-                        <div class="mb-4">
-                            {{ field|as_crispy_field }}
-                            {% if field.help_text %}
-                                <small class="text-gray-500">{{ field.help_text }}</small>
-                            {% endif %}
-                            {% for error in field.errors %}
-                                <p class="text-red-500">{{ error }}</p>
-                            {% endfor %}
+                    <div class="flex flex-col mb-3">
+{#                        {{ form.title|add_label_class:"text-gray-800 dark:text-gray-100" }}#}
+                        {{ form.title|as_crispy_field|as_crispy_field:"text-gray-100" }}
+                        {{ form.title.help_text }}
+                        {{ form.title.errors }}
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                            {{ form.start_date|as_crispy_field }}
+                            {{ form.start_date.help_text }}
+                            {{ form.start_date.errors }}
                         </div>
-                    {% endfor %}
+                        <div>
+                            {{ form.end_date|as_crispy_field }}
+                            {{ form.end_date.help_text }}
+                            {{ form.end_date.errors }}
+                        </div>
+                        <div>
+                            {{ form.initial_quantity|as_crispy_field }}
+                        </div>
+                    </div>
                     <div>
-                        <button type="submit" class="btn btn-success">Create</button>
+                        {{ form.description|as_crispy_field }}
+                        {{ form.description.help_text }}
+                        {{ form.description.errors }}
+                    </div>
+
+                    <div class="flex">
+                        <button type="submit" class="btn btn-sm btn-neutral text-gray-700 hover:text-gray-100">Submit</button>
                     </div>
                 </form>
             </div>
