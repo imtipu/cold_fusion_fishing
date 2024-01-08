@@ -1,22 +1,54 @@
-<table id="project-activity-list-table" class="table table-xs table-zebra">
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<table id="project-activity-list-table"
+       class="table table-xs text-gray-700 dark:text-gray-300">
     <thead>
-    <tr>
-        <th align="center">Date</th>
+    <tr class="border-gray-300 dark:border-gray-800">
+        <th align="center" class="text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                তারিখ
+            {% else %}
+                Date
+            {% endif %}
+        </th>
         {#        <th class="md:hidden" style="min-width: 100px">Dead/Live</th>#}
-        <th class="text-center">Dead/Alive</th>
-        <th class="text-center">Weight (gm)</th>
-        <th class="text-center">Feed</th>
-        <th class="text-center">Molas to Add(gm)</th>
-        <th class="text-center">Undigested (%)</th>
-        <th class="text-center">Feed Protein (%)</th>
-        <th class="text-center">Expected C.N</th>
-        <th class="text-center">Feed N/C</th>
-        <th class="text-center">Actions</th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                জীবিত/মৃত
+            {% else %}
+                Live/Dead
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                ওজন(গ্রাম)
+            {% else %}
+                Weight(gm)
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                খাদ্য(গ্রাম)
+            {% else %}
+                Feed(gm)
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300">
+            {% if LANGUAGE_CODE == 'bn' %}
+                মোলাস(গ্রাম)
+            {% else %}
+                Molas(gm)
+            {% endif %}
+        </th>
+        <th class="text-center text-gray-700 dark:text-gray-300 hidden">Feed Protein (%)</th>
+        <th class="text-center text-gray-700 dark:text-gray-300 hidden">Expected C.N</th>
+        <th class="text-center text-gray-700 dark:text-gray-300 hidden">Feed N/C</th>
+        <th class="text-center text-gray-700 dark:text-gray-300">Actions</th>
     </tr>
     </thead>
     <tbody>
     {% for activity in daily_activities %}
-        {% include 'projects/dashboard/daily_activities/includes/daily_activity_row.html' with days=forloop.revcounter %}
+        {% include 'projects/dashboard/daily_activities/includes/daily_activity_row.html' with day_number=activity.day_number %}
     {% empty %}
         <tr>
             <td colspan="10" class="text-center">No data available</td>

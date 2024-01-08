@@ -1,33 +1,80 @@
-<tr>
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<tr class="border-gray-300 dark:border-gray-800">
     <td class="py-1" style="min-width: 100px">
         <table class="table table-xs w-full">
-            <tr>
-                <td align="center">{{ days }}</td>
+            <tr class="border-gray-300 dark:border-gray-800">
+                <td align="center">Day {{ day_number }}</td>
             </tr>
-            <tr>
+            <tr class="border-0">
                 <td align="center">{{ activity.activity_date }}</td>
             </tr>
         </table>
     </td>
     <td class="text-center py-1">
         <table class="table w-full">
-            <tr>
+            <tr class="border-gray-300 dark:border-gray-800">
+                <td align="center">
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        মৃত
+                    {% else %}
+                        Dead
+                    {% endif %}
+                </td>
                 <td align="center">{{ activity.dead_fish }}</td>
             </tr>
             <tr>
+                <td align="center">
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        জীবিত
+                    {% else %}
+                        Live
+                    {% endif %}
+                </td>
                 <td align="center">{{ activity.live_fish }}</td>
             </tr>
         </table>
     </td>
     <td class="text-center py-1" style="min-width: 150px">
-        <table class="w-full">
-            <tr>
-                <td>Single</td>
-                <td>{{ activity.single_fish_weight|floatformat:2 }}</td>
+        <table class="w-full table table-xs border-0">
+            <tr class="border-gray-300 dark:border-gray-800">
+                <td>
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        প্রতি
+                    {% else %}
+                        Single
+                    {% endif %}
+                </td>
+                <td>{{ activity.single_fish_weight|floatformat:2 }} <span>
+                        {% if LANGUAGE_CODE == 'bn' %}
+                            গ্রাম
+                        {% else %}
+                            gm
+                        {% endif %}
+                    </span></td>
             </tr>
             <tr>
-                <td>Total</td>
-                <td>{{ activity.total_weight|floatformat:2 }} gm <br>{{ activity.total_weight_kg|floatformat:2 }} kg
+                <td>
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        মোট
+                    {% else %}
+                        Total
+                    {% endif %}
+                </td>
+                <td>{{ activity.total_weight|floatformat:2 }} <span>
+                        {% if LANGUAGE_CODE == 'bn' %}
+                            গ্রাম
+                        {% else %}
+                            gm
+                        {% endif %}
+                    </span> <br>{{ activity.total_weight_kg|floatformat:2 }} <span>
+                        {% if LANGUAGE_CODE == 'bn' %}
+                            কেজি
+                        {% else %}
+                            kg
+                        {% endif %}
+                    </span>
                 </td>
             </tr>
         </table>
@@ -36,10 +83,9 @@
         {{ activity.todays_feed|floatformat:2 }} ({{ activity.feed_percentage }}%)
     </td>
     <td class="text-center py-1">{{ activity.molas_to_add|floatformat:2 }}</td>
-    <td class="text-center py-1">{{ activity.undigested_percentage }}</td>
-    <td class="text-center py-1">{{ activity.feed_protein_percentage }}</td>
-    <td class="text-center py-1">{{ activity.expected_cn|floatformat:2 }}</td>
-    <td class="text-center py-1">
+    <td class="text-center py-1 hidden">{{ activity.feed_protein_percentage }}</td>
+    <td class="text-center py-1 hidden">{{ activity.expected_cn|floatformat:2 }}</td>
+    <td class="text-center py-1 hidden">
         <table class="table-xs w-full">
             <tr>
                 <td>N</td>

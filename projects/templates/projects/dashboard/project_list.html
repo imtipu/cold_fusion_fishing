@@ -1,12 +1,13 @@
 {% extends 'dashboard/base.html' %}
-
+{% load i18n %}
 {% block head_title %}Projects{% endblock %}
 
 {% block content %}
-    <div class="card w-full bg-gray-50 rounded-md mt-4">
-        <div class="card-header flex bg-white dark:bg-gray-700 px-5 py-3 items-center rounded-t-md">
+    {% get_current_language as LANGUGAGE_CODE %}
+    <div class="card w-full bg-gray-50 dark:bg-gray-900 rounded-md mt-4">
+        <div class="card-header flex px-5 py-3 items-center rounded-t-md">
             <div>
-                <h3 class="font-bold dark:text-gray-50">Projects</h3>
+                <h3 class="font-bold text-gray-700 dark:text-gray-400">Projects</h3>
             </div>
             <div class="ml-auto">
                 <a class="btn btn-default btn-sm dark:text-white" href="{% url 'dashboard:projects:project_create' %}">
@@ -17,53 +18,117 @@
         <div class="card-body px-2 py-2">
 
             <div class="overflow-x-auto">
-                <table class="table">
+                <table class="table text-gray-700 dark:text-gray-300 text-xs">
                     <thead>
-                    <tr>
-                        <th class="font-bold text-gray-950">Title</th>
-                        <th class="hidden lg:flex font-bold text-gray-950">Tank</th>
-                        <th class="font-bold text-gray-950">Initial Quantity</th>
-                        <th class="font-bold text-gray-950">Dead/Live</th>
-                        <th class="font-bold text-gray-950">Start Date</th>
-                        <th class="font-bold text-gray-950">End Date</th>
-                        <th class="hidden lg:flex font-bold text-gray-950">Created at</th>
-                        <th class="font-bold text-gray-950">Actions</th>
+                    <tr class="border-gray-300 dark:border-gray-800">
+                        <th class="font-bold text-gray-700 dark:text-gray-400">
+                            {% if LANGUGAGE_CODE == 'bn' %}
+                                নাম
+                            {% else %}
+                                Name
+                            {% endif %}
+                        </th>
+                        <th class="font-bold text-gray-700 dark:text-gray-400">
+                            {% if LANGUGAGE_CODE == 'bn' %}
+                                পরিমাণ
+                            {% else %}
+                                Quantity
+                            {% endif %}
+                        </th>
+                        <th class="font-bold text-gray-700 dark:text-gray-400">
+                            {% if LANGUGAGE_CODE == 'bn' %}
+                                শুরু
+                            {% else %}
+                                Start Date
+                            {% endif %}
+                        </th>
+                        <th class="font-bold text-gray-700 dark:text-gray-400">
+                            {% if LANGUGAGE_CODE == 'bn' %}
+                                সমাপ্তি
+                            {% else %}
+                                End Date
+                            {% endif %}
+                        </th>
+                        <th class="font-bold text-gray-700 dark:text-gray-400">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for project in projects %}
-                        <tr>
+                        <tr class="border-gray-300 dark:border-gray-800">
                             <td>
                                 <h3 class="font-bold">{{ project.title }}</h3>
-                                <div class="lg:hidden">
-                                    <div class="bg-green-100 rounded-md py-1 px-2 text-xs font-medium">
-                                        Tank Number: {{ project.tank.tank_number }}
+                                {% if project.tank.tank_number %}
+                                    <div class="bg-gray-100 text-gray-800 dark:bg-gray-100 dark:text-gray-800
+                                badge text-xs font-medium mt-1">
+                                    <span>
+                                        {% if LANGUGAGE_CODE == 'bn' %}
+                                            ট্যাঙ্ক
+                                        {% else %}
+                                            Tank
+                                        {% endif %}
+                                    </span>: {{ project.tank.tank_number }}
                                     </div>
-                                </div>
+                                {% endif %}
                             </td>
-                            <td class="hidden lg:flex">{{ project.tank.title }}</td>
-                            <td>{{ project.initial_quantity }}</td>
                             <td>
                                 <table class="table table-xs">
-                                    <tr>
-                                        <td>Dead</td>
+                                    <tr class="border-gray-300 dark:border-gray-800">
+                                        <td>
+                                            {% if LANGUGAGE_CODE == 'bn' %}
+                                                প্রাথমিক
+                                            {% else %}
+                                                Initial
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ project.initial_quantity }}</td>
+                                    </tr>
+                                    <tr class="border-gray-300 dark:border-gray-800">
+                                        <td>
+                                            {% if LANGUGAGE_CODE == 'bn' %}
+                                                মৃত
+                                            {% else %}
+                                                Dead
+                                            {% endif %}
+                                        </td>
                                         <td>{{ project.total_dead }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Live</td>
+                                        <td>
+                                            {% if LANGUGAGE_CODE == 'bn' %}
+                                                জীবিত
+                                            {% else %}
+                                                Live
+                                            {% endif %}
+                                        </td>
                                         <td>{{ project.total_live }}</td>
                                     </tr>
                                 </table>
                             </td>
-                            <td>{{ project.start_date }}</td>
-                            <td>{{ project.end_date }}</td>
-                            <td class="hidden lg:flex">{{ project.created_at }}</td>
+                            <td>
+                                {% if project.start_date %}
+                                    {{ project.start_date }}
+                                {% else %}
+                                    <span class="text-gray-500">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if project.end_date %}
+                                    {{ project.end_date }}
+                                {% else %}
+                                    <span class="text-gray-500 font-bold">-</span>
+                                {% endif %}
+                            </td>
                             <td>
                                 <div class="flex items-center">
                                     <a
-                                            class="btn btn-outline-primary btn-sm"
+                                            class="btn btn-sm text-xs"
                                             href="{% url 'dashboard:projects:project_detail' project.id %}">
                                         View
+                                    </a>
+                                    <a
+                                            class="btn btn-sm text-xs ml-2 btn-primary"
+                                            href="{% url 'dashboard:projects:project_update' project.id %}">
+                                        Edit
                                     </a>
                                 </div>
                             </td>
@@ -71,7 +136,13 @@
                     {% empty %}
                         <tr>
                             <td colspan="8" class="text-center">
-                                <h3 class="font-bold text-gray-950">No Projects Found</h3>
+                                <div class="font-bold text-[12px] text-gray-700 dark:text-gray-400">
+                                    {% if LANGUGAGE_CODE == 'bn' %}
+                                        কোন প্রজেক্ট পাওয়া যায়নি
+                                    {% else %}
+                                        No project found
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}

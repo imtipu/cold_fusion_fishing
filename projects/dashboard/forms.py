@@ -1,4 +1,6 @@
 from typing import Any
+
+from crispy_forms.layout import Layout, Field
 from django import forms
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -9,23 +11,50 @@ class ProjectForm(forms.ModelForm):
     start_date = forms.DateField(
         label='Start Date',
         required=True, widget=forms.DateInput(attrs={
-            'class': 'input input-sm rounded-md input-bordered w-full',
             'type': 'date',
             'value': timezone.now().date(),
+        }))
+
+    end_date = forms.DateField(
+        label='End Date',
+        required=False, widget=forms.DateInput(attrs={
+            # 'class': 'input input-sm rounded-sm input-bordered w-full'
+            #          ' outline-none focus:outline-none focus:ring-1 focus:ring-gray-500 focus:border-transparent',
+            'type': 'date',
+            'value': '',
+        }))
+    #
+    initial_quantity = forms.IntegerField(
+        label='Initial Quantity',
+        min_value=1,
+        required=True, widget=forms.NumberInput(attrs={
+            'type': 'number',
+            'min': 1,
+            'placeholder': '1000',
+            'value': '1'
         }))
 
     class Meta:
         model = Project
         fields = '__all__'
 
-        extra_kwargs = {
-            'tank': {
-                'required': True,
-            },
-            'initial_quantity': {
-                'required': True,
-            },
-        }
+
+class ProjectUpdateForm(forms.ModelForm):
+    start_date = forms.DateField(
+        label='Start Date',
+        required=True, widget=forms.DateInput(attrs={
+            'type': 'date',
+        }))
+
+    end_date = forms.DateField(
+        label='End Date',
+        required=False, widget=forms.DateInput(attrs={
+            'type': 'date',
+        }))
+
+    class Meta:
+        model = Project
+        fields = '__all__'
 
 
 class DailyActivityForm(forms.ModelForm):
@@ -68,17 +97,6 @@ class DailyActivityForm(forms.ModelForm):
             'value': '1'
         }))
 
-    undigested_percentage = forms.DecimalField(
-        label='Undigested (%)',
-        required=True, widget=forms.NumberInput(attrs={
-            'class': 'input input-sm rounded-md input-bordered w-full',
-            'type': 'number',
-            'min': 0,
-            'max': 100,
-            'placeholder': '10',
-            'value': '1'
-        }))
-
     feed_protein_percentage = forms.DecimalField(
         label='Feed Protein (%)',
         required=True, widget=forms.NumberInput(attrs={
@@ -107,7 +125,6 @@ class DailyActivityForm(forms.ModelForm):
             'dead_fish',
             'feed_percentage',
             'singe_fish_weight',
-            'undigested_percentage',
             'feed_protein_percentage',
         ]
 

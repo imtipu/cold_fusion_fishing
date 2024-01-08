@@ -1,6 +1,6 @@
 {% load static %}
-<div id="top-nav" class="navbar bg-base-100 rounded-xl flex flex-row py-1 px-1 min-h-0">
-    <button id="btn-sidebar-toggle" type="button" class="mr-auto ml-2 bg-transparent rounded-none w-10 h-10 flex
+<div id="top-nav" class="bg-gray-50 dark:bg-gray-800 rounded-md flex flex-row items-center py-1 px-1 min-h-0">
+    <button id="btn-sidebar-toggle" type="button" class="mr-auto ml-2 bg-gray-50 dark:bg-gray-700 rounded-md w-10 h-10 flex
     justify-center dark:text-white text-black
     items-center md:hidden"
             onclick="btnSidebarToggle()">
@@ -12,17 +12,40 @@
         </a>
     </div>
     <div class="dropdown dropdown-hover dropdown-end dropdown-bottom end ml-auto">
-        <div tabindex="0" role="button" class="btn">
+        <button type="button" tabindex="0" class="btn bg-gray-50 dark:bg-gray-900 hover:bg-gray-400 dark:hover:bg-gray-950 text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 border-0 rounded-md">
             <span class="material-symbols-outlined">account_circle</span>
             <span class="hidden md:block">{{ request.user.username }}</span>
-        </div>
-        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-full" style="max-width:
-        250px; min-width: 150px">
+        </button>
+        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-gray-50 dark:bg-gray-800 rounded-box w-full min-w-[180px]">
             <li>
-                <a href="{% url 'account_profile' %}">Profile</a>
+                <a class="text-xs text-gray-800 dark:text-gray-50"
+                        href="{% url 'account_profile' %}">Profile</a>
             </li>
             <li>
-                <a href="{% url 'account_logout' %}">Logout</a>
+                <a  class="text-xs text-gray-800 dark:text-gray-50"
+                        href="{% url 'account_logout' %}">Logout</a>
+            </li>
+            <li>
+                <a class="text-xs text-gray-800 dark:text-gray-50"
+                        href="{% url 'account_password_change' %}">Change Password</a>
+            </li>
+            <li>
+                <a class="text-xs text-gray-700 dark:text-gray-50 theme-controller flex flex-row justify-between" href="{% url 'home:set_color_mode' %}">
+                    <span class="">
+                        {% if request.session.is_dark_theme %}
+                            Light
+                        {% else %}
+                            Dark
+                        {% endif %}
+                    </span>
+                    <span class="material-symbols-outlined text-[16px]">
+                        {% if request.session.is_dark_theme %}
+                            light_mode
+                        {% else %}
+                            dark_mode
+                        {% endif %}
+                    </span>
+                </a>
             </li>
         </ul>
     </div>

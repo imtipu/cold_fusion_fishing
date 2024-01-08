@@ -1,6 +1,9 @@
+{% load tailwind_source %}
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      data-theme="{% if request.session.is_dark_theme %}dark{% endif %}"
+      class="{% if request.session.is_dark_theme %}dark{% endif %}">
 <head>
     <title>{% block head_title %}
         {% if head_title %}{{ head_title }}
@@ -12,14 +15,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {#    {% tailwind_preload_css %}#}
-    {##}
-    {#    {% tailwind_css %}#}
-    <link href="{% static 'dashboard/css/main.css' %}" rel="stylesheet" type="text/css">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.20/dist/full.min.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-    <script src="https://cdn.tailwindcss.com"></script>
+    {% tailwind_preload_css %}
+
+    {% tailwind_css %}
+{#    {% load_tailwind_css %}#}
+
 
     <script src="{% static 'htmx/htmx.min.js' %}"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
@@ -29,16 +31,13 @@
 
 </head>
 
-<body class="min-h-screen w-full">
-<div id="site-content" class="min-h-screen w-full flex flex-row justify-between
-{% if request.user.is_authenticated %}
-{#    md:w-[280px]#}
-{% endif %}
-">
+<body class="min-h-screen w-full bg-gray-200 dark:bg-gray-700 {% if request.session.is_dark_theme %}dark{% endif %}"
+      data-theme="{% if request.session.is_dark_theme %}dark{% endif %}">
+<div id="site-content" class="min-h-screen w-full flex flex-row justify-between">
     {% if request.user.is_authenticated %}
         {% include 'dashboard/includes/nav_left_sidebar.html' %}
     {% endif %}
-    <div class="main-content bg-gray-100 min-h-screen w-full p-2 flex flex-col md:ml-auto
+    <div class="main-content bg-gray-200 dark:bg-gray-700 min-h-screen w-full p-2 flex flex-col md:ml-auto
     {% if request.user.is_authenticated %}
         md:w-[calc(100%-280px)]
     {% endif %}
@@ -49,8 +48,8 @@
         {% block content %}{% endblock %}
         {% block body_scripts %}{% endblock %}
     </div>
-
 </div>
-
+{% include 'dashboard/includes/language_switcher.html' %}
+{% include 'home/includes/color_switcher.html' %}
 </body>
 </html>

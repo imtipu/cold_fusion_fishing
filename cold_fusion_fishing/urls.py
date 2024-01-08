@@ -24,7 +24,6 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 urlpatterns = [
-                  path("__reload__/", include("django_browser_reload.urls")),
                   path('', include('home.urls', namespace='home')),
                   path('admin/', admin.site.urls),
                   path('dashboard/', include('dashboard.urls', namespace='dashboard')),
@@ -49,6 +48,10 @@ schema_view = get_schema_view(
    permission_classes=[permissions.IsAdminUser,],
 )
 
+if settings.DEBUG:
+    urlpatterns += [
+        path("__reload__/", include("django_browser_reload.urls")),
+    ]
 
 urlpatterns += [
     path('api/', include('api_modules.urls', namespace='api')),

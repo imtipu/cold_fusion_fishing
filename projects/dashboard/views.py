@@ -1,10 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from django.views.generic import *
 
-from projects.dashboard.forms import DailyActivityForm, ProjectForm
+from projects.dashboard.forms import DailyActivityForm, ProjectForm, ProjectUpdateForm
 from projects.models import *
 
 
@@ -40,6 +41,26 @@ class ProjectDetailView(DetailView, DeleteView):
         return context
 
 
+class ProjectUpdateView(UpdateView):
+    model = Project
+    template_name = 'projects/dashboard/update.html'
+    form_class = ProjectUpdateForm
+    context_object_name = 'project'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['start_date'] = self.object.start_date.strftime('%Y-%m-%d')
+        initial['end_date'] = self.object.end_date.strftime('%Y-%m-%d') if self.object.end_date else None
+        return initial
+
+    def get_success_url(self):
+        return reverse_lazy('dashboard:projects:project_update', kwargs={'pk': self.kwargs.get('pk')})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
 class ProjectCreateView(CreateView):
     model = Project
     template_name = 'projects/dashboard/create.html'
@@ -47,7 +68,7 @@ class ProjectCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['head_title'] = 'Create New Project'
+        context['head_title'] = _('Create New Project')
         return context
 
 
@@ -63,7 +84,9 @@ class ProjectDailyActivityListView(ListView):
     def get_queryset(self):
         return self.model.objects.filter(
             project_id=self.kwargs.get('pk')
-        ).select_related('project').order_by('-activity_date')
+        ).select_related(
+            'project', 'project__tank', 'project__tank__current_project'
+        ).order_by('-activity_date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -130,12 +153,15 @@ class DailyActivityAddView(CreateView):
             form.instance.project = project
             form.instance.live_fish = total_live_fish
             instance = form.save()
-            total_days = project.daily_activities.count()
+            start_date = project.start_date
+            activity_date = instance.activity_date
+            delta = activity_date - start_date
+            day_number = delta.days + 1
 
             res = render(
                 request,
                 'projects/dashboard/daily_activities/includes/daily_activity_row.html',
-                {'activity': instance, 'project': project, 'days': total_days},
+                {'activity': instance, 'project': project, 'day_number': day_number},
             )
             return HttpResponse(res)
         else:

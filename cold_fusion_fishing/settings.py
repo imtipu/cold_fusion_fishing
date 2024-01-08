@@ -64,6 +64,7 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'crispy_forms',
     'crispy_tailwind',
+    'widget_tweaks',
 ]
 
 if DEBUG:
@@ -81,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 THIRD_PARTY_MIDDLEWARE = [
@@ -110,6 +112,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'theme.context_processors.theme',
             ],
         },
     },
@@ -200,10 +203,29 @@ EMAIL_SUBJECT_PREFIX = env.str('EMAIL_SUBJECT_PREFIX', '')
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# locale settings
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale/'),
+]
+
+LANGUAGE_CODE = 'en'
+LANGUAGES = [
+    ('en', 'English'),
+    ('bn', 'Bangla'),
+]
+
+USE_I18N = True
+USE_L10N = True
+
+SHORT_DATE_FORMAT = 'd M Y'
+
 # tailwind settings
 TAILWIND_APP_NAME = 'theme'
+TAILWIND_DEV_MODE = DEBUG
+TAILWIND_CSS_PATH = 'tailwind/css/styles.css'
 
-NPM_BIN_PATH = r'C:\Program Files\nodejs\npm.cmd'
+NPM_BIN_PATH = env.str('NPM_BIN_PATH', r'C:\Program Files\nodejs\npm.cmd')
+
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -223,7 +245,11 @@ REST_FRAMEWORK = {
     ],
 }
 
-
 # crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
 CRISPY_TEMPLATE_PACK = 'tailwind'
+
+CRISPY_CLASS_CONVERTERS = {
+    # 'textinput': 'input',
+}
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')

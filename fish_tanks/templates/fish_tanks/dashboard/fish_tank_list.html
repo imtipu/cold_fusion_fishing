@@ -1,39 +1,91 @@
 {% extends 'dashboard/base.html' %}
+{% load i18n %}
 {% block head_title %}
     Fish Tanks
 {% endblock %}
 {% block content %}
-    <div class="card bg-gray-50 mt-4">
-        <div class="card-header flex bg-white dark:bg-gray-700 px-5 py-3 items-center rounded-t-md">
+    {% get_current_language as LANGUAGE_CODE %}
+
+    <div class="card bg-gray-50 dark:bg-gray-900 mt-4">
+        <div class="card-header flex bg-white dark:bg-gray-900 px-5 py-3 items-center rounded-t-md">
             <div>
-                <h3 class="font-bold dark:text-gray-50">Tanks</h3>
+                <h3 class="font-bold text-gray-700 dark:text-gray-300">
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        ফিশ ট্যাঙ্ক তালিকা
+                    {% else %}
+                        Fish Tanks
+                    {% endif %}
+                </h3>
+
             </div>
             <div class="ml-auto">
-                <a class="btn btn-default btn-sm dark:text-white" href="{% url 'dashboard:fish_tanks:fish_tank_create' %}">
-                    Create
+                <a class="btn btn-sm bg-gray-50 text-gray-700 hover:text-gray-50 dark:text-white dark:bg-gray-800 dark:hover:bg-gray-100 dark:hover:text-gray-800"
+                   href=
+                           "{% url 'dashboard:fish_tanks:fish_tank_create' %}">
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        অ্যাড করুন
+                    {% else %}
+                        Add New
+                    {% endif %}
                 </a>
             </div>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body py-0 px-0 dark:bg-gray-900">
             <div class="overflow-x-auto">
-                <table class="table table-sm table-condensed">
+                <table class="table table-sm min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-gray-700 dark:text-gray-300">
                     <!-- head -->
                     <thead class="bg-white dark:bg-gray-900">
-                    <tr>
-                        <th class="text-black dark:text-white">Name</th>
-                        <th class="text-black dark:text-white">Capacity</th>
-                        <th class="text-black dark:text-white">Volume</th>
-                        <th class="text-black dark:text-white">Active Status</th>
-                        <th class="text-black dark:text-white">Current Project</th>
-                        <th class="text-black dark:text-white">Actions</th>
+                    <tr class="border-0">
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                নাম
+                            {% else %}
+                                Name
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                ক্যাপাসিটি
+                            {% else %}
+                                Capacity
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                আয়তন
+                            {% else %}
+                                Volume
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                স্ট্যাটাস
+                            {% else %}
+                                Status
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                বর্তমান প্রজেক্ট
+                            {% else %}
+                                Current Project
+                            {% endif %}
+                        </th>
+                        <th class="text-black dark:text-gray-400">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                অ্যাকশন
+                            {% else %}
+                                Action
+                            {% endif %}
+                        </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="dark:bg-gray-900">
                     <!-- row 1 -->
                     {% for item in fish_tanks %}
-                        <tr>
+                        <tr class="border-gray-200 dark:border-gray-700">
 
-                            <td>
+                            <td class="">
                                 <div class="flex items-center gap-3">
                                     <div>
                                         <div class="font-bold">{{ item.title }}</div>
@@ -41,27 +93,40 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="">
                                 {{ item.capacity }}
                             </td>
-                            <td>
+                            <td class="">
                                 {{ item.volume }}
                             </td>
-                            <td>
+                            <td class="">
                                 {% if item.is_active %}
-                                    <span class="badge bg-green-200">Active</span>
+                                    <span class="badge text-gray-700 bg-green-200 dark:bg-green-900 text-xs border-0
+                                    dark:text-gray-300">
+                                        {% if LANGUAGE_CODE == 'bn' %}
+                                            চালু
+                                        {% else %}
+                                            Active
+                                        {% endif %}
+                                    </span>
                                 {% else %}
-                                    <span class="badge badge-outline">Inactive</span>
+                                    <span class="badge text-gray-100 text-xs bg-red-700 border-0 dark:text-gray-300">
+                                        {% if LANGUAGE_CODE == 'bn' %}
+                                            বন্ধ
+                                        {% else %}
+                                            Inactive
+                                        {% endif %}
+                                    </span>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td class="">
                                 {% if item.current_project %}
                                     {{ item.current_project }}
                                 {% else %}
                                     -
                                 {% endif %}
                             </td>
-                            <th>
+                            <td class="">
                                 <div class="flex items-center">
                                     <button class="bg-gray-800 w-7 h-7 rounded-md text-white flex items-center justify-center"
                                             hx-trigger="click"
@@ -74,25 +139,25 @@
                                         <span class="material-symbols-outlined text-[14px]">visibility</span>
                                     </button>
                                     <a class="bg-indigo-800 w-7 h-7 rounded-md text-white flex items-center justify-center ml-2"
-                                    href="{% url 'dashboard:fish_tanks:fish_tank_detail' item.pk %}">
+                                       href="{% url 'dashboard:fish_tanks:fish_tank_detail' item.pk %}">
                                         <span class="material-symbols-outlined text-[14px]">edit</span>
                                     </a>
 
                                 </div>
 
-                            </th>
+                            </td>
                         </tr>
                     {% empty %}
                         <tr>
-                        <td colspan="6" class="text-center bg-white dark:bg-white">
-                            <div class="py-4">
-                                <div class="text-4xl text-gray-400">
-                                    <span class="material-symbols-outlined">sentiment_very_dissatisfied</span>
+                            <td colspan="6" class="text-center bg-white dark:bg-white">
+                                <div class="py-4">
+                                    <div class="text-4xl text-gray-400">
+                                        <span class="material-symbols-outlined">sentiment_very_dissatisfied</span>
+                                    </div>
+                                    <div class="text-xl text-gray-400">
+                                        No Data Found
+                                    </div>
                                 </div>
-                                <div class="text-xl text-gray-400">
-                                    No Data Found
-                                </div>
-                            </div>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -104,7 +169,7 @@
     </div>
     <!-- Open the modal using ID.showModal() method -->
     <dialog id="modal_tank_quick_view" class="modal">
-        <div class="modal-box">
+        <div class="modal-box bg-gray-50 dark:bg-gray-800">
             <div class="skeleton-box hidden">
                 <div class="skeleton h-32 w-full mb-2"></div>
                 <div class="skeleton h-4 w-28 mb-1"></div>
@@ -116,7 +181,7 @@
             </div>
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="btn btn-error btn-sm" type="submit">Close</button>
+                    <button class="btn btn-sm bg-red-600 text-gray-50 border-0" type="submit">Close</button>
                 </form>
             </div>
             <div class="modal-backdrop" for="modal_tank_quick_view">Close</div>

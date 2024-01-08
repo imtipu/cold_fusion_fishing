@@ -1,12 +1,14 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-<div id="nav-left-sidebar" class="flex-col bg-gray-200 fixed min-h-screen md:flex w-full max-w-[280px]
+<div id="nav-left-sidebar" class="flex-col bg-gray-200 dark:bg-gray-950 fixed min-h-screen md:flex w-full max-w-[280px]
 z-10 -translate-x-[280px] md:translate-x-0 transition-all duration-200">
-    <div class="logo flex flex-col justify-center items-center justify-center py-3">
+    <div class="logo flex flex-col justify-center items-center py-3">
         <div class="flex flex-row items-center justify-between w-full px-4">
             <img src="{% static 'svg/LogoWhite.svg' %}" alt="Cold Fusion"
                  style="max-height: 40px"
-            class="mr-auto">
+                 class="mr-auto">
             <button type="button"
                     class="md:hidden ml-auto w-10 h-10 rounded-full bg-gray-800 text-white flex flex-col
                     items-center justify-center"
@@ -19,36 +21,62 @@ z-10 -translate-x-[280px] md:translate-x-0 transition-all duration-200">
     <div class="flex flex-col menu-content w-full mt-4">
         <ul class="menu-list w-full list-none p-0 m-0">
             <li class="menu-item w-full p-0 m-0 list-none flex flex-row items-center justify-center">
-                <a href="/dashboard/" class="menu-link text-sm text-gray-700 hover:text-gray-50 px-3 py-2 w-full
+                <a href="{% url 'dashboard:home' %}" class="menu-link text-sm text-gray-700
+                dark:text-gray-400
+                hover:text-gray-50 px-3 py-2 w-full
                  bg-gray-200
-                hover:bg-gray-400
-                 flex flex-row items-center
-                rounded-md">
+                 dark:bg-transparent
+                hover:bg-gray-900
+                dark:hover:bg-gray-900
+                flex flex-row items-center">
                     <span class="material-symbols-outlined">home</span>
-                    <span class="ml-2">Dashboard</span>
+                    <span class="ml-2">
+                        {% if LANGUAGE_CODE == 'bn' %}
+                            ড্যাশবোর্ড
+                        {% else %}
+                            Dashboard
+                        {% endif %}
+                    </span>
                 </a>
             </li>
             <li class="menu-item w-full p-0 m-0 list-none">
                 <a href="{% url 'dashboard:fish_tanks:fish_tank_list' %}" class="menu-link text-sm text-gray-700
+                dark:text-gray-400
                 hover:text-gray-50 px-3 py-2 w-full
                  bg-gray-200
-                hover:bg-gray-400
-                flex flex-row items-center
-                rounded-md">
+                 dark:bg-transparent
+                hover:bg-gray-900
+                dark:hover:bg-gray-900
+                flex flex-row items-center">
                     <span class="material-symbols-outlined">propane_tank</span>
-                    <span class="ml-2">Tanks</span>
+                    <span class="ml-2">
+                        {% if LANGUAGE_CODE == 'bn' %}
+                            ফিশ ট্যাংক
+                        {% else %}
+                            Fish Tanks
+                        {% endif %}
+                    </span>
                 </a>
             </li>
 
             <li class="menu-item w-full p-0 m-0 list-none">
                 <a href="{% url 'dashboard:projects:project_list' %}"
-                   class="menu-link text-sm text-gray-700 hover:text-gray-50 px-3 py-2 w-full
+                   class="menu-link text-sm text-gray-700
+                dark:text-gray-400
+                hover:text-gray-50 px-3 py-2 w-full
                  bg-gray-200
-                hover:bg-gray-400
-                flex flex-row items-center
-                rounded-md">
+                 dark:bg-transparent
+                hover:bg-gray-900
+                dark:hover:bg-gray-900
+                flex flex-row items-center">
                     <span class="material-symbols-outlined">dns</span>
-                    <span class="ml-2">Projects</span>
+                    <span class="ml-2">
+                        {% if LANGUAGE_CODE == 'bn' %}
+                            প্রজেক্ট
+                        {% else %}
+                            Projects
+                        {% endif %}
+                    </span>
                 </a>
             </li>
         </ul>

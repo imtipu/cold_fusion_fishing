@@ -1,0 +1,13 @@
+{% load static %}
+
+{% if dev_mode %}
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.20/dist/full.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='//HOST:8383/browser-sync/browser-sync-client.js'><\/script>".replace("HOST", location.hostname));
+    //]]></script>
+{% else %}
+    <link rel="stylesheet" href="{% if is_static_path %}{% static tailwind_css_path %}{% else %}{{ tailwind_css_path }}{% endif %}{% if v %}?v={{ v }}{% endif %}">
+
+{% endif %}

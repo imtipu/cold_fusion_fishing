@@ -1,0 +1,47 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="fixed r-0 b-0 left-auto bg-gray-950 z-[9999] rounded-md py-2 flex flex-col px-2 justify-center items-center"
+     style="bottom: 0; right: 0">
+    <form method="post" class="w-full flex flex-col justify-center items-center"
+          action="{% url 'home:set_language' %}">
+        {% csrf_token %}
+        <input type="hidden" id="id_language" name="language">
+        <label for="id_language_checkbox" class="text-white mb-1 uppercase">
+            {{ LANGUAGE_CODE }}
+        </label>
+        <input type="checkbox" class="toggle" id="id_language_checkbox"
+               hx-trigger="change delay:200ms"
+               hx-post="{% url 'home:set_language' %}"
+               name="language_checkbox"
+               onchange="submitLanguage()"
+                {% if LANGUAGE_CODE == 'bn' %}
+               checked
+                {% endif %}>
+    </form>
+
+</div>
+
+
+<script>
+    function submitLanguage() {
+        // document.getElementById('id_language').form.submit();
+        let checkbox = document.getElementById('id_language_checkbox');
+        let element_anguage = document.getElementById('id_language');
+        let form = checkbox.form;
+
+        let is_checked = checkbox.checked;
+        console.log(is_checked);
+        if (is_checked) {
+            element_anguage.value = 'bn';
+        } else {
+            element_anguage.value = 'en';
+        }
+        let value = element_anguage.value;
+        console.log(value);
+        setTimeout(function () {
+            checkbox.form.submit();
+        }, 200);
+    }
+</script>
+
