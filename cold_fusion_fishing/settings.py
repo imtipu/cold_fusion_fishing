@@ -226,10 +226,10 @@ TAILWIND_CSS_PATH = 'tailwind/css/styles.css'
 
 NPM_BIN_PATH = env.str('NPM_BIN_PATH', r'C:\Program Files\nodejs\npm.cmd')
 
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+if DEBUG:
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
 
 # allauth settings
 ACCOUNT_EMAIL_REQUIRED = True
@@ -252,4 +252,5 @@ CRISPY_TEMPLATE_PACK = 'tailwind'
 CRISPY_CLASS_CONVERTERS = {
     # 'textinput': 'input',
 }
-DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
+
+DATE_INPUT_FORMATS = ('%d-%m-%Y', '%Y-%m-%d')
