@@ -19,7 +19,9 @@ class HtmxDailyActivityTableListView(LoginRequiredMixin, ListView):
         # time.sleep(10)
         return self.model.objects.filter(
             project_id=self.kwargs.get('pk')
-        ).select_related('project').order_by('-activity_date')
+        ).select_related(
+            'project', 'project__tank', 'project__tank__current_project'
+        ).order_by('-activity_date')
 
 
 def htmx_daily_activity_activity_form(request, pk):

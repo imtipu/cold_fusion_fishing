@@ -252,3 +252,4 @@ CRISPY_TEMPLATE_PACK = 'tailwind'
 CRISPY_CLASS_CONVERTERS = {
     # 'textinput': 'input',
 }
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')

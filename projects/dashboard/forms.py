@@ -40,6 +40,18 @@ class ProjectForm(forms.ModelForm):
 
 
 class ProjectUpdateForm(forms.ModelForm):
+    start_date = forms.DateField(
+        label='Start Date',
+        required=True, widget=forms.DateInput(attrs={
+            'type': 'date',
+        }))
+
+    end_date = forms.DateField(
+        label='End Date',
+        required=False, widget=forms.DateInput(attrs={
+            'type': 'date',
+        }))
+
     class Meta:
         model = Project
         fields = '__all__'

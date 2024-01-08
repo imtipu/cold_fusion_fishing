@@ -21,12 +21,14 @@ z-10 -translate-x-[280px] md:translate-x-0 transition-all duration-200">
     <div class="flex flex-col menu-content w-full mt-4">
         <ul class="menu-list w-full list-none p-0 m-0">
             <li class="menu-item w-full p-0 m-0 list-none flex flex-row items-center justify-center">
-                <a href="/dashboard/" class="menu-link text-sm text-gray-700 dark:text-gray-400 hover:text-gray-50 px-3 py-2
-                w-full
+                <a href="{% url 'dashboard:home' %}" class="menu-link text-sm text-gray-700
+                dark:text-gray-400
+                hover:text-gray-50 px-3 py-2 w-full
                  bg-gray-200
                  dark:bg-transparent
                 hover:bg-gray-900
-                 flex flex-row items-center">
+                dark:hover:bg-gray-900
+                flex flex-row items-center">
                     <span class="material-symbols-outlined">home</span>
                     <span class="ml-2">
                         {% if LANGUAGE_CODE == 'bn' %}
@@ -59,10 +61,12 @@ z-10 -translate-x-[280px] md:translate-x-0 transition-all duration-200">
 
             <li class="menu-item w-full p-0 m-0 list-none">
                 <a href="{% url 'dashboard:projects:project_list' %}"
-                   class="menu-link text-sm text-gray-700 dark:text-gray-400 hover:text-gray-50 px-3 py-2 w-full
+                   class="menu-link text-sm text-gray-700
+                dark:text-gray-400
+                hover:text-gray-50 px-3 py-2 w-full
                  bg-gray-200
                  dark:bg-transparent
-                hover:bg-gray-400
+                hover:bg-gray-900
                 dark:hover:bg-gray-900
                 flex flex-row items-center">
                     <span class="material-symbols-outlined">dns</span>

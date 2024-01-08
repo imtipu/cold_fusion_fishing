@@ -3,6 +3,7 @@
 {% load tailwind_filters %}
 {% load crispy_forms_tags %}
 {% load form_filters %}
+{% load widget_tweaks %}
 {% block head_title %}{{ project.title }}{% endblock %}
 
 {% block content %}
@@ -10,27 +11,27 @@
         <div class="card-header rounded-t-md px-5 py-4 text-gray-700 dark:text-gray-300">
             <h1 class="text-2xl">{{ project.title }}</h1>
         </div>
-        <div class="card-body">
-            <div>
-                <form class="max-w-[550px]" enctype="multipart/form-data" method="post">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        <div class="flex flex-col">
-                            {{ field|label_with_classes:"text-gray-700 dark:text-gray-400 mb-2" }}
-                            {{ field|crispy_form_field }}
-                            {% if field.errors %}
-                                {% for error in field.errors %}
-                                    <div class="text-red-500 text-sm mt-1">{{ error }}</div>
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                    <div class="flex flex-col w-full justify-center mt-3">
-                        <button type="submit"
-                                class="btn bg-gray-100 text-gray-700 min-w-[180px]">Submit</button>
+        <div class="card-body px-3">
+            <form class="max-w-[550px]" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="flex flex-col">
+                        {{ field|label_with_classes:"text-gray-700 dark:text-gray-400 mb-2" }}
+                        {{ field|add_class:"rounded-md"|crispy_form_field }}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="text-red-500 text-sm mt-1">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
-                </form>
-            </div>
+                {% endfor %}
+                <div class="flex flex-col w-full justify-center mt-3">
+                    <button type="submit"
+                            class="btn bg-gray-100 text-gray-700 hover:bg-gray-950 hover:text-gray-100 min-w-[180px]">
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

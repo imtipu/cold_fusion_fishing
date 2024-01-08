@@ -131,6 +131,13 @@ class DailyActivity(TimeStampModel):
         ]
 
     @property
+    def day_number(self):
+        start_date = self.project.start_date
+        activity_date = self.activity_date
+        delta = activity_date - start_date
+        return delta.days + 1
+
+    @property
     def total_live_fish(self):
         return self.project.initial_quantity - self.dead_fish
 

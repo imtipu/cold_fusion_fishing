@@ -28,16 +28,16 @@
         </th>
         <th class="text-center text-gray-700 dark:text-gray-300">
             {% if LANGUAGE_CODE == 'bn' %}
-                খাদ্য পরিমাণ(গ্রাম)
+                খাদ্য(গ্রাম)
             {% else %}
-                Feed Amount(gm)
+                Feed(gm)
             {% endif %}
         </th>
         <th class="text-center text-gray-700 dark:text-gray-300">
             {% if LANGUAGE_CODE == 'bn' %}
-                মোলাসের পরিমাণ(গ্রাম)
+                মোলাস(গ্রাম)
             {% else %}
-                Molas to Add(gm)
+                Molas(gm)
             {% endif %}
         </th>
         <th class="text-center text-gray-700 dark:text-gray-300 hidden">Feed Protein (%)</th>
@@ -48,7 +48,7 @@
     </thead>
     <tbody>
     {% for activity in daily_activities %}
-        {% include 'projects/dashboard/daily_activities/includes/daily_activity_row.html' with days=forloop.revcounter %}
+        {% include 'projects/dashboard/daily_activities/includes/daily_activity_row.html' with day_number=activity.day_number %}
     {% empty %}
         <tr>
             <td colspan="10" class="text-center">No data available</td>
