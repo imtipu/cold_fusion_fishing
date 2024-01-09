@@ -150,7 +150,7 @@ class DailyActivityAddView(CreateView):
 
             initial_quantity = project.initial_quantity
             total_dead_qs = DailyActivity.objects.filter(project=project).aggregate(
-                total_dead=models.Sum('dead_fish', output_field=models.IntegerField())
+                total_dead=models.Sum('dead_fish', output_field=models.IntegerField(), default=0)
             )
             dead_fish = cleaned_data.get('dead_fish', 0)
             total_dead = total_dead_qs.get('total_dead', 0)
