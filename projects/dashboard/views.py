@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from django.views.generic import *
+from django.contrib.messages.views import SuccessMessageMixin
 
 from projects.dashboard.forms import DailyActivityForm, ProjectForm, ProjectUpdateForm
 from projects.models import *
@@ -30,7 +31,8 @@ class ProjectDetailView(DetailView, DeleteView):
 
     def get_queryset(self):
         queryset = Project.objects.select_related('tank').annotate(
-            total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField()),
+            total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField(), default=0),
+            total_live=models.F('initial_quantity') - models.F('total_dead'),
         )
         return queryset
 
@@ -41,11 +43,12 @@ class ProjectDetailView(DetailView, DeleteView):
         return context
 
 
-class ProjectUpdateView(UpdateView):
+class ProjectUpdateView(SuccessMessageMixin, UpdateView):
     model = Project
     template_name = 'projects/dashboard/update.html'
     form_class = ProjectUpdateForm
     context_object_name = 'project'
+    success_message = _('Project Updated Successfully')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -100,11 +103,17 @@ class DailyActivityAddView(CreateView):
     model = DailyActivity
     form_class = DailyActivityForm
 
+    def get_project_queryset(self):
+        return Project.objects.annotate(
+            total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField(), default=0),
+            total_live=models.F('initial_quantity') - models.F('total_dead'),
+        )
+
     # success_url = reverse_lazy('dashboard:projects:project_detailprojects:project_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['project'] = Project.objects.get(pk=self.kwargs.get('pk'))
+        context['project'] = self.get_project_queryset().get(pk=self.kwargs.get('pk'))
         return context
 
     # def form_valid(self, form):
@@ -131,8 +140,8 @@ class DailyActivityAddView(CreateView):
                 return HttpResponse(res, status=400)
             first_activity = project.daily_activities.first()
             if first_activity:
-                if activity_date < first_activity.activity_date:
-                    form.add_error('activity_date', 'Activity date cannot be less than the first activity date.')
+                if activity_date < project.start_date:
+                    form.add_error('activity_date', 'Activity date cannot be less than project start date.')
                     res = render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
                         'form': form,
                         'project': project
@@ -145,12 +154,21 @@ class DailyActivityAddView(CreateView):
             )
             dead_fish = cleaned_data.get('dead_fish', 0)
             total_dead = total_dead_qs.get('total_dead', 0)
+            current_total_live_fish = initial_quantity - total_dead
+            if dead_fish > current_total_live_fish:
+                form.add_error('dead_fish', 'Dead fish cannot be greater than total live fish.')
+                res = render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
+                    'form': form,
+                    'project': project
+                })
+                return HttpResponse(res, status=400)
             if total_dead and dead_fish:
                 total_dead = total_dead + int(dead_fish)
             else:
                 total_dead = int(dead_fish)
             total_live_fish = initial_quantity - total_dead
             form.instance.project = project
+            form.instance.expected_cn = project.expected_cn
             form.instance.live_fish = total_live_fish
             instance = form.save()
             start_date = project.start_date

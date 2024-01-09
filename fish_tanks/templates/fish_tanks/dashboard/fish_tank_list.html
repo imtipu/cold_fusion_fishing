@@ -45,13 +45,6 @@
                         </th>
                         <th class="text-black dark:text-gray-400">
                             {% if LANGUAGE_CODE == 'bn' %}
-                                ক্যাপাসিটি
-                            {% else %}
-                                Capacity
-                            {% endif %}
-                        </th>
-                        <th class="text-black dark:text-gray-400">
-                            {% if LANGUAGE_CODE == 'bn' %}
                                 আয়তন
                             {% else %}
                                 Volume
@@ -92,9 +85,6 @@
                                         {#                                        <div class="text-sm opacity-50">United States</div>#}
                                     </div>
                                 </div>
-                            </td>
-                            <td class="">
-                                {{ item.capacity }}
                             </td>
                             <td class="">
                                 {{ item.volume }}

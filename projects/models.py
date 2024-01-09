@@ -45,6 +45,17 @@ class Project(TimeStampModel):
             MaxValueValidator(100),
         ]
     )
+    expected_cn = models.DecimalField(
+        _('Expected C.N.'),
+        max_digits=10,
+        decimal_places=2,
+        default=None,
+        validators=[
+            MinValueValidator(0),
+        ],
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return self.title

@@ -4,7 +4,7 @@
 {% block head_title %}{{ project.title }}{% endblock %}
 
 {% block content %}
-    <div class="card w-full bg-white dark:bg-gray-950 rounded-md mt-4 pb-4">
+    <div class="card w-full bg-white dark:bg-gray-900 rounded-md mt-4 pb-4">
         <div class="card-header px-4 py-3 flex flex-row justify-between">
             <div class="text-gray-700 dark:text-gray-300">
                 <h2 class="font-bold text-2xl px-1">{{ project.title }}</h2>
@@ -14,7 +14,7 @@
                         <th>Tank</th>
                         <td>
                             {% if project.tank %}
-                            {{ project.tank.tank_number }}
+                                {{ project.tank.tank_number }}
                             {% else %}
                                 N/A
                             {% endif %}
@@ -30,8 +30,26 @@
                         <td>{{ project.initial_quantity }}</td>
                     </tr>
                     <tr class="border-0">
+                        <th>Dead</th>
+                        <td>{{ project.total_dead }}</td>
+                    </tr>
+                    <tr class="border-0">
+                        <th>Live</th>
+                        <td>{{ project.total_live }}</td>
+                    </tr>
+                    <tr class="border-0">
                         <th>Undigested</th>
                         <td>{{ project.undigested_percentage }}%</td>
+                    </tr>
+                    <tr class="border-0">
+                        <th>Expected C.N</th>
+                        <td>
+                            {% if project.expected_cn %}
+                                {{ project.expected_cn }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -73,9 +91,9 @@
         })
 
         function handleResponse(evt) {
-            console.log(evt.detail)
+            {#console.log(evt.detail)#}
             const status = evt.detail.xhr.status;
-            console.log(status)
+            {#console.log(status)#}
             const target = evt.detail.target;
             if (status >= 400) {
                 {#document.getElementById('activity-add-form').reset();#}

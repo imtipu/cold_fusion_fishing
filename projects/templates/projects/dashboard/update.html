@@ -1,6 +1,8 @@
 {% extends 'dashboard/base.html' %}
 {% load static %}
 {% load tailwind_filters %}
+{% load tailwind_form_tags %}
+
 {% load crispy_forms_tags %}
 {% load form_filters %}
 {% load widget_tweaks %}
@@ -8,16 +10,16 @@
 
 {% block content %}
     <div class="card mt-4 rounded-md bg-gray-50 dark:bg-gray-900">
-        <div class="card-header rounded-t-md px-5 py-4 text-gray-700 dark:text-gray-300">
+        <div class="card-header rounded-t-md px-4 py-4 text-gray-700 dark:text-gray-300">
             <h1 class="text-2xl">{{ project.title }}</h1>
         </div>
-        <div class="card-body px-3">
+        <div class="card-body px-4 pt-3">
             <form class="max-w-[550px]" enctype="multipart/form-data" method="post">
                 {% csrf_token %}
                 {% for field in form %}
-                    <div class="flex flex-col">
+                    <div class="flex flex-col mb-2">
                         {{ field|label_with_classes:"text-gray-700 dark:text-gray-400 mb-2" }}
-                        {{ field|add_class:"rounded-md"|crispy_form_field }}
+                        {{ field|field_input:"text-gray-700 bg-gray-50 border-gray-400 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-700 rounded-md" }}
                         {% if field.errors %}
                             {% for error in field.errors %}
                                 <div class="text-red-500 text-sm mt-1">{{ error }}</div>
@@ -27,11 +29,26 @@
                 {% endfor %}
                 <div class="flex flex-col w-full justify-center mt-3">
                     <button type="submit"
-                            class="btn bg-gray-100 text-gray-700 hover:bg-gray-950 hover:text-gray-100 min-w-[180px]">
+                            class="btn btn-success w-full md:max-w-[180px]">
                         Submit
                     </button>
                 </div>
             </form>
         </div>
     </div>
+
+    {% if messages %}
+        <div class="toast toast-top toast-end mt-10">
+            {% for message in messages %}
+                <div class="flex flex-row justify-between alert alert-{{ message.tags }} alert-dismissible fade show"
+                     role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                            onclick="return this.parentNode.remove()">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

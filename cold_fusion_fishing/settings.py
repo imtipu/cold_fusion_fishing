@@ -54,7 +54,7 @@ LOCAL_APPS = [
 
 THIRD_PARTY_APPS = [
     'tailwind',
-    'theme',
+    'theme.apps.ThemeConfig',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
