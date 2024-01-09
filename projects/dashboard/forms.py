@@ -54,7 +54,10 @@ class ProjectUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = [
+            'title', 'tank', 'start_date', 'end_date', 'initial_quantity', 'expected_cn',
+            'undigested_percentage', 'description'
+        ]
 
 
 class DailyActivityForm(forms.ModelForm):
@@ -108,16 +111,6 @@ class DailyActivityForm(forms.ModelForm):
             'value': '1'
         }))
 
-    expected_cn = forms.DecimalField(
-        label='Expected C.N.',
-        required=True, widget=forms.NumberInput(attrs={
-            'class': 'input input-sm rounded-md input-bordered w-full',
-            'type': 'number',
-            'min': 0,
-            'placeholder': '18',
-            'value': '1'
-        }))
-
     class Meta:
         model = DailyActivity
         fields = [
@@ -133,3 +126,12 @@ class DailyActivityForm(forms.ModelForm):
         if activity_date > timezone.now().date():
             raise forms.ValidationError('Activity date cannot be greater than today.')
         return activity_date
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if instance.pk is None:
+            project = instance.project
+            expected_cn = project.expected_cn
+            instance.expected_cn = expected_cn
+        instance.save()
+        return instance

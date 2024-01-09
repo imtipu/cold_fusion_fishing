@@ -9,11 +9,6 @@ class FishTank(TimeStampModel):
     tank_number = models.PositiveIntegerField(_('Tank Number'), unique=True)
     description = models.TextField(_('Description'), blank=True)
     volume = models.PositiveIntegerField()
-    length = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    width = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-    height = models.DecimalField(default=0, decimal_places=2, max_digits=10)
-
-    capacity = models.DecimalField(default=0, decimal_places=2, max_digits=10)
 
     is_active = models.BooleanField(_('Active'), default=False)
 
@@ -22,6 +17,7 @@ class FishTank(TimeStampModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        verbose_name=_('Current Project'),
     )
 
     def __str__(self):

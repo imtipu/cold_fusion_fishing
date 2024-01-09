@@ -1,18 +1,109 @@
 {% extends 'dashboard/base.html' %}
+{% load form_filters %}
+{% load i18n %}
 {% load tailwind_filters %}
+{% load crispy_forms_tags %}
+{% load tailwind_form_tags %}
+{% load widget_tweaks %}
 
 {% block content %}
-    <div class="card mt-4 bg-gray-50">
-        <div class="card-header flex bg-white dark:bg-gray-900 px-5 py-3 items-center rounded-t-md">
-            <h3 class="text-black dark:text-white ">Add New Tank</h3>
+    {% get_current_language as language_code %}
+    <div class="card mt-4 bg-gray-50 dark:bg-gray-900">
+        <div class="card-header flex bg-white dark:bg-gray-900 px-5 py-5 items-center rounded-t-md">
+            <h3 class="text-gray-800 dark:text-gray-300 font-semibold">
+                {% if language_code == 'bn' %}
+                    নতুন ট্যাংক যুক্ত করুন
+                {% else %}
+                    Add New Tank
+                {% endif %}
+            </h3>
         </div>
-        <div class="card-body">
+        <div class="card-body px-5 pt-3">
             <div class="form-box max-w-[600px]">
                 <form method="post">
                     {% csrf_token %}
-                    {{ form|crispy }}
-                    <div>
-                        <button type="submit" class="btn btn-success">Create</button>
+                    <div class="flex flex-col">
+                        <label for="{{ form.title.id_for_label }}"
+                               class="mb-2 font-semibold text-gray-700 dark:text-gray-300">
+                            {% if language_code == 'bn' %}
+                                ট্যাংকের নাম<span class="astericsField">*</span>
+                            {% else %}
+                                Tank Name<span class="astericsField">*</span>
+                            {% endif %}
+                        </label>
+                        {{ form.title|field_input:"text-gray-700 bg-gray-50 border-gray-400 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-700 rounded-md" }}
+
+                        {% if form.title.help_text %}
+                            <small class="text-gray-500">{{ form.title.help_text }}</small>
+                        {% endif %}
+                        {% for error in form.title.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-3">
+                        <div class="flex flex-col">
+                            {{ form.tank_number|label_with_classes:"mb-2 font-semibold text-gray-700 dark:text-gray-300" }}
+                            {{ form.tank_number|field_input:"text-gray-700 bg-gray-50 border-gray-400 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-700 rounded-md" }}
+
+                            {% if form.tank_number.help_text %}
+                                <small class="text-gray-500">{{ form.tank_number.help_text }}</small>
+                            {% endif %}
+                            {% for error in form.tank_number.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="flex flex-col">
+                            {{ form.volume|label_with_classes:"mb-2 font-semibold text-gray-700 dark:text-gray-300" }}
+                            {{ form.volume|field_input:"text-gray-700 bg-gray-50 border-gray-400 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-700 rounded-md" }}
+
+                            {% if form.volume.help_text %}
+                                <small class="text-gray-500">{{ form.volume.help_text }}</small>
+                            {% endif %}
+                            {% for error in form.volume.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full max-w-[200px] mt-5 mb-4">
+                        <div class="flex flex-row justify-between items-center w-full">
+                            {{ form.is_active|label_with_classes:"font-semibold text-gray-700 dark:text-gray-300" }}
+                            <input type="checkbox" class="toggle toggle-success"
+                            id="{{ form.is_active.id_for_label }}"
+                            name="{{ form.is_active.name }}"/>
+
+                        </div>
+                        {% if form.is_active.help_text %}
+                            <small class="text-gray-500">{{ form.is_active.help_text }}</small>
+                        {% endif %}
+                        {% for error in form.is_active.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="flex flex-col w-full max-w-[400px] mb-3">
+                        {{ form.current_project|label_with_classes:"mb-2 font-semibold text-gray-700 dark:text-gray-300" }}
+                        {{ form.current_project|field_input:"text-gray-700 bg-gray-50 border-gray-400 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-700 rounded-md" }}
+
+                        {% if form.current_project.help_text %}
+                            <small class="text-gray-500">{{ form.current_project.help_text }}</small>
+                        {% endif %}
+                        {% for error in form.current_project.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="flex flex-col">
+                        {{ form.description|label_with_classes:"mb-2 font-semibold text-gray-700 dark:text-gray-300" }}
+                        {{ form.description|field_input:"text-gray-700 bg-gray-50 border-gray-400 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-700 rounded-md" }}
+
+                        {% if form.description.help_text %}
+                            <small class="text-gray-500">{{ form.description.help_text }}</small>
+                        {% endif %}
+                        {% for error in form.description.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="flex flex-col justify-center items-center mt-5">
+                        <button type="submit" class="btn btn-success text-gray-900 w-full md:max-w-[250px]">Create</button>
                     </div>
                 </form>
             </div>

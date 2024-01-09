@@ -8,16 +8,17 @@
     <div class="overflow-x-auto w-full">
         <table class="table table-sm text-gray-700 dark:text-gray-300">
             <tbody>
-            <tr class="border-gray-200 dark:border-gray-700">
+             <tr class="border-gray-200 dark:border-gray-700">
                 <th>
                     {% if LANGUAGE_CODE == 'bn' %}
-                        ক্যাপাসিটি
+                        ট্যাংক নাম্বার
                     {% else %}
-                        Capacity
+                        Tank Number
                     {% endif %}
                 </th>
-                <td>{{ fish_tank.capacity }}</td>
+                <td>{{ fish_tank.tank_number }}</td>
             </tr>
+
             <tr class="border-gray-200 dark:border-gray-700">
                 <th>
                     {% if LANGUAGE_CODE == 'bn' %}
@@ -28,36 +29,7 @@
                 </th>
                 <td>{{ fish_tank.volume }}</td>
             </tr>
-            <tr class="border-gray-200 dark:border-gray-700">
-                <th>
-                    {% if LANGUAGE_CODE == 'bn' %}
-                        প্রস্থ
-                    {% else %}
-                        Width
-                    {% endif %}
-                </th>
-                <td>{{ fish_tank.width }}</td>
-            </tr>
-            <tr class="border-gray-200 dark:border-gray-700">
-                <th>
-                    {% if LANGUAGE_CODE == 'bn' %}
-                        দৈর্ঘ্য
-                    {% else %}
-                        Length
-                    {% endif %}
-                </th>
-                <td>{{ fish_tank.length }}</td>
-            </tr>
-            <tr class="border-gray-200 dark:border-gray-700">
-                <th>
-                    {% if LANGUAGE_CODE == 'bn' %}
-                        উচ্চতা
-                    {% else %}
-                        Height
-                    {% endif %}
-                </th>
-                <td>{{ fish_tank.height }}</td>
-            </tr>
+
             <tr class="border-gray-200 dark:border-gray-700">
                 <th>
                     {% if LANGUAGE_CODE == 'bn' %}
@@ -83,7 +55,7 @@
                             {% else %}
                                 Inactive
                             {% endif %}
-                                    </span>
+                        </span>
                     {% endif %}
                 </td>
             </tr>
@@ -97,7 +69,10 @@
                 </th>
                 <td>
                     {% if fish_tank.current_project %}
+                        <a class="text-gray-700 dark:text-gray-300"
+                                href="{% url 'dashboard:projects:project_detail' fish_tank.current_project.id %}">
                         {{ fish_tank.current_project }}
+                        </a>
                     {% else %}
                         {% if LANGUAGE_CODE == 'bn' %}
                             কোন প্রজেক্ট নেই

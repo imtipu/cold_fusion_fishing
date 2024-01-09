@@ -1,6 +1,8 @@
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import *
+from django.contrib.messages.views import SuccessMessageMixin
 
 # from modules.view_mixins import *
 from .forms import *
@@ -21,12 +23,13 @@ class FishTankDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'fish_tank'
 
 
-class FishTankUpdateView(LoginRequiredMixin, UpdateView):
+class FishTankUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'fish_tanks/dashboard/update.html'
 
     model = FishTank
     # context_object_name = 'fish_tank'
     form_class = FishTankForm
+    success_message = _('Fish Tank Updated Successfully')
 
     def get_success_url(self):
         return reverse('dashboard:fish_tanks:fish_tank_update', kwargs={'pk': self.object.pk})
