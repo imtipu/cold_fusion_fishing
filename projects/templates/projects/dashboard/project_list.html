@@ -55,11 +55,11 @@
                     <tbody>
                     {% for project in projects %}
                         <tr class="border-gray-300 dark:border-gray-800">
-                            <td>
+                            <td class="min-w-[80px]">
                                 <h3 class="font-bold">{{ project.title }}</h3>
                                 {% if project.tank.tank_number %}
                                     <div class="bg-gray-100 text-gray-800 dark:bg-gray-100 dark:text-gray-800
-                                badge text-xs font-medium mt-1">
+                                badge text-xs font-medium mt-1 min-w-[70px]">
                                     <span>
                                         {% if LANGUGAGE_CODE == 'bn' %}
                                             ট্যাঙ্ক

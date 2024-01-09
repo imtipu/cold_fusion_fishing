@@ -8,7 +8,7 @@
                 <td align="center">Day {{ day_number }}</td>
             </tr>
             <tr class="border-0">
-                <td align="center">{{ activity.activity_date }}</td>
+                <td align="center">{{ activity.activity_date|date:"d-m-Y" }}</td>
             </tr>
         </table>
     </td>
