@@ -6,11 +6,11 @@
     {% trans "Sign In" %}
 {% endblock head_title %}
 {% block content %}
-    <div class="flex flex-col fixed min-h-screen w-full bg-gray-500 dark:bg-gray-700 justify-center items-center
+    <div class="flex flex-col fixed min-h-screen w-full bg-gray-700 justify-center items-center
     top-0 bottom-0 right-0 left-0 px-3">
-        <div class="card login-box bg-gray-100 dark:bg-gray-900 rounded-md py-10 px-5
+        <div class="card login-box bg-gray-900 rounded-md py-10 px-5
         max-w-[450px] w-full">
-            <h1 class="text-gray-700 dark:text-gray-300 uppercase font-bold text-center flex justify-center mb-5
+            <h1 class="text-gray-300 uppercase font-bold text-center flex justify-center mb-5
 text-2xl">
                 {% trans "Sign In" %}
             </h1>
@@ -21,9 +21,9 @@ text-2xl">
                     {% csrf_token %}
                     <div class="w-full text-center mb-3">
                         {% if form.non_field_errors %}
-                            <div class="text-red-500 text-sm">
+                            <div class="mt-2 text-sm">
                                 {% for error in form.non_field_errors %}
-                                    {{ error }}
+                                    <div class="text-red-500">{{ error }}</div>
                                 {% endfor %}
                             </div>
                         {% endif %}
@@ -34,11 +34,11 @@ text-2xl">
 
                             {% if field.name == 'login' %}
                                 <div class="form-control text-center">
-                                    <label class="mb-2 text-gray-700 dark:text-gray-300 font-bold"
+                                    <label class="mb-2 text-gray-300 font-bold"
                                            for="{{ field.id_for_label }}">
                                         Username/Email
                                     </label>
-                                    <input class="input font-bold rounded-md border-gray-300 text-center bg-gray-50 py-2 px-3 focus:outline-none focus:ring-2 focus:bg-gray-50 focus:ring-gray-300 focus:border-transparent autofill:bg-gray-50"
+                                    <input class="input text-gray-300 font-bold rounded-md border-gray-500 text-center bg-gray-700 py-2 px-3 focus:outline-none focus:ring-2 focus:bg-gray-800 focus:ring-gray-600 focus:border-transparent autofill:bg-gray-800"
                                            type="text" id="{{ field.id_for_label }}" name="{{ field.name }}" value=""
                                            required
                                     />
@@ -50,29 +50,30 @@ text-2xl">
                             {% endif %}
                             {% if field.name == 'password' %}
                                 <div class="form-control mb-2">
-                                    <label class="mb-2 text-gray-700 dark:text-gray-300 font-bold text-center"
+                                    <label class="mb-2 text-gray-300 font-bold text-center"
                                            for="{{ field.id_for_label }}">Password</label>
-                                    <input class="input font-bold rounded-md border-gray-300 text-center py-2 px-3 bg-gray-50 font-bold"
+                                    <input class="input font-bold rounded-md border-gray-500 text-center bg-gray-700 py-2 px-3 focus:outline-none focus:ring-2 focus:bg-gray-800 focus:ring-gray-600 focus:border-transparent autofill:bg-gray-800"
                                            type="password" id="{{ field.id_for_label }}" name="{{ field.name }}"
-                                    required>
+                                           required>
 
                                 </div>
                             {% endif %}
 
                             {% if field.name == 'remember' %}
-                                <div class="form-control">
-                                    <label class="label cursor-pointer text-gray-700 dark:text-gray-400">
-                                        <span class="label-text text-gray-700 dark:text-gray-300">Remember me</span>
-                                        <input type="checkbox" class="toggle"
-                                               name="{{ field.name }}" id="{{ field.id_for_label }}"/>
+                                <div class="form-control flex flex-row justify-between w-full">
+                                    <label class="label cursor-pointer text-gray-400">
+                                        <span class="label-text text-gray-300">Remember me</span>
+
                                     </label>
+                                    <input type="checkbox" class="toggle"
+                                           name="{{ field.name }}" id="{{ field.id_for_label }}"/>
                                 </div>
                             {% endif %}
                             {% for error in field.errors %}
                                 <div class="text-red-500 text-sm">{{ error }}</div>
                             {% endfor %}
                             {% if field.help_text %}
-                                <small class="form-text text-gray-700 dark:text-gray-400">{{ field.help_text|safe }}</small>
+                                <small class="form-text text-gray-400">{{ field.help_text|safe }}</small>
                             {% endif %}
                         </div>
                     {% endfor %}
