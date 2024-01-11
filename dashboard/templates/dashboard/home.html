@@ -3,4 +3,41 @@
     <div class="w-full mt-4">
         {% include 'dashboard/includes/home/tank_list_cards.html' %}
     </div>
+    <div class="w-full mt-4"
+
+         hx-trigger="load"
+         hx-get="{% url 'dashboard:projects:htmx:htmx_dashboard_home_project_list' %}"
+         hx-target="#home-project-list"
+         hx-swap="innerHTML">
+        <div class="card bg-gray-50 dark:bg-gray-900 rounded-md">
+            <div class="card-header px-5 py-4">
+                <h1 class="font-bold text-gray-700 dark:text-gray-300">Projects</h1>
+            </div>
+            <div class="card-body px-0 pt-0 pb-4">
+                <div id="home-project-list"
+                     class="overflow-x-auto">
+                    <table class="table table-xs">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="skeleton h-4 w-full bg-gray-400"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton h-4 w-full bg-gray-400"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton h-4 w-full bg-gray-400"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton h-4 w-full bg-gray-400"></div>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

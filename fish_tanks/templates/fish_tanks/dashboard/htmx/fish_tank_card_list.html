@@ -16,9 +16,9 @@
             <div class="card-body py-2 px-3">
                 {% with item.current_project as current_project %}
                     {% if current_project %}
-                        <table class="w-full table-xs table table-condensed">
+                        <table class="w-full table-xs table table-condensed text-gray-700 dark:text-gray-300">
                             <tbody>
-                            <tr>
+                            <tr class="border-gray-300 dark:border-gray-700">
                                 <th class="text-gray-800 dark:text-gray-400">
                                     {% if LANGUAGE_CODE == 'bn' %}
                                         প্রজেক্ট
@@ -28,7 +28,7 @@
                                 </th>
                                 <th>{{ current_project }}</th>
                             </tr>
-                            <tr>
+                            <tr class="border-gray-300 dark:border-gray-700">
                                 <td>
                                     {% if LANGUAGE_CODE == 'bn' %}
                                         শুরু
@@ -40,7 +40,7 @@
                                     {{ current_project.start_date|date:"d-m-Y" }}
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="border-gray-300 dark:border-gray-700">
                                 <td>
                                     {% if LANGUAGE_CODE == 'bn' %}
                                         সমাপ্তি
@@ -52,7 +52,7 @@
                                     {{ current_project.end_date|date:"d-m-Y" }}
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="border-gray-300 dark:border-gray-700">
                                 <td>
                                     {% if LANGUAGE_CODE == 'bn' %}
                                         মোট সংখ্যা(শুরু)
@@ -65,7 +65,7 @@
 
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="border-gray-300 dark:border-gray-700">
                                 <td>
                                     {% if LANGUAGE_CODE == 'bn' %}
                                         জীবিত
@@ -75,7 +75,7 @@
                                 </td>
                                 <td>0</td>
                             </tr>
-                            <tr>
+                            <tr class="border-gray-300 dark:border-gray-700">
                                 <td>
                                     {% if LANGUAGE_CODE == 'bn' %}
                                         মৃত
@@ -96,8 +96,6 @@
                             {% endif %}
                         </div>
                     {% endif %}
-
-                    <p class="text-gray-700 text-sm">{{ item.description }}</p>
                 {% endwith %}
 
             </div>

@@ -9,12 +9,16 @@
             <div class="text-gray-700 dark:text-gray-300">
                 <h2 class="font-bold text-2xl px-1">{{ project.title }}</h2>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-row">
+                <a class="btn btn-primary btn-sm"
+                href="{% url 'dashboard:projects:project_update' project.pk %}">
+                    Edit
+                </a>
                 <button type="button"
-                        class="btn btn-sm bg-dark-800 text-white dark:bg-gray-50 dark:text-gray-800"
+                        class="btn btn-sm bg-dark-800 text-white dark:bg-gray-50 dark:text-gray-800 ml-2"
                         hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' project.id %}"
                         hx-target="#activity-add-form-box"
-                >Add New Date
+                >Add Acitivity
                 </button>
             </div>
         </div>

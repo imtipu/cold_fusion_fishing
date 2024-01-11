@@ -162,14 +162,8 @@ class DailyActivityAddView(CreateView):
                     'project': project
                 })
                 return HttpResponse(res, status=400)
-            if total_dead and dead_fish:
-                total_dead = total_dead + int(dead_fish)
-            else:
-                total_dead = int(dead_fish)
-            total_live_fish = initial_quantity - total_dead
             form.instance.project = project
             form.instance.expected_cn = project.expected_cn
-            form.instance.live_fish = total_live_fish
             instance = form.save()
             start_date = project.start_date
             activity_date = instance.activity_date

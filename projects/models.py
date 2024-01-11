@@ -124,8 +124,6 @@ class DailyActivity(TimeStampModel):
         ]
     )
 
-    live_fish = models.PositiveIntegerField(_('Live Fish'), default=0)
-
     def __str__(self):
         return f'{self.project.title} - {self.activity_date}'
 
@@ -154,7 +152,8 @@ class DailyActivity(TimeStampModel):
 
     @property
     def total_weight(self):
-        return round(self.live_fish * self.single_fish_weight, 2)
+        # return round(self.live_fish * self.single_fish_weight, 2)
+        return 0
 
     @property
     def total_weight_kg(self):

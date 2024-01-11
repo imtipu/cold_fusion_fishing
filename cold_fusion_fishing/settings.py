@@ -65,6 +65,7 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'crispy_tailwind',
     'widget_tweaks',
+    'mathfilters',
 ]
 
 if DEBUG:

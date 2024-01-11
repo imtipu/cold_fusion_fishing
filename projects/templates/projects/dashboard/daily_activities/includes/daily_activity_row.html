@@ -1,5 +1,7 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
+{% load mathfilters %}
+{% load project_tags %}
 
 <tr class="border-gray-300 dark:border-gray-800">
     <td class="py-1" style="min-width: 100px">
@@ -32,7 +34,16 @@
                         Live
                     {% endif %}
                 </td>
-                <td align="center">{{ activity.live_fish }}</td>
+                <td align="center">{{ activity.day_total_live }}</td>
+            </tr><tr>
+                <td align="center">
+                    {% if LANGUAGE_CODE == 'bn' %}
+                        মোট মৃত
+                    {% else %}
+                        Total Dead
+                    {% endif %}
+                </td>
+                <td align="center">{{ activity.project_total_dead|add:activity.dead_fish }}</td>
             </tr>
         </table>
     </td>
@@ -46,13 +57,14 @@
                         Single
                     {% endif %}
                 </td>
-                <td>{{ activity.single_fish_weight|floatformat:2 }} <span>
+                <td>{{ activity.single_fish_weight|floatformat:3 }} <span>
                         {% if LANGUAGE_CODE == 'bn' %}
                             গ্রাম
                         {% else %}
                             gm
                         {% endif %}
-                    </span></td>
+                    </span>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -62,27 +74,29 @@
                         Total
                     {% endif %}
                 </td>
-                <td>{{ activity.total_weight|floatformat:2 }} <span>
+                <td>{{ activity|day_total_weight|floatformat:2 }} <span>
                         {% if LANGUAGE_CODE == 'bn' %}
                             গ্রাম
                         {% else %}
                             gm
                         {% endif %}
-                    </span> <br>{{ activity.total_weight_kg|floatformat:2 }} <span>
+                    </span> <br>
+                    {{ activity|day_total_weight|div:1000|floatformat:2 }} <span>
                         {% if LANGUAGE_CODE == 'bn' %}
                             কেজি
                         {% else %}
                             kg
                         {% endif %}
                     </span>
+
                 </td>
             </tr>
         </table>
     </td>
     <td class="text-center py-1">
-        {{ activity.todays_feed|floatformat:2 }} ({{ activity.feed_percentage }}%)
+        {{ activity|activity_todays_feed|floatformat:2 }}
     </td>
-    <td class="text-center py-1">{{ activity.molas_to_add|floatformat:2 }}</td>
+    <td class="text-center py-1">{{ activity|activity_molas_to_add|floatformat:2 }}</td>
     <td class="text-center py-1 hidden">{{ activity.feed_protein_percentage }}</td>
     <td class="text-center py-1 hidden">{{ activity.expected_cn|floatformat:2 }}</td>
     <td class="text-center py-1 hidden">
