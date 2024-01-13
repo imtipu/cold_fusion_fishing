@@ -31,17 +31,17 @@
             <li>
                 <a class="text-xs text-gray-700 dark:text-gray-50 theme-controller flex flex-row justify-between" href="{% url 'home:set_color_mode' %}">
                     <span class="">
-                        {% if request.session.is_dark_theme %}
-                            Light
-                        {% else %}
+                        {% if request.session.is_light_theme %}
                             Dark
+                        {% else %}
+                            Light
                         {% endif %}
                     </span>
                     <span class="material-symbols-outlined text-[16px]">
-                        {% if request.session.is_dark_theme %}
-                            light_mode
-                        {% else %}
+                        {% if request.session.is_light_theme %}
                             dark_mode
+                        {% else %}
+                            light_mode
                         {% endif %}
                     </span>
                 </a>

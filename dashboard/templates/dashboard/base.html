@@ -2,8 +2,8 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en"
-      data-theme="{% if request.session.is_dark_theme %}dark{% endif %}"
-      class="{% if request.session.is_dark_theme %}dark{% endif %}">
+      data-theme="{% if not request.session.is_light_theme %}dark{% endif %}"
+      class="{% if not request.session.is_light_theme %}dark{% endif %}">
 <head>
     <title>{% block head_title %}
         {% if head_title %}{{ head_title }}
@@ -31,8 +31,7 @@
 
 </head>
 
-<body class="min-h-screen w-full bg-gray-200 dark:bg-gray-700 {% if request.session.is_dark_theme %}dark{% endif %}"
-      data-theme="{% if request.session.is_dark_theme %}dark{% endif %}">
+<body class="min-h-screen w-full bg-gray-200 dark:bg-gray-700">
 <div id="site-content" class="min-h-screen w-full flex flex-row justify-between">
     {% if request.user.is_authenticated %}
         {% include 'dashboard/includes/nav_left_sidebar.html' %}

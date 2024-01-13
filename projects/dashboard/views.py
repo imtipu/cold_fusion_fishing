@@ -162,18 +162,39 @@ class DailyActivityAddView(CreateView):
                     'project': project
                 })
                 return HttpResponse(res, status=400)
-            form.instance.project = project
-            form.instance.expected_cn = project.expected_cn
-            instance = form.save()
+
+            if project.expected_cn is None or project.expected_cn == 0:
+                form.add_error('activity_date', 'Expected CN is not set.')
+                res = render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
+                    'form': form,
+                    'project': project
+                })
+                return HttpResponse(res, status=400)
+            instance = form.save(commit=False)
+            instance.project = project
+            instance.expected_cn = project.expected_cn
+            instance.save()
             start_date = project.start_date
             activity_date = instance.activity_date
             delta = activity_date - start_date
             day_number = delta.days + 1
 
+            new_instance = DailyActivity.objects.filter(pk=instance.pk).annotate(
+                initial_quantity=models.F('project__initial_quantity'),
+                project_total_dead=models.Sum(
+                    'project__daily_activities__dead_fish',
+                    filter=models.Q(project__daily_activities__activity_date__lt=models.F('activity_date')),
+                    output_field=models.IntegerField(),
+                    default=0
+                ),
+                project_total_live=models.F('initial_quantity') - models.F('project_total_dead'),
+                day_total_live=models.F('project_total_live') - models.F('dead_fish'),
+            ).first()
+
             res = render(
                 request,
-                'projects/dashboard/daily_activities/includes/daily_activity_row.html',
-                {'activity': instance, 'project': project, 'day_number': day_number},
+                'projects/dashboard/daily_activities/daily_activity_added_row.html',
+                {'activity': new_instance, 'project': project, 'day_number': day_number},
             )
             return HttpResponse(res)
         else:

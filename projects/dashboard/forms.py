@@ -2,6 +2,7 @@ from typing import Any
 
 from crispy_forms.layout import Layout, Field
 from django import forms
+from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from projects.models import Project, DailyActivity
@@ -63,10 +64,14 @@ class ProjectUpdateForm(forms.ModelForm):
 class DailyActivityForm(forms.ModelForm):
     activity_date = forms.DateField(
         label='Date',
+        input_formats=settings.DATE_INPUT_FORMATS,
+        localize=True,
         required=True, widget=forms.DateInput(attrs={
             'class': 'input input-sm rounded-md input-bordered w-full',
             'type': 'date',
             'value': timezone.now().date(),
+            'placeholder': 'dd-mm-yyyy',
+            'format': '%d-%m-%Y',
         }))
 
     dead_fish = forms.IntegerField(
@@ -90,7 +95,7 @@ class DailyActivityForm(forms.ModelForm):
             'value': '1'
         }))
 
-    singe_fish_weight = forms.DecimalField(
+    single_fish_weight = forms.DecimalField(
         label=_('Single Fish Weight (gm)'),
         required=True, widget=forms.NumberInput(attrs={
             'class': 'input input-sm rounded-md input-bordered w-full',
@@ -117,7 +122,7 @@ class DailyActivityForm(forms.ModelForm):
             'activity_date',
             'dead_fish',
             'feed_percentage',
-            'singe_fish_weight',
+            'single_fish_weight',
             'feed_protein_percentage',
         ]
 
@@ -127,11 +132,7 @@ class DailyActivityForm(forms.ModelForm):
             raise forms.ValidationError('Activity date cannot be greater than today.')
         return activity_date
 
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        if instance.pk is None:
-            project = instance.project
-            expected_cn = project.expected_cn
-            instance.expected_cn = expected_cn
-        instance.save()
-        return instance
+    # def save(self, commit=True):
+    #     instance = super().save(commit=False)
+    #     instance.save()
+    #     return instance

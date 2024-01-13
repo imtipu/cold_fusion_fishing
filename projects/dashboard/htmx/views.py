@@ -15,7 +15,6 @@ class HTMXDashboardHomeProjectListView(LoginRequiredMixin, ListView):
     template_name = 'projects/dashboard/projects/htmx/home_project_list.html'
 
     def get_queryset(self):
-        time.sleep(3)
         return Project.objects.filter(
             models.Q(end_date__isnull=True) |
             models.Q(end_date__gte=timezone.now().date())
@@ -60,10 +59,20 @@ class HtmxDailyActivityTableListView(LoginRequiredMixin, ListView):
 
 def htmx_daily_activity_activity_form(request, pk):
     project = Project.objects.get(pk=pk)
-    form = DailyActivityForm()
+    first_date = None
+    activities = project.daily_activities.all()
+    if not activities.exists():
+        start_date = project.start_date
+        first_date = f'{start_date}'
+    if first_date:
+        form = DailyActivityForm(initial={'activity_date': first_date})
+    else:
+        form = DailyActivityForm()
+
     context = {
         'project': project,
         'form': form,
+        'first_date': first_date,
     }
     return render(request,
                   'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html',

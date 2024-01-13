@@ -223,6 +223,7 @@ USE_I18N = True
 USE_L10N = True
 
 SHORT_DATE_FORMAT = 'd M Y'
+DATE_INPUT_FORMATS = ['%d-%m-%Y', '%Y-%m-%d']
 
 # tailwind settings
 TAILWIND_APP_NAME = 'theme'

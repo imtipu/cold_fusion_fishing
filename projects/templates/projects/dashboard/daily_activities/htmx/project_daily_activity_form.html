@@ -1,22 +1,19 @@
+{% load tailwind_form_tags %}
+{% load widget_tweaks %}
 <form
         id="activity-add-form"
         method="post" enctype="multipart/form-data"
 {#        hx-post="{% url 'dashboard:projects:add_project_activity' project.id %}"#}
         action="{% url 'dashboard:projects:add_project_activity' project.id %}"
         onsubmit="addNewActivity(event)"
-{#        hx-trigger="submit"#}
-{#        hx-target="#project-activity-list-table tbody"#}
-{#        hx-target-error="#activity-add-form-box"#}
-{#        hx-swap="beforeend"#}
-{#        hx-on:htmx:after-request="handleResponse(event)"#}
 
 >
     {% csrf_token %}
-    <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 xl:grid-cols-5">
+    <div class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-2 xl:grid-cols-5">
         {% for field in form %}
             <div class="flex flex-col justify-start items-start mb-3">
-                {{ field.label_tag }}
-                {{ field }}
+                {{ field|field_label:"text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" }}
+                {{ field|add_class:"input-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600" }}
                 {% if field.help_text %}
                     <small class="form-text text-muted">{{ field.help_text }}</small>
                 {% endif %}
