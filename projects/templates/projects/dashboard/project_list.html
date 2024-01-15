@@ -16,6 +16,23 @@
             </div>
         </div>
         <div class="card-body px-2 py-2">
+        <div>
+            <form>
+                {% csrf_token %}
+                {{ filter.form.as_p }}
+            </form>
+            <form method="get" class="max-w-[200px]">
+                <div class="form-control flex justify-between flex-row">
+                    <div>
+                        <input type="text" class="input input-sm" name="search"
+                    value="{{ request.GET.q }}">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-sm btn-accent">Go</button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
             <div class="overflow-x-auto">
                 <table class="table text-gray-700 dark:text-gray-300 text-xs">

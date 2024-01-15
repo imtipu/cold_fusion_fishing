@@ -5,16 +5,20 @@ from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from django.views.generic import *
 from django.contrib.messages.views import SuccessMessageMixin
-
+from django_filters.views import FilterView, FilterMixin
 from projects.dashboard.forms import DailyActivityForm, ProjectForm, ProjectUpdateForm
 from projects.models import *
+from .filtersets import *
 
 
-class ProjectListView(ListView):
+class ProjectListView(FilterView):
     template_name = 'projects/dashboard/project_list.html'
 
     model = Project
     context_object_name = 'projects'
+    filterset_class = ProjectFilterSet
+    search_fields = ['title', 'tank__title']
+    # filter_b
 
     def get_queryset(self):
         return self.model.objects.select_related('tank').annotate(

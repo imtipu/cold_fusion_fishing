@@ -4,7 +4,7 @@
 {% block head_title %}{{ project.title }}{% endblock %}
 
 {% block content %}
-    <div class="card w-full bg-white dark:bg-gray-900 rounded-md mt-4 pb-4">
+    <div class="card w-full bg-gray-100 dark:bg-gray-900 rounded-md mt-4 pb-4">
         <div class="card-header px-4 py-3 flex flex-row justify-between">
             <div class="text-gray-700 dark:text-gray-300">
                 <h2 class="font-bold text-2xl px-1">{{ project.title }}</h2>
@@ -32,7 +32,8 @@
                             <th>Tank</th>
                             <td>
                                 {% if project.tank %}
-                                    {{ project.tank.tank_number }}
+                                    <span class="badge bg-amber-200 border-amber-600 text-gray-800"
+                                    >{{ project.tank.tank_number }}</span>
                                 {% else %}
                                     N/A
                                 {% endif %}
@@ -49,7 +50,11 @@
                         </tr>
                         <tr class="border-0">
                             <th>Initial Quantity</th>
-                            <td>{{ project.initial_quantity }}</td>
+                            <td>
+                                <span class="badge bg-emerald-200 border-emerald-600 text-gray-800">
+                                    {{ project.initial_quantity }}
+                                </span>
+                            </td>
                         </tr>
 
                         </tbody>
@@ -62,7 +67,7 @@
                         <tr class="border-0">
                             <th>Dead</th>
                             <td>
-                                <span class="badge badge-error text-gray-950">
+                                <span class="badge bg-red-200 border-red-600 text-gray-800 font-semibold">
                                     {{ project.total_dead }}
                                 </span>
                             </td>
@@ -77,13 +82,17 @@
                         </tr>
                         <tr class="border-0">
                             <th>Undigested</th>
-                            <td>{{ project.undigested_percentage }}%</td>
+                            <td>
+                                <span class="text-gray-800 border-yellow-500 badge bg-yellow-100">
+                                    {{ project.undigested_percentage }}%
+                                </span>
+                            </td>
                         </tr>
                         <tr class="border-0">
                             <th>Expected C.N</th>
                             <td>
                                 {% if project.expected_cn %}
-                                    {{ project.expected_cn }}
+                                    <span class="badge badge-info">{{ project.expected_cn }}</span>
                                 {% else %}
                                     N/A
                                 {% endif %}
@@ -101,7 +110,7 @@
 {#                        hx-trigger="load"#}
             >
             </div>
-            <div id="daily_activity_table" class="overflow-x-auto px-2"
+            <div id="daily_activity_table" class="overflow-auto max-h-screen px-2"
                  hx-trigger="load"
                  hx-get="{% url 'dashboard:projects:htmx:htmx_daily_activity_table_list' project.id %}"
                  hx-target="#daily_activity_table"

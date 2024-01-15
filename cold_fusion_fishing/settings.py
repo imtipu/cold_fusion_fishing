@@ -66,6 +66,7 @@ THIRD_PARTY_APPS = [
     'crispy_tailwind',
     'widget_tweaks',
     'mathfilters',
+    'django_filters',
 ]
 
 if DEBUG:
