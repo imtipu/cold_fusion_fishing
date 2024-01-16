@@ -17,9 +17,11 @@
         </div>
         <div class="card-body px-2 py-2">
         <div>
-            <form>
-                {% csrf_token %}
+            <form method="get">
                 {{ filter.form.as_p }}
+                <div>
+                    <button type="submit" class="btn btn-sm btn-accent">Filter</button>
+                </div>
             </form>
             <form method="get" class="max-w-[200px]">
                 <div class="form-control flex justify-between flex-row">

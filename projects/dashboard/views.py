@@ -18,7 +18,6 @@ class ProjectListView(FilterView):
     context_object_name = 'projects'
     filterset_class = ProjectFilterSet
     search_fields = ['title', 'tank__title']
-    # filter_b
 
     def get_queryset(self):
         return self.model.objects.select_related('tank').annotate(
