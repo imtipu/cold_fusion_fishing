@@ -18,7 +18,10 @@ class HTMXDashboardHomeProjectListView(LoginRequiredMixin, ListView):
         return Project.objects.filter(
             models.Q(end_date__isnull=True) |
             models.Q(end_date__gte=timezone.now().date())
-        )
+        ).select_related('tank').annotate(
+            total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField()),
+            total_live=models.F('initial_quantity') - models.F('total_dead'),
+        ).order_by('-start_date')
 
 
 class HtmxDailyActivityTableListView(LoginRequiredMixin, ListView):
