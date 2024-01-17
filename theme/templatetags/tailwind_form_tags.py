@@ -15,7 +15,7 @@ def field_label(field, classes=''):
 @register.filter('field_input')
 def field_input(field, classes=''):
     field_type = field.field.widget.__class__.__name__.lower()
-    print(field_type)
+    # print(field_type)
     # default_class = ('text-gray-700 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600 border-gray-300'
     #                  ' focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 '
     #                  'shadow-sm')

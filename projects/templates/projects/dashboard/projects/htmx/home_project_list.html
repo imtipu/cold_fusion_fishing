@@ -1,0 +1,25 @@
+<table class="table table-md text-gray-700 dark:text-gray-300">
+    <thead class=" text-gray-700 dark:text-gray-300">
+    <tr class="border-gray-300 dark:border-gray-700">
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for project in projects %}
+        <tr class="border-gray-300 dark:border-gray-700">
+            <td>{{ project.title }}</td>
+            <td>{{ project.start_date|date:"d-m-Y" }}</td>
+            <td>{{ project.end_date|date:"d-m-Y" }}</td>
+            <td>
+                <a href="#"
+                   class="btn btn-xs text-xs">
+                    View
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

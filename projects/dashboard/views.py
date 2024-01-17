@@ -5,19 +5,24 @@ from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from django.views.generic import *
 from django.contrib.messages.views import SuccessMessageMixin
+from django_filters.views import FilterView, FilterMixin
 
+from modules.view_mixins import SearchViewMixin
 from projects.dashboard.forms import DailyActivityForm, ProjectForm, ProjectUpdateForm
 from projects.models import *
+from .filtersets import *
 
 
-class ProjectListView(ListView):
+class ProjectListView(SearchViewMixin, FilterView):
     template_name = 'projects/dashboard/project_list.html'
 
     model = Project
     context_object_name = 'projects'
+    filterset_class = ProjectFilterSet
+    search_fields = ['title', 'tank__title']
 
     def get_queryset(self):
-        return self.model.objects.select_related('tank').annotate(
+        return self.search_queryset().select_related('tank').annotate(
             total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField()),
             total_live=models.F('initial_quantity') - models.F('total_dead'),
         ).order_by('-start_date')
@@ -162,24 +167,39 @@ class DailyActivityAddView(CreateView):
                     'project': project
                 })
                 return HttpResponse(res, status=400)
-            if total_dead and dead_fish:
-                total_dead = total_dead + int(dead_fish)
-            else:
-                total_dead = int(dead_fish)
-            total_live_fish = initial_quantity - total_dead
-            form.instance.project = project
-            form.instance.expected_cn = project.expected_cn
-            form.instance.live_fish = total_live_fish
-            instance = form.save()
+
+            if project.expected_cn is None or project.expected_cn == 0:
+                form.add_error('activity_date', 'Expected CN is not set.')
+                res = render(request, 'projects/dashboard/daily_activities/htmx/project_daily_activity_form.html', {
+                    'form': form,
+                    'project': project
+                })
+                return HttpResponse(res, status=400)
+            instance = form.save(commit=False)
+            instance.project = project
+            instance.expected_cn = project.expected_cn
+            instance.save()
             start_date = project.start_date
             activity_date = instance.activity_date
             delta = activity_date - start_date
             day_number = delta.days + 1
 
+            new_instance = DailyActivity.objects.filter(pk=instance.pk).annotate(
+                initial_quantity=models.F('project__initial_quantity'),
+                project_total_dead=models.Sum(
+                    'project__daily_activities__dead_fish',
+                    filter=models.Q(project__daily_activities__activity_date__lt=models.F('activity_date')),
+                    output_field=models.IntegerField(),
+                    default=0
+                ),
+                project_total_live=models.F('initial_quantity') - models.F('project_total_dead'),
+                day_total_live=models.F('project_total_live') - models.F('dead_fish'),
+            ).first()
+
             res = render(
                 request,
-                'projects/dashboard/daily_activities/includes/daily_activity_row.html',
-                {'activity': instance, 'project': project, 'day_number': day_number},
+                'projects/dashboard/daily_activities/daily_activity_added_row.html',
+                {'activity': new_instance, 'project': project, 'day_number': day_number},
             )
             return HttpResponse(res)
         else:

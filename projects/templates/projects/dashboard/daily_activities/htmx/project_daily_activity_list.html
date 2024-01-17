@@ -48,9 +48,9 @@
     </thead>
     <tbody>
     {% for activity in daily_activities %}
-        {% include 'projects/dashboard/daily_activities/includes/daily_activity_row.html' with day_number=activity.day_number %}
+        {% include 'projects/dashboard/daily_activities/includes/daily_activity_row.html' with day_number=activity.day_number project=project created=False %}
     {% empty %}
-        <tr>
+        <tr class="border-gray-200 dark:border-gray-700">
             <td colspan="10" class="text-center">No data available</td>
         </tr>
     {% endfor %}

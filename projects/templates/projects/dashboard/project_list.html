@@ -16,6 +16,9 @@
             </div>
         </div>
         <div class="card-body px-2 py-2">
+            <div class="px-3">
+                {% include 'dashboard/includes/search_input_form.html' %}
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="table text-gray-700 dark:text-gray-300 text-xs">
@@ -34,6 +37,12 @@
                             {% else %}
                                 Quantity
                             {% endif %}
+                        </th>
+                        <th class="font-bold text-gray-700 dark:text-gray-400">
+                            Undigested
+                        </th>
+                        <th class="font-bold text-gray-700 dark:text-gray-400">
+                            Expected C.N
                         </th>
                         <th class="font-bold text-gray-700 dark:text-gray-400">
                             {% if LANGUGAGE_CODE == 'bn' %}
@@ -80,7 +89,12 @@
                                                 Initial
                                             {% endif %}
                                         </td>
-                                        <td>{{ project.initial_quantity }}</td>
+                                        <td>
+                                            <span class="badge bg-blue-100 border-blue-600 text-gray-800
+                                            font-semibold">
+                                            {{ project.initial_quantity }}
+                                            </span>
+                                        </td>
                                     </tr>
                                     <tr class="border-gray-300 dark:border-gray-800">
                                         <td>
@@ -90,7 +104,11 @@
                                                 Dead
                                             {% endif %}
                                         </td>
-                                        <td>{{ project.total_dead }}</td>
+                                        <td>
+                                            <span class="badge bg-red-200 border-red-600 text-gray-800 font-semibold">
+                                            {{ project.total_dead }}
+                                            </span>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -100,9 +118,25 @@
                                                 Live
                                             {% endif %}
                                         </td>
-                                        <td>{{ project.total_live }}</td>
+                                        <td>
+                                            <span class="badge bg-green-100 border-green-600 text-gray-800 font-semibold">
+                                            {{ project.total_live }}
+                                            </span>
+                                        </td>
                                     </tr>
                                 </table>
+                            </td>
+                            <td>
+                                <span class="text-gray-800 border-yellow-500 badge bg-yellow-100">
+                                    {{ project.undigested_percentage }}%
+                                </span>
+                            </td>
+                            <td>
+                                {% if project.expected_cn %}
+                                    <span class="badge badge-info">{{ project.expected_cn }}</span>
+                                {% else %}
+                                    N/A
+                                {% endif %}
                             </td>
                             <td>
                                 {% if project.start_date %}

@@ -17,46 +17,34 @@
     <td class="text-center py-1">
         <table class="table w-full">
             <tr class="border-gray-300 dark:border-gray-800">
-                <td align="center" class="text-red-500 font-bold">
+                <td align="center">
                     {% if LANGUAGE_CODE == 'bn' %}
                         মৃত
                     {% else %}
                         Dead
                     {% endif %}
                 </td>
-                <td align="center">
-                    <span class="badge bg-red-200 border-red-600 text-gray-800 font-semibold">
-                        {{ activity.dead_fish }}
-                    </span>
-                </td>
+                <td align="center">{{ activity.dead_fish }}</td>
             </tr>
-            <tr class="border-gray-300 dark:border-gray-800">
-                <td align="center" class="text-green-700 dark:text-green-500 font-bold">
+            <tr>
+                <td align="center">
                     {% if LANGUAGE_CODE == 'bn' %}
                         জীবিত
                     {% else %}
                         Live
                     {% endif %}
                 </td>
-                <td align="center">
-                    <span class="badge bg-green-100 border-green-600 text-gray-800 font-semibold">
-                        {{ activity.day_total_live }}
-                    </span>
-                </td>
+                <td align="center">{{ activity.day_total_live }}</td>
             </tr>
             <tr>
-                <td align="center" class=" font-bold">
+                <td align="center">
                     {% if LANGUAGE_CODE == 'bn' %}
                         মোট মৃত
                     {% else %}
                         Total Dead
                     {% endif %}
                 </td>
-                <td align="center">
-                    <span class="badge border-gray-700 bg-gray-300 text-gray-950 font-semibold">
-                        {{ activity.project_total_dead|add:activity.dead_fish }}
-                    </span>
-                </td>
+                <td align="center">{{ activity.project_total_dead|add:activity.dead_fish }}</td>
             </tr>
         </table>
     </td>
@@ -79,7 +67,7 @@
                     </span>
                 </td>
             </tr>
-            <tr class="border-gray-300 dark:border-gray-800">
+            <tr>
                 <td>
                     {% if LANGUAGE_CODE == 'bn' %}
                         মোট
@@ -109,11 +97,7 @@
     <td class="text-center py-1">
         {{ activity|activity_todays_feed|floatformat:2 }}
     </td>
-    <td class="text-center py-1">
-        <span class="badge badge-info">
-            {{ activity|activity_molas_to_add|floatformat:2 }}
-        </span>
-    </td>
+    <td class="text-center py-1">{{ activity|activity_molas_to_add|floatformat:2 }}</td>
     <td class="text-center py-1 hidden">{{ activity.feed_protein_percentage }}</td>
     <td class="text-center py-1 hidden">{{ activity.expected_cn|floatformat:2 }}</td>
     <td class="text-center py-1 hidden">

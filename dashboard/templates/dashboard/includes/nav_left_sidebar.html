@@ -11,8 +11,7 @@ z-10 -translate-x-[280px] md:translate-x-0 transition-all duration-200">
                  class="mr-auto">
             <button type="button"
                     class="md:hidden ml-auto w-10 h-10 rounded-full bg-gray-800 text-white flex flex-col
-                    items-center justify-center"
-                    onclick="btnSidebarToggle()">
+                    items-center justify-center">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
@@ -30,6 +29,7 @@ z-10 -translate-x-[280px] md:translate-x-0 transition-all duration-200">
                 dark:hover:bg-gray-900
                 flex flex-row items-center">
                     <span class="material-symbols-outlined">home</span>
+                    {#                    <span class="text-gray-700">{% include 'icons/home.html' %}</span>#}
                     <span class="ml-2">
                         {% if LANGUAGE_CODE == 'bn' %}
                             ড্যাশবোর্ড

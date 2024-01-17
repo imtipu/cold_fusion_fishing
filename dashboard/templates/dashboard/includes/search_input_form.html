@@ -1,0 +1,13 @@
+<form method="get" class="max-w-[200px]">
+    <div class="form-control flex justify-between flex-row">
+        <div class="flex">
+            <input type="text"
+                   class="input input-sm bg-gray-700 rounded-r-none"
+                   name="search"
+                   placeholder="Search"
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-sm btn-accent rounded-l-none">Go</button>
+
+        </div>
+    </div>
+</form>

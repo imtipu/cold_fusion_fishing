@@ -68,6 +68,18 @@ class Project(TimeStampModel):
     def get_absolute_url(self):
         return reverse('dashboard:projects:project_detail', kwargs={'pk': self.pk})
 
+    @property
+    def get_counter_data(self):
+        queryset = self.daily_activities.all().aggregate(
+            total_dead=models.Sum('dead_fish', output_field=models.IntegerField(), default=0),
+            total_live=models.F('initial_quantity') - models.F('total_dead'),
+        )
+        data = {
+            'total_dead': queryset.get('total_dead', 0),
+            'total_live': queryset.get('total_live', 0),
+        }
+        return data
+
 
 class DailyActivity(TimeStampModel):
     project = models.ForeignKey(
@@ -124,8 +136,6 @@ class DailyActivity(TimeStampModel):
         ]
     )
 
-    live_fish = models.PositiveIntegerField(_('Live Fish'), default=0)
-
     def __str__(self):
         return f'{self.project.title} - {self.activity_date}'
 
@@ -154,7 +164,8 @@ class DailyActivity(TimeStampModel):
 
     @property
     def total_weight(self):
-        return round(self.live_fish * self.single_fish_weight, 2)
+        # return round(self.live_fish * self.single_fish_weight, 2)
+        return 0
 
     @property
     def total_weight_kg(self):

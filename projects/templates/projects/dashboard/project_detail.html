@@ -4,17 +4,21 @@
 {% block head_title %}{{ project.title }}{% endblock %}
 
 {% block content %}
-    <div class="card w-full bg-white dark:bg-gray-900 rounded-md mt-4 pb-4">
+    <div class="card w-full bg-gray-100 dark:bg-gray-900 rounded-md mt-4 pb-4">
         <div class="card-header px-4 py-3 flex flex-row justify-between">
             <div class="text-gray-700 dark:text-gray-300">
                 <h2 class="font-bold text-2xl px-1">{{ project.title }}</h2>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-row">
+                <a class="btn btn-primary btn-sm"
+                href="{% url 'dashboard:projects:project_update' project.pk %}">
+                    Edit
+                </a>
                 <button type="button"
-                        class="btn btn-sm bg-dark-800 text-white dark:bg-gray-50 dark:text-gray-800"
+                        class="btn btn-sm bg-dark-800 text-white dark:bg-gray-50 dark:text-gray-800 ml-2"
                         hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' project.id %}"
                         hx-target="#activity-add-form-box"
-                >Add New Date
+                >Add Acitivity
                 </button>
             </div>
         </div>
@@ -22,13 +26,14 @@
 
             <div class="grid grid-cols-2 gap- w-full px-2">
                 <div>
-                    <table class="w-full table table-xs">
+                    <table class="w-full table table-xs text-gray-700 dark:text-gray-300">
                         <tbody>
                         <tr class="border-0">
                             <th>Tank</th>
                             <td>
                                 {% if project.tank %}
-                                    {{ project.tank.tank_number }}
+                                    <span class="badge bg-amber-200 border-amber-600 text-gray-800"
+                                    >{{ project.tank.tank_number }}</span>
                                 {% else %}
                                     N/A
                                 {% endif %}
@@ -45,33 +50,49 @@
                         </tr>
                         <tr class="border-0">
                             <th>Initial Quantity</th>
-                            <td>{{ project.initial_quantity }}</td>
+                            <td>
+                                <span class="badge bg-emerald-200 border-emerald-600 text-gray-800">
+                                    {{ project.initial_quantity }}
+                                </span>
+                            </td>
                         </tr>
 
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    <table class="w-full table table-xs">
+                    <table class="w-full table table-xs text-gray-700 dark:text-gray-300">
                         <tbody>
 
                         <tr class="border-0">
                             <th>Dead</th>
-                            <td>{{ project.total_dead }}</td>
+                            <td>
+                                <span class="badge bg-red-200 border-red-600 text-gray-800 font-semibold">
+                                    {{ project.total_dead }}
+                                </span>
+                            </td>
                         </tr>
                         <tr class="border-0">
                             <th>Live</th>
-                            <td>{{ project.total_live }}</td>
+                            <td>
+                                <span class="text-gray-800 border-green-500 badge bg-green-100">
+                                    {{ project.total_live }}
+                                </span>
+                            </td>
                         </tr>
                         <tr class="border-0">
                             <th>Undigested</th>
-                            <td>{{ project.undigested_percentage }}%</td>
+                            <td>
+                                <span class="text-gray-800 border-yellow-500 badge bg-yellow-100">
+                                    {{ project.undigested_percentage }}%
+                                </span>
+                            </td>
                         </tr>
                         <tr class="border-0">
                             <th>Expected C.N</th>
                             <td>
                                 {% if project.expected_cn %}
-                                    {{ project.expected_cn }}
+                                    <span class="badge badge-info">{{ project.expected_cn }}</span>
                                 {% else %}
                                     N/A
                                 {% endif %}
@@ -83,14 +104,18 @@
             </div>
             <div id="activity-add-form-box"
                  class="overflow-x-auto px-3 mb-3 flex flex-col w-full"
-
+{#                 hx-get="{% url 'dashboard:projects:htmx:htmx_add_daily_activity_form' project.id %}"#}
+{#                        hx-target="#activity-add-form-box"#}
+{#                        hx-swap="innerHTML"#}
+{#                        hx-trigger="load"#}
             >
             </div>
-            <div id="daily_activity_table" class="overflow-x-auto px-2"
+            <div id="daily_activity_table" class="overflow-auto max-h-screen px-2"
                  hx-trigger="load"
                  hx-get="{% url 'dashboard:projects:htmx:htmx_daily_activity_table_list' project.id %}"
                  hx-target="#daily_activity_table"
-                 hx-swap="InnerHTML">
+                 hx-swap="InnerHTML"
+            >
                 <div class="flex flex-col justify-center items-center">
                     <span class="loading loading-infinity loading-lg"></span>
                 </div>
