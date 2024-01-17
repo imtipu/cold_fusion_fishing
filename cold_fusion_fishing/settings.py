@@ -31,6 +31,9 @@ DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = env.bool("SECURE_REDIRECT", default=False)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -179,7 +182,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 MIDDLEWARE += ['whitenoise.middleware.WhiteNoiseMiddleware']
-
 
 STATIC_URL = '/static/'
 
