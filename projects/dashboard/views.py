@@ -6,12 +6,14 @@ from django.urls import reverse_lazy
 from django.views.generic import *
 from django.contrib.messages.views import SuccessMessageMixin
 from django_filters.views import FilterView, FilterMixin
+
+from modules.view_mixins import SearchViewMixin
 from projects.dashboard.forms import DailyActivityForm, ProjectForm, ProjectUpdateForm
 from projects.models import *
 from .filtersets import *
 
 
-class ProjectListView(FilterView):
+class ProjectListView(SearchViewMixin, FilterView):
     template_name = 'projects/dashboard/project_list.html'
 
     model = Project
@@ -20,7 +22,7 @@ class ProjectListView(FilterView):
     search_fields = ['title', 'tank__title']
 
     def get_queryset(self):
-        return self.model.objects.select_related('tank').annotate(
+        return self.search_queryset().select_related('tank').annotate(
             total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField()),
             total_live=models.F('initial_quantity') - models.F('total_dead'),
         ).order_by('-start_date')

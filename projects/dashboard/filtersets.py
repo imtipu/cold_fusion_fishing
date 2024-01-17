@@ -6,7 +6,7 @@ from ..models import Project
 from fish_tanks.models import FishTank
 
 
-class ProjectFilterSet(SearchFilterMixin, django_filters.FilterSet):
+class ProjectFilterSet(django_filters.FilterSet):
     # title = django_filters.CharFilter(lookup_expr='icontains', label='Title')
     # tank = django_filters.ModelChoiceFilter(
     #     field_name='tank',
@@ -16,7 +16,7 @@ class ProjectFilterSet(SearchFilterMixin, django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['search',]
+        fields = ['title',]
         search_fields = ['title', 'tank__title']
 
 
