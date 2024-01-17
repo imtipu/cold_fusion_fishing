@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <div id="top-nav" class="bg-gray-50 dark:bg-gray-800 rounded-md flex flex-row items-center py-1 px-1 min-h-0">
     <button id="btn-sidebar-toggle" type="button" class="mr-auto ml-2 bg-gray-50 dark:bg-gray-700 rounded-md w-10 h-10 flex
     justify-center dark:text-white text-black
@@ -11,25 +13,28 @@
         </a>
     </div>
     <div class="dropdown dropdown-hover dropdown-end dropdown-bottom end ml-auto">
-        <button type="button" tabindex="0" class="btn bg-gray-50 dark:bg-gray-900 hover:bg-gray-400 dark:hover:bg-gray-950 text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 border-0 rounded-md">
+        <button type="button" tabindex="0"
+                class="btn bg-gray-50 dark:bg-gray-900 hover:bg-gray-400 dark:hover:bg-gray-950 text-gray-700 dark:text-gray-100 dark:hover:text-gray-200 border-0 rounded-md">
             <span class="material-symbols-outlined">account_circle</span>
             <span class="hidden md:block">{{ request.user.username }}</span>
         </button>
-        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-gray-50 dark:bg-gray-800 rounded-box w-full min-w-[180px]">
+        <ul tabindex="0"
+            class="dropdown-content z-[1] menu p-2 shadow bg-gray-50 dark:bg-gray-800 rounded-box w-full min-w-[180px]">
             <li>
                 <a class="text-xs text-gray-800 dark:text-gray-50"
-                        href="{% url 'account_profile' %}">Profile</a>
-            </li>
-            <li>
-                <a  class="text-xs text-gray-800 dark:text-gray-50"
-                        href="{% url 'account_logout' %}">Logout</a>
+                   href="{% url 'account_profile' %}">Profile</a>
             </li>
             <li>
                 <a class="text-xs text-gray-800 dark:text-gray-50"
-                        href="{% url 'account_password_change' %}">Change Password</a>
+                   href="{% url 'account_logout' %}">Logout</a>
             </li>
             <li>
-                <a class="text-xs text-gray-700 dark:text-gray-50 theme-controller flex flex-row justify-between" href="{% url 'home:set_color_mode' %}">
+                <a class="text-xs text-gray-800 dark:text-gray-50"
+                   href="{% url 'account_password_change' %}">Change Password</a>
+            </li>
+            <li>
+                <a class="text-xs text-gray-700 dark:text-gray-50 theme-controller flex flex-row justify-between"
+                   href="{% url 'home:set_color_mode' %}">
                     <span class="">
                         {% if request.session.is_light_theme %}
                             Dark
@@ -45,6 +50,32 @@
                         {% endif %}
                     </span>
                 </a>
+            </li>
+            <li class="px-2">
+                <div class="flex flex-col px-2 justify-center items-center">
+                    <form method="post" class="w-full flex flex-row justify-between items-center"
+                          action="{% url 'home:set_language' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="id_language" name="language">
+                        <label for="id_language_checkbox" class="text-white mb-1 uppercase dark:text-gray-300">
+                            {% if LANGUAGE_CODE == 'bn' %}
+                                BN
+                            {% else %}
+                                EN
+                            {% endif %}
+                        </label>
+                        <input type="checkbox" class="toggle" id="id_language_checkbox"
+                               hx-trigger="change delay:200ms"
+                               hx-post="{% url 'home:set_language' %}"
+                               name="language_checkbox"
+                               onchange="submitLanguage()"
+                               value="{% if LANGUAGE_CODE == 'bn' %}en{% else %}bn{% endif %}"
+                                {% if LANGUAGE_CODE == 'bn' %}
+                               checked
+                                {% endif %}>
+                    </form>
+                </div>
+
             </li>
         </ul>
     </div>
