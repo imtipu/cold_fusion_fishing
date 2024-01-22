@@ -6,6 +6,8 @@ from users.accounts.api.v1.serializers import UserSerializer
 
 
 class TokenLoginAPIView(ObtainAuthToken):
+    authentication_classes = []
+    permission_classes = []
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
