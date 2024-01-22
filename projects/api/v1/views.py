@@ -18,3 +18,14 @@ class HomePageProjectListAPIView(ListAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True, context=self.get_serializer_context())
         return Response(serializer.data)
+
+
+class ProjectListAPIView(ListAPIView):
+    serializer_class = ProjectListSerializer
+    queryset = Project.objects.none()
+
+    def get_queryset(self):
+        return Project.objects.select_related('tank').annotate(
+            total_dead=models.Sum('daily_activities__dead_fish', output_field=models.IntegerField()),
+            total_live=models.F('initial_quantity') - models.F('total_dead'),
+        ).order_by('-start_date')

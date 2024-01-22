@@ -1,4 +1,5 @@
 from rest_framework.generics import *
+from rest_framework.response import Response
 
 from .serializers import *
 
@@ -15,3 +16,8 @@ class FishTankListAPIView(ListAPIView):
                                   default=0),
             total_live=models.F('current_project__initial_quantity') - models.F('total_dead'),
         ).all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True, context=self.get_serializer_context())
+        return Response(serializer.data)

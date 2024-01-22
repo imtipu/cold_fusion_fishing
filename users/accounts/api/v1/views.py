@@ -1,8 +1,9 @@
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 
-from users.accounts.api.v1.serializers import UserSerializer
+from .serializers import *
 
 
 class TokenLoginAPIView(ObtainAuthToken):
@@ -20,3 +21,10 @@ class TokenLoginAPIView(ObtainAuthToken):
             'user': user_data
         }
         return Response(data)
+
+
+class AccountProfileAPIView(RetrieveAPIView):
+    serializer_class = AccountAuthUserSerializer
+
+    def get_object(self):
+        return self.request.user
