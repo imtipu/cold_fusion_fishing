@@ -20,7 +20,7 @@
     {% tailwind_preload_css %}
 
     {% tailwind_css %}
-{#    {% load_tailwind_css %}#}
+    {#    {% load_tailwind_css %}#}
 
 
     <script src="{% static 'htmx/htmx.min.js' %}"></script>
@@ -39,8 +39,7 @@
     <div class="main-content bg-gray-200 dark:bg-gray-700 min-h-screen w-full p-2 flex flex-col md:ml-auto
     {% if request.user.is_authenticated %}
         md:w-[calc(100%-280px)]
-    {% endif %}
-">
+    {% endif %}">
         {% if request.user.is_authenticated %}
             {% include 'dashboard/includes/top_nav.html' %}
         {% endif %}
@@ -48,7 +47,28 @@
         {% block body_scripts %}{% endblock %}
     </div>
 </div>
-{% include 'dashboard/includes/language_switcher.html' %}
+{#{% include 'dashboard/includes/language_switcher.html' %}#}
 {% include 'home/includes/color_switcher.html' %}
+<script>
+    function submitLanguage() {
+        // document.getElementById('id_language').form.submit();
+        let checkbox = document.getElementById('id_language_checkbox');
+        let element_anguage = document.getElementById('id_language');
+        let form = checkbox.form;
+
+        let is_checked = checkbox.checked;
+        console.log(is_checked);
+        if (is_checked) {
+            element_anguage.value = 'bn';
+        } else {
+            element_anguage.value = 'en';
+        }
+        let value = element_anguage.value;
+        console.log(value);
+        setTimeout(function () {
+            checkbox.form.submit();
+        }, 200);
+    }
+</script>
 </body>
 </html>

@@ -23,3 +23,20 @@ class UserSerializer(serializers.ModelSerializer):
 
 class CustomAuthTokenSerializer(AuthTokenSerializer):
     pass
+
+
+class AccountAuthUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id', 'username', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'is_superuser', 'last_login',
+            'date_joined'
+        ]
+        extra_kwargs = {
+            'email': {'read_only': True},
+            'last_login': {'read_only': True},
+            'is_superuser': {'read_only': True},
+            'is_staff': {'read_only': True},
+            'is_active': {'read_only': True},
+            'date_joined': {'read_only': True},
+        }
