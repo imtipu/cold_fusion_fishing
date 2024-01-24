@@ -20,9 +20,14 @@ class HomePageProjectListAPIView(ListAPIView):
         return Response(serializer.data)
 
 
-class ProjectListAPIView(ListAPIView):
+class ProjectListAPIView(ListCreateAPIView):
     serializer_class = ProjectListSerializer
     queryset = Project.objects.none()
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return ProjectSerializer
+        return ProjectListSerializer
 
     def get_queryset(self):
         return Project.objects.select_related('tank').annotate(
@@ -31,7 +36,7 @@ class ProjectListAPIView(ListAPIView):
         ).order_by('-start_date')
 
 
-class ProjectDetailAPIView(RetrieveAPIView):
+class ProjectDetailAPIView(RetrieveUpdateAPIView):
     serializer_class = ProjectListSerializer
     queryset = Project.objects.none()
 

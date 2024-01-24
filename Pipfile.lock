@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4742b63bde38509dcaaa209ea72c0cacf5bd61fd3f534ce4ac7486d5b4a5a7f3"
+            "sha256": "61d3c89e815f02ec120e6f45d56aa73c584a6d8884634587df7b0626b89b0e93"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -396,6 +396,13 @@
             "index": "pypi",
             "version": "==1.0.0"
         },
+        "django-sslserver": {
+            "hashes": [
+                "sha256:c598a363d2ccdc2421c08ddb3d8b0973f80e8e47a3a5b74e4a2896f21c2947c5"
+            ],
+            "index": "pypi",
+            "version": "==0.22"
+        },
         "django-tailwind": {
             "extras": [
                 "reload"
@@ -456,11 +463,11 @@
         },
         "google-api-python-client": {
             "hashes": [
-                "sha256:25659d488df6c8a69615b2a510af0e63b4c47ab2cb87d71c1e13b28715906e27",
-                "sha256:bcffbc8ffbad631f699cf85aa91993f3dc03060b234ca9e6e2f9135028bd9b52"
+                "sha256:26178e33684763099142e2cad201057bd27d4efefd859a495aac21ab3e6129c2",
+                "sha256:96af11376535236ba600ebbe23588cfe003ec9b74e66dd6ddb53aa3ec87e1b52"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==2.113.0"
+            "version": "==2.115.0"
         },
         "google-auth": {
             "hashes": [

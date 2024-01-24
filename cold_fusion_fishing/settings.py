@@ -33,10 +33,12 @@ ALLOWED_HOSTS = ['*']
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = env.bool("SECURE_REDIRECT", default=False)
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -281,3 +283,10 @@ CRISPY_CLASS_CONVERTERS = {
 }
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y', '%Y-%m-%d')
+
+SECURE_CONTENT_TYPE_NOSNIFF = False 
+SECURE_BROWSER_XSS_FILTER = False 
+# SECURE_SSL_REDIRECT = False 
+SESSION_COOKIE_SECURE = False 
+CSRF_COOKIE_SECURE = False 
+X_FRAME_OPTIONS = 'DENY'
