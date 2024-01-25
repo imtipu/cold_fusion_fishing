@@ -13,7 +13,6 @@ cryptography = "==37.0.4"
 cython = "==3.0.4"
 pyyaml = "==5.2"
 django = "~=4.2.8"
-django-tailwind = {extras = ["reload"], version = "*"}
 firebase-admin = "==6.1.0"
 django-environ = "~=0.11.2"
 mysqlclient = "~=2.2.1"
@@ -30,3 +29,4 @@ whitenoise = "==6.0.0"
 django-mathfilters = "==1.0.0"
 django-filter = "==22.1"
 django-sslserver = "*"
+django-tailwind = {extras = ["reload"], version = "3.6.0"}
