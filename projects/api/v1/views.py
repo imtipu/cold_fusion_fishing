@@ -77,3 +77,49 @@ class ProjectDailyActivityListAPIView(ListAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True, context=self.get_serializer_context())
         return Response(serializer.data)
+
+
+class DailyActivityListAPIView(ListCreateAPIView):
+    serializer_class = DailyActivityListSerializer
+    queryset = DailyActivity.objects.none()
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return DailyActivitySerializer
+        return DailyActivityListSerializer
+
+    def get_queryset(self):
+        return DailyActivity.objects.filter(project_id=self.kwargs.get('pk')).select_related(
+            'project', 'project__tank', 'project__tank__current_project'
+        ).annotate(
+            initial_quantity=models.F('project__initial_quantity'),
+            project_total_dead=models.Sum(
+                'project__daily_activities__dead_fish',
+                filter=models.Q(project__daily_activities__activity_date__lt=models.F('activity_date')),
+                output_field=models.IntegerField(),
+                default=0
+            ),
+            project_total_live=models.F('initial_quantity') - models.F('project_total_dead'),
+            day_total_live=models.F('project_total_live') - models.F('dead_fish'),
+        ).order_by('-activity_date')
+
+
+class DailyActivityDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = DailyActivityListSerializer
+    queryset = DailyActivity.objects.none()
+
+    def get_queryset(self):
+        return DailyActivity.objects.filter(project_id=self.kwargs.get('pk')).select_related(
+            'project', 'project__tank', 'project__tank__current_project'
+        ).annotate(
+            initial_quantity=models.F('project__initial_quantity'),
+            project_total_dead=models.Sum(
+                'project__daily_activities__dead_fish',
+                filter=models.Q(project__daily_activities__activity_date__lt=models.F('activity_date')),
+                output_field=models.IntegerField(),
+                default=0
+            ),
+            project_total_live=models.F('initial_quantity') - models.F('project_total_dead'),
+            day_total_live=models.F('project_total_live') - models.F('dead_fish'),
+        ).order_by('-activity_date')
+
