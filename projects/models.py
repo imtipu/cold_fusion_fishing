@@ -159,6 +159,50 @@ class DailyActivity(TimeStampModel):
         return delta.days + 1
 
     @property
+    def get_extra_data(self):
+        data = {
+            'initial_quantity': self.project.initial_quantity,
+            'project_total_dead': 0,
+            'project_total_live': 0,
+            'day_total_live': 0,
+            'day_total_weight': 0,
+            'activity_todays_feed': 0,
+            'activity_feed_n': 0,
+            'activity_molas_to_add': 0,
+        }
+
+        instance = self.project.daily_activities.annotate(
+            initial_quantity=models.F('project__initial_quantity'),
+            project_total_dead=models.Sum(
+                'project__daily_activities__dead_fish',
+                filter=models.Q(project__daily_activities__activity_date__lt=self.activity_date),
+                output_field=models.IntegerField(),
+                default=0
+            ),
+            project_total_live=models.F('initial_quantity') - models.F('project_total_dead'),
+            day_total_live=models.F('project_total_live') - models.F('dead_fish'),
+        ).first()
+
+        if instance:
+            from projects.utils import (
+                activity_todays_feed, calculate_feed_c, calculate_feed_n,
+                calculate_molas_to_add, calculate_day_total_weight
+            )
+
+            data['initial_quantity'] = instance.initial_quantity
+            data['project_total_dead'] = instance.project_total_dead
+            data['project_total_live'] = instance.project_total_live
+            data['day_total_live'] = instance.day_total_live
+            data['day_total_weight'] = calculate_day_total_weight(instance)
+
+            data['activity_todays_feed'] = activity_todays_feed(instance)
+            data['activity_feed_c'] = calculate_feed_c(instance)
+            data['activity_feed_n'] = calculate_feed_n(instance)
+            data['activity_molas_to_add'] = calculate_molas_to_add(instance)
+
+        return data
+
+    @property
     def total_live_fish(self):
         return self.project.initial_quantity - self.dead_fish
 

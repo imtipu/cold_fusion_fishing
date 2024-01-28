@@ -24,3 +24,15 @@ def calculate_molas_to_add(activity):
     feed_c = calculate_feed_c(activity)
     value = (float(feed_n * float(activity.expected_cn)) - float(feed_c)) / 0.28
     return round(value, 2)
+
+
+def calculate_day_total_weight(instance):
+    day_total_live = getattr(instance, 'day_total_live', 0)
+    total_weight = day_total_live * instance.single_fish_weight
+    return total_weight
+
+
+def calculate_activity_todays_feed(instance):
+    day_total_live = getattr(instance, 'day_total_live', 0)
+    total_weight = day_total_live * instance.single_fish_weight
+    return round(total_weight * instance.feed_percentage / 100, 4)

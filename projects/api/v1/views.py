@@ -1,6 +1,8 @@
 from rest_framework.generics import *
 from django.utils.translation import gettext_lazy as _
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import *
 from projects.api.v1.serializers import *
 
 
@@ -26,7 +28,7 @@ class ProjectListAPIView(ListCreateAPIView):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return ProjectSerializer
+            return ProjectCreateSerializer
         return ProjectListSerializer
 
     def get_queryset(self):
@@ -85,7 +87,7 @@ class DailyActivityListAPIView(ListCreateAPIView):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return DailyActivitySerializer
+            return DailyActivityCreateSerializer
         return DailyActivityListSerializer
 
     def get_queryset(self):
@@ -103,13 +105,22 @@ class DailyActivityListAPIView(ListCreateAPIView):
             day_total_live=models.F('project_total_live') - models.F('dead_fish'),
         ).order_by('-activity_date')
 
+    def create(self, request, *args, **kwargs):
+        print(request.data)
+        # serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
+        # if serializer.is_valid(raise_exception=True):
+        #     serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return super(self.__class__, self).create(request, *args, **kwargs)
+
 
 class DailyActivityDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = DailyActivityListSerializer
     queryset = DailyActivity.objects.none()
 
     def get_queryset(self):
-        return DailyActivity.objects.filter(project_id=self.kwargs.get('pk')).select_related(
+        return DailyActivity.objects.select_related(
             'project', 'project__tank', 'project__tank__current_project'
         ).annotate(
             initial_quantity=models.F('project__initial_quantity'),

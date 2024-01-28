@@ -21,3 +21,21 @@ class FishTankListAPIView(ListAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True, context=self.get_serializer_context())
         return Response(serializer.data)
+
+
+class FishTankDropDownlistAPIView(ListAPIView):
+    serializer_class = FishTankListSerializer
+    queryset = FishTank.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        data = []
+        for item in queryset:
+            data.append({
+                'label': item.title,
+                'value': item.pk,
+            })
+
+        print(data)
+
+        return Response(data)

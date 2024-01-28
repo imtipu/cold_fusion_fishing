@@ -11,6 +11,33 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProjectCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = '__all__'
+        extra_kwargs = {
+            'title': {
+                'required': True,
+            },
+            'start_date': {
+                'required': True,
+            },
+            'initial_quantity': {
+                'required': True,
+            },
+            'tank': {
+                'required': True,
+            },
+            'expected_cn': {
+                'required': True,
+            },
+            'undigested_percentage': {
+                'required': True,
+            },
+
+        }
+
+
 class ProjectListSerializer(serializers.ModelSerializer):
     total_dead = serializers.IntegerField(read_only=True, default=0)
     total_live = serializers.IntegerField(read_only=True, default=0)
@@ -34,6 +61,70 @@ class DailyActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = DailyActivity
         fields = '__all__'
+
+
+class DailyActivityCreateSerializer(serializers.ModelSerializer):
+    day_number = serializers.IntegerField(read_only=True)
+    initial_quantity = serializers.IntegerField(
+        read_only=True,
+        source='project.initial_quantity',
+    )
+
+    def validate(self, attrs):
+        activity_date = attrs.get('activity_date')
+        project = attrs.get('project')
+        date_exists = DailyActivity.objects.filter(activity_date=activity_date, project=project).exists()
+        if date_exists:
+            raise serializers.ValidationError(
+                {
+                    'activity_date': _('Activity date already exists for this project.')
+                }
+            )
+        attrs['expected_cn'] = project.expected_cn
+        return attrs
+
+    class Meta:
+        model = DailyActivity
+        fields = '__all__'
+        extra_kwargs = {
+            'expected_cn': {
+                'read_only': True,
+            },
+
+            'activity_date': {
+                'required': True,
+                'allow_null': False,
+            },
+            'dead_fish': {
+                'required': True,
+                'allow_null': False,
+            },
+            'feed_protein_percentage': {
+                'required': True,
+                'allow_null': False,
+            },
+            'feed_percentage': {
+                'required': True,
+                'allow_null': False,
+            },
+            'single_fish_weight': {
+                'required': True,
+                'allow_null': False,
+            },
+            'project': {
+                'required': True,
+                'allow_null': False,
+            },
+        }
+
+    def to_representation(self, instance):
+        res = super(self.__class__, self).to_representation(instance)
+        res['project'] = ProjectSerializer(instance.project).data
+        extra_data = instance.get_extra_data
+        res.update(extra_data)
+        print(res)
+
+        return res
 
 
 class DailyActivitySerializerMixin(serializers.Serializer):
