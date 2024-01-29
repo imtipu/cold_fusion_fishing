@@ -48,7 +48,7 @@ schema_view = get_schema_view(
    permission_classes=[permissions.IsAdminUser,],
 )
 
-if settings.DEBUG:
+if settings.DEBUG and settings.ENABLE_BROWSER_RELOAD:
     urlpatterns += [
         path("__reload__/", include("django_browser_reload.urls")),
     ]
