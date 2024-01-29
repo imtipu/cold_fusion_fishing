@@ -61,7 +61,7 @@ class ProjectDailyActivityListAPIView(ListAPIView):
             initial_quantity=models.F('project__initial_quantity'),
             project_total_dead=models.Sum(
                 'project__daily_activities__dead_fish',
-                filter=models.Q(project__daily_activities__activity_date__lt=models.F('activity_date')),
+                filter=models.Q(project__daily_activities__activity_date__lte=models.F('activity_date')),
                 output_field=models.IntegerField(),
                 default=0
             ),
