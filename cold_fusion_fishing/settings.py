@@ -29,7 +29,9 @@ SECRET_KEY = env.str('SECRET_KEY', 'secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+WAITRESS_HOST = env.str('WAITRESS_HOST', default='0.0.0.0')
+WAITRESS_PORT = env.int('WAITRESS_PORT', default=8000)
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = env.bool("SECURE_REDIRECT", default=False)
