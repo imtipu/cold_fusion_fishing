@@ -28,7 +28,7 @@ WORKDIR /opt/webapp
 # Add runtime user with respective access permissions
 RUN groupadd -r django \
   && useradd -d /opt/webapp -r -g django django \
-  && chown django:django -R /opt/webapp \
+  && chown django:django -R /opt/webapp
 
 USER django
 
