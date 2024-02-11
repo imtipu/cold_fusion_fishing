@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  web:
+    build:
+        context: .
+        args:
+            SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      - postgres
+      - redis
+  postgres:
+    image: postgres:14
+  redis:
+    image: redis:7
