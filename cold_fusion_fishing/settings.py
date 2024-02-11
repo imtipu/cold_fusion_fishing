@@ -134,21 +134,27 @@ WSGI_APPLICATION = 'cold_fusion_fishing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env.str('MYSQL_DATABASE_NAME', ''),
-        'USER': env.str('MYSQL_USER', ''),
-        'PASSWORD': env.str('MYSQL_PASSWORD', ''),
-        'HOST': env.str('MYSQL_HOST', 'localhost'),
-        'PORT': env.str('MYSQL_PORT', 3306),
-    }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': env.str('MYSQL_DATABASE_NAME', ''),
+    #     'USER': env.str('MYSQL_USER', ''),
+    #     'PASSWORD': env.str('MYSQL_PASSWORD', ''),
+    #     'HOST': env.str('MYSQL_HOST', 'localhost'),
+    #     'PORT': env.str('MYSQL_PORT', 3306),
+    # }
 }
 
+DATABASE_URL = env.str('DATABASE_URL', default=None)
+if DATABASE_URL:
+    DATABASES = {
+        'default': env.db(),
+    }
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -294,3 +300,5 @@ SECURE_BROWSER_XSS_FILTER = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 X_FRAME_OPTIONS = 'DENY'
+
+REDIS_URL = env.str('REDIS_URL', 'redis://localhost:6379')
