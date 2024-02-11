@@ -11,7 +11,7 @@ WORKDIR /opt/webapp
 COPY Pipfile* /opt/webapp/
 
 RUN pip3 install --no-cache-dir -q 'pipenv==2022.9.24'
-RUN pipenv install --deploy --system
+RUN pipenv install --deploy --system --skip-lock
 
 
 COPY . /opt/webapp
