@@ -97,6 +97,7 @@ MIDDLEWARE = [
 ]
 
 THIRD_PARTY_MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
 ]
@@ -283,6 +284,24 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.AllowAny',
     ],
 }
+
+CORS_ALLOW_ALL_ORIGINS = env.bool('CORS_ALLOW_ALL_ORIGINS', default=True)
+
+# Debug toolbar settings
+if DEBUG:
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ]
+    INTERNAL_IPS = ['127.0.0.1', ]
+    import mimetypes
+
+    mimetypes.add_type("application/javascript", ".js", True)
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+    }
 
 # crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
