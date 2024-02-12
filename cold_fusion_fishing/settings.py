@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'mathfilters',
     'django_filters',
+    'corsheaders',
 ]
 
 if ENABLE_BROWSER_RELOAD:
