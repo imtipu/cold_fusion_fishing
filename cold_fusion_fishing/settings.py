@@ -218,12 +218,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# email settings
-DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', 'admin@admin.com')
+# Email Settings
+DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL', '')
 EMAIL_SUBJECT_PREFIX = env.str('EMAIL_SUBJECT_PREFIX', '')
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = env.str('EMAIL_HOST', '')
+EMAIL_PORT = env.int('EMAIL_PORT', 587)
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', True)
+
+if DEBUG or not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD):
+    # output email to console instead of sending
+    if not DEBUG:
+        logging.warning("You should setup `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` env vars to send emails.")
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 
 # locale settings
 LOCALE_PATHS = [
